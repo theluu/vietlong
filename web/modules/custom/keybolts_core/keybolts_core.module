@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Hook implementations for Keybolts Core.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_presave().
+ *
+ * Denormalises a diacritic-free search string onto the product so that
+ * suggest queries are a plain indexed LIKE rather than a runtime transform.
+ */
+function keybolts_core_entity_presave(EntityInterface $entity): void {
+  if ($entity->getEntityTypeId() !== 'node' || $entity->bundle() !== 'product') {
+    return;
+  }
+  if (!$entity->hasField('field_search_text')) {
+    return;
+  }
+
+  $parts = [$entity->label()];
+  foreach (['field_product_code', 'field_family'] as $field) {
+    if ($entity->hasField($field) && !$entity->get($field)->isEmpty()) {
+      $parts[] = $entity->get($field)->value;
+    }
+  }
+  foreach (['field_category', 'field_brand', 'field_finish'] as $field) {
+    if ($entity->hasField($field) && !$entity->get($field)->isEmpty()) {
+      $term = $entity->get($field)->entity;
+      if ($term) {
+        $parts[] = $term->label();
+      }
+    }
+  }
+
+  $normalizer = \Drupal::service('keybolts_core.text_normalizer');
+  $entity->set('field_search_text', $normalizer->normalize(implode(' ', $parts)));
+}
