@@ -61,28 +61,44 @@ class ProductQuery {
   }
 
   /**
-   * Sort keys mirror the design's select: featured | az | za | cat.
+   * The ordered [field, direction] pairs for a sort key.
    *
-   * There is deliberately no price sort — price always renders as "Liên hệ".
-   * An unrecognised sort value falls back to featured.
+   * Sort keys mirror the design's select: featured | az | za | cat. There is
+   * deliberately no price sort — price always renders as "Liên hệ". An
+   * unrecognised sort value falls back to featured.
    *
-   * Every branch ends with `sort('nid', 'ASC')`. The preceding keys are not
-   * unique per row on their own — bulk-imported products routinely share a
-   * `created` timestamp and a default `field_sort_order` of 0 — and this
-   * query is paginated with `range()`. Without a unique final key, ties are
+   * Every spec ends with `['nid', 'ASC']`. The preceding keys are not unique
+   * per row on their own — bulk-imported products routinely share a
+   * `created` timestamp and a default `field_sort_order` of 0 — and
+   * `find()` paginates with `range()`. Without a unique final key, ties are
    * ordered arbitrarily by the database and can differ between the count
    * query and the page query, or between two page requests, causing a
    * product to appear on two pages or on none. `nid` is unique per row and
-   * gives the order (and therefore the pagination) a total order.
+   * gives every sort a total order.
+   *
+   * Extracted as a pure function (rather than inlined in applySort()) so the
+   * tiebreaker invariant can be asserted directly, with no database
+   * involved: paging through real rows can never reliably prove a
+   * tiebreaker is present, because the engine's tie order is undefined and,
+   * in practice, is often stable by coincidence anyway.
+   *
+   * @return array<int, array{0: string, 1: string}>
    */
-  private function applySort(QueryInterface $query, string $sort): void {
-    match ($sort) {
-      'az' => $query->sort('title', 'ASC'),
-      'za' => $query->sort('title', 'DESC'),
-      'cat' => $query->sort('field_category', 'ASC')->sort('title', 'ASC'),
-      default => $query->sort('field_sort_order', 'ASC')->sort('created', 'DESC'),
+  public static function sortSpec(string $sort): array {
+    $spec = match ($sort) {
+      'az' => [['title', 'ASC']],
+      'za' => [['title', 'DESC']],
+      'cat' => [['field_category', 'ASC'], ['title', 'ASC']],
+      default => [['field_sort_order', 'ASC'], ['created', 'DESC']],
     };
-    $query->sort('nid', 'ASC');
+    $spec[] = ['nid', 'ASC'];
+    return $spec;
+  }
+
+  private function applySort(QueryInterface $query, string $sort): void {
+    foreach (self::sortSpec($sort) as [$field, $direction]) {
+      $query->sort($field, $direction);
+    }
   }
 
 }

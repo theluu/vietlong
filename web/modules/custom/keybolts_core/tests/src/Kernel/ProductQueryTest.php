@@ -9,6 +9,7 @@ use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\keybolts_core\Service\ProductQuery;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
@@ -107,6 +108,45 @@ class ProductQueryTest extends KernelTestBase {
     $result = $this->container->get('keybolts_core.product_query')->find([], 'za', 1, 10);
     $titles = array_map(fn($n) => $n->label(), array_values($result['nodes']));
     $this->assertSame(['E', 'D', 'C', 'B', 'A'], $titles);
+  }
+
+  /**
+   * Guards the tiebreaker invariant directly, with no database involved.
+   *
+   * Paging through real rows can never reliably prove a tiebreaker is
+   * missing: the engine's tie order is undefined, and in practice can be
+   * stable by coincidence (e.g. MariaDB returning ties in primary-key order
+   * for this query shape), so an integration test that pages and inspects
+   * results can pass identically with or without the fix. Asserting the
+   * spec directly is deterministic on any database, because it never runs
+   * a query at all.
+   */
+  public function testSortSpecEndsWithUniqueNidTiebreakerForEveryKey(): void {
+    foreach (['featured', 'az', 'za', 'cat', 'some-unrecognised-value', ''] as $sort) {
+      $spec = ProductQuery::sortSpec($sort);
+      $this->assertSame(
+        ['nid', 'ASC'],
+        end($spec),
+        "sort '$sort' must end with a unique nid tiebreaker"
+      );
+    }
+  }
+
+  public function testSortSpecPromisedKeysPrecedeTheTiebreaker(): void {
+    $this->assertSame([['title', 'ASC'], ['nid', 'ASC']], ProductQuery::sortSpec('az'));
+    $this->assertSame([['title', 'DESC'], ['nid', 'ASC']], ProductQuery::sortSpec('za'));
+    $this->assertSame(
+      [['field_category', 'ASC'], ['title', 'ASC'], ['nid', 'ASC']],
+      ProductQuery::sortSpec('cat')
+    );
+    $this->assertSame(
+      [['field_sort_order', 'ASC'], ['created', 'DESC'], ['nid', 'ASC']],
+      ProductQuery::sortSpec('featured')
+    );
+  }
+
+  public function testSortSpecUnknownKeyFallsBackToFeatured(): void {
+    $this->assertSame(ProductQuery::sortSpec('featured'), ProductQuery::sortSpec('totally-bogus'));
   }
 
   public function testFacetCountsExcludeTheirOwnAxis(): void {
