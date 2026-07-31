@@ -26,6 +26,7 @@ class ProductQueryTest extends KernelTestBase {
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
     $this->installEntitySchema('taxonomy_term');
+    $this->installSchema('node', ['node_access']);
     $this->installConfig(['node']);
     NodeType::create(['type' => 'product', 'name' => 'Product'])->save();
 
@@ -119,5 +120,58 @@ class ProductQueryTest extends KernelTestBase {
     // The category axis IS constrained by the active brand filter.
     $this->assertSame(3, $facets['category'][$this->terms['dong']->id()]);
     $this->assertArrayNotHasKey($this->terms['cremone']->id(), $facets['category']);
+  }
+
+  /**
+   * Guards the aggregate-query rewrite of ProductFacetBuilder::counts().
+   *
+   * A hand-rolled aggregate query is easy to get subtly wrong: a term with
+   * zero matching products could wrongly appear (e.g. iterating all terms
+   * instead of grouped rows), and combining more than one active filter
+   * could silently drop a JOIN condition. This covers both.
+   */
+  public function testFacetCountsOmitZeroCountsAndRespectMultipleActiveFilters(): void {
+    // A category term with no products attached must never appear in the
+    // facet at all — not even with a count of 0.
+    $unused = Term::create(['vid' => 'product_category', 'name' => 'unused']);
+    $unused->save();
+
+    // Give two of the keybolts/dong nodes a finish value so a second axis
+    // has real data to exercise; C is left without one.
+    $pvd = Term::create(['vid' => 'finish', 'name' => 'pvd']);
+    $pvd->save();
+    $dsf = Term::create(['vid' => 'finish', 'name' => 'dsf']);
+    $dsf->save();
+
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    $a_matches = $node_storage->loadByProperties(['title' => 'A']);
+    $a = reset($a_matches);
+    $a->set('field_finish', $pvd)->save();
+    $b_matches = $node_storage->loadByProperties(['title' => 'B']);
+    $b = reset($b_matches);
+    $b->set('field_finish', $dsf)->save();
+
+    $facet_service = $this->container->get('keybolts_core.product_facets');
+
+    $facets = $facet_service->counts([]);
+    $this->assertArrayNotHasKey($unused->id(), $facets['category']);
+    $this->assertSame(1, $facets['finish'][$pvd->id()]);
+    $this->assertSame(1, $facets['finish'][$dsf->id()]);
+
+    // Two simultaneously active filters: brand=keybolts AND category=dong
+    // match exactly A, B, C. Only A/B carry a finish value.
+    $facets_two_axis = $facet_service->counts([
+      'brand' => $this->terms['keybolts']->id(),
+      'category' => $this->terms['dong']->id(),
+    ]);
+    $this->assertSame(1, $facets_two_axis['finish'][$pvd->id()]);
+    $this->assertSame(1, $facets_two_axis['finish'][$dsf->id()]);
+
+    // The brand axis still excludes its own filter but still respects the
+    // active category filter: baltica has zero dong-category products, so
+    // it must be entirely absent, while keybolts (all three dong products)
+    // reports 3.
+    $this->assertSame(3, $facets_two_axis['brand'][$this->terms['keybolts']->id()]);
+    $this->assertArrayNotHasKey($this->terms['baltica']->id(), $facets_two_axis['brand']);
   }
 }

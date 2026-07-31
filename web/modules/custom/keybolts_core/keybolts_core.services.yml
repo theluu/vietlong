@@ -9,4 +9,4 @@ services:
     arguments: ['@entity_type.manager']
   keybolts_core.product_facets:
     class: Drupal\keybolts_core\Service\ProductFacetBuilder
-    arguments: ['@entity_type.manager', '@keybolts_core.product_query']
+    arguments: ['@entity_type.manager']

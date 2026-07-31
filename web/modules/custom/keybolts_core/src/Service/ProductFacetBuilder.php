@@ -8,6 +8,13 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 /**
  * Counts products per taxonomy value for the listing sidebar.
+ *
+ * Runs on every product-listing request, including the unfiltered catalogue
+ * page, so counts are computed with an aggregate database query (COUNT(*)
+ * grouped by target_id per axis) rather than by loading node entities. At
+ * 200+ SKUs, loading every matching node three times over (once per axis)
+ * just to read a single target_id off each would be several hundred full
+ * entity loads on the hottest page of the site.
  */
 class ProductFacetBuilder {
 
@@ -19,7 +26,6 @@ class ProductFacetBuilder {
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly ProductQuery $productQuery,
   ) {}
 
   /**
@@ -33,26 +39,55 @@ class ProductFacetBuilder {
    * @return array<string, array<int, int>>
    */
   public function counts(array $filters): array {
-    $storage = $this->entityTypeManager->getStorage('node');
     $out = [];
-
     foreach (self::AXES as $axis => $field) {
       $scoped = $filters;
       unset($scoped[$axis]);
+      $out[$axis] = $this->countAxis($field, $scoped);
+    }
+    return $out;
+  }
 
-      $ids = $this->productQuery->baseQuery($scoped)->execute();
-      $tally = [];
-      foreach ($storage->loadMultiple($ids) as $node) {
-        if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
-          continue;
-        }
-        $tid = (int) $node->get($field)->target_id;
-        $tally[$tid] = ($tally[$tid] ?? 0) + 1;
+  /**
+   * Runs a single GROUP BY / COUNT(*) query for one axis.
+   *
+   * Uses the entity query aggregate API rather than hand-rolled SQL so that
+   * access checking and the published/bundle conditions are expressed the
+   * same way as everywhere else the catalogue is queried (see
+   * ProductQuery::baseQuery()), while still compiling down to one query
+   * with a GROUP BY instead of loading entities.
+   *
+   * @return array<int, int>
+   *   Term ID => product count. A term with zero matching products simply
+   *   never appears as a group in the result — there is no row to produce a
+   *   zero from, so it is correctly absent rather than present with 0.
+   */
+  private function countAxis(string $field, array $filters): array {
+    $query = $this->entityTypeManager->getStorage('node')->getAggregateQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'product')
+      ->condition('status', 1);
+
+    foreach (self::AXES as $key => $filter_field) {
+      if (!empty($filters[$key])) {
+        $query->condition($filter_field, $filters[$key]);
       }
-      $out[$axis] = $tally;
     }
 
-    return $out;
+    $query->aggregate('nid', 'COUNT')->groupBy($field);
+    $result = $query->execute();
+
+    $tid_key = $field . '_target_id';
+    $tally = [];
+    foreach ($result as $row) {
+      // Nodes with no value on this field produce a NULL group via the
+      // query's LEFT JOIN; there is no term to attribute that count to.
+      if ($row[$tid_key] === NULL) {
+        continue;
+      }
+      $tally[(int) $row[$tid_key]] = (int) $row['nid_count'];
+    }
+    return $tally;
   }
 
 }
