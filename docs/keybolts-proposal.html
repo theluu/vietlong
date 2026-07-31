@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Keybolts — Đề xuất làm lại website</title>
+<style>
+  @page { size: A4; margin: 0; }
+
+  :root{
+    --ink:#101418; --ink-2:#2A3138; --muted:#6B7480;
+    --line:#E3E0D9; --sand:#F7F5F1;
+    --brass:#B08D57; --brass-d:#8C6E40; --dark:#12161B;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body{ font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; color:var(--ink); font-size:11.6pt; line-height:1.65; -webkit-font-smoothing:antialiased; }
+
+  .page{ width:210mm; height:297mm; padding:15mm 17mm 18mm; position:relative; overflow:hidden; page-break-after:always; display:flex; flex-direction:column; }
+  .page:last-child{ page-break-after:auto; }
+
+  /* Bìa & trang tối */
+  .cover{ background:var(--dark); color:#fff; padding:0; }
+  .cover-inner{ padding:24mm 17mm 17mm; height:100%; display:flex; flex-direction:column; justify-content:flex-start; }
+  .cover-inner>div:nth-child(2){ margin-top:auto; margin-bottom:16mm; }
+  .cover-inner>div:last-child{ margin-top:0; }
+  .mark{ display:flex; align-items:center; gap:10px; letter-spacing:.32em; font-size:8.4pt; text-transform:uppercase; color:var(--brass); font-weight:600; }
+  .mark::before{ content:""; width:26px; height:1.5px; background:var(--brass); }
+  .cover h1{ font-size:42pt; line-height:1.08; font-weight:700; letter-spacing:-0.025em; margin-top:7mm; }
+  .cover h1 em{ font-style:normal; color:var(--brass); }
+  .rule{ height:2px; background:linear-gradient(90deg,var(--brass) 0%,rgba(176,141,87,0) 88%); margin:9mm 0 0; }
+  .kicker{ font-size:13.4pt; color:#A8B1BB; margin-top:9mm; max-width:128mm; line-height:1.7; }
+  .cstats{ display:grid; grid-template-columns:repeat(3,1fr); gap:6mm; margin-top:12mm; }
+  .cstats div{ border-top:1px solid rgba(255,255,255,.16); padding-top:4mm; }
+  .cstats .n{ font-size:14.5pt; font-weight:700; color:var(--brass); }
+  .cstats .l{ font-size:9.4pt; color:#8D96A1; margin-top:1.5mm; line-height:1.5; }
+  .cfoot{ display:flex; justify-content:space-between; align-items:flex-end; font-size:9.4pt; color:#78818C; }
+  .cfoot b{ color:#fff; font-weight:600; display:block; font-size:10pt; margin-bottom:1mm; }
+
+  /* Khung trang */
+  .head{ display:flex; justify-content:space-between; align-items:baseline; border-bottom:1px solid var(--line); padding-bottom:2.6mm; margin-bottom:7mm; }
+  .head .sec{ font-size:8.4pt; letter-spacing:.26em; text-transform:uppercase; color:var(--brass-d); font-weight:700; }
+  .head .site{ font-size:8.4pt; letter-spacing:.16em; text-transform:uppercase; color:#A9AFB7; }
+  .foot{ position:absolute; left:17mm; right:17mm; bottom:10mm; display:flex; justify-content:space-between; align-items:baseline; font-size:8pt; color:#AEB4BB; border-top:1px solid var(--line); padding-top:2.5mm; }
+  .foot .cr{ flex:1; text-align:center; color:#BFC5CB; font-size:7.6pt; }
+  .body-flow{ flex:1; }
+
+  h2{ font-size:26pt; font-weight:700; letter-spacing:-0.022em; line-height:1.14; margin-bottom:3.5mm; }
+  h2 .accent{ color:var(--brass); }
+  .lead{ font-size:12.4pt; color:var(--ink-2); line-height:1.62; max-width:154mm; }
+  h3{ font-size:12.6pt; font-weight:700; letter-spacing:-0.01em; margin-bottom:2mm; }
+  h4{ font-size:9.4pt; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--brass-d); margin-bottom:3mm; }
+
+  ul{ list-style:none; }
+  li{ position:relative; padding-left:5.6mm; margin-bottom:1.9mm; }
+  li::before{ content:""; position:absolute; left:0; top:2.3mm; width:2.2mm; height:2.2mm; border:1.2px solid var(--brass); border-radius:50%; }
+  ul.tick li::before{ content:"✓"; border:none; font-size:8.8pt; color:var(--brass); top:-0.2mm; left:0; width:auto; height:auto; font-weight:700; }
+
+  .quote{ border-left:3.5px solid var(--brass); background:var(--sand); padding:5.5mm 6mm; font-size:12.4pt; line-height:1.5; font-weight:500; margin:5mm 0; }
+  .quote small{ display:block; font-size:8.4pt; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--brass-d); margin-bottom:2.5mm; }
+
+  table{ width:100%; border-collapse:collapse; font-size:11.2pt; }
+  th{ text-align:left; font-size:8.4pt; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; padding:0 0 2.5mm; border-bottom:1.4px solid var(--ink); }
+  td{ padding:3.4mm 0; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.45; }
+  td:first-child{ padding-right:7mm; width:50%; color:var(--ink-2); }
+  td:last-child{ padding-left:7mm; font-weight:600; color:var(--brass-d); }
+
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:6mm; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:5mm; }
+  .grid4{ display:grid; grid-template-columns:repeat(4,1fr); gap:4mm; }
+
+  .card{ border:1px solid var(--line); border-top:2.5px solid var(--brass); padding:4.6mm; }
+  .card h3{ font-size:12pt; margin-bottom:2.5mm; }
+  .card li{ font-size:10.4pt; line-height:1.52; }
+  .card .who{ font-size:8.2pt; letter-spacing:.16em; text-transform:uppercase; color:var(--brass-d); font-weight:700; margin-bottom:2mm; }
+  .soft{ background:var(--sand); border:1px solid var(--line); padding:5mm; }
+  .soft li,.soft p{ font-size:10.4pt; }
+  .darkcard{ background:var(--dark); color:#fff; padding:5.5mm; }
+  .darkcard li{ color:#D3D8DE; font-size:10.4pt; }
+  .darkcard li::before{ border-color:var(--brass); }
+
+  .flow{ display:flex; flex-wrap:wrap; gap:2mm; align-items:center; margin:4mm 0; }
+  .flow span{ background:var(--sand); border:1px solid var(--line); padding:2.2mm 3.4mm; font-size:9.4pt; font-weight:600; white-space:nowrap; }
+  .flow span.hot{ background:var(--dark); color:#fff; border-color:var(--dark); }
+  .flow span.gold{ background:var(--brass); color:#fff; border-color:var(--brass); }
+  .flow i{ color:var(--brass); font-style:normal; }
+
+  .wf{ border:1px solid var(--line); background:var(--sand); padding:3mm; }
+  .wf .row{ background:#fff; border:1px solid var(--line); font-size:8.4pt; padding:2.1mm 3mm; margin-bottom:1.6mm; color:var(--ink-2); letter-spacing:.04em; }
+  .wf .row.g{ background:var(--dark); color:#fff; border-color:var(--dark); font-weight:600; }
+  .wf .row.b{ border-color:var(--brass); color:var(--brass-d); font-weight:700; }
+  .wf .row.tall{ padding:6mm 3mm; text-align:center; color:var(--muted); }
+  .wf .split{ display:grid; grid-template-columns:1fr 1fr; gap:1.6mm; margin-bottom:1.6mm; }
+  .wf .split .row{ margin-bottom:0; }
+  .wf .split>div>.row{ margin-bottom:1.6mm; }
+  .wf .split>div>.row:last-child{ margin-bottom:0; }
+
+  .step{ display:grid; grid-template-columns:26mm 1fr; gap:6mm; padding:3.8mm 0; border-bottom:1px solid var(--line); }
+  .step:last-child{ border-bottom:none; }
+  .step .no{ font-size:8.6pt; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--brass-d); padding-top:.8mm; }
+  .step h3{ margin-bottom:1.2mm; }
+  .step .items{ font-size:10.6pt; color:var(--ink-2); line-height:1.5; }
+
+  .note{ font-size:9.8pt; color:var(--muted); font-style:italic; }
+  .mt3{margin-top:3mm} .mt5{margin-top:5mm} .mt7{margin-top:7mm}
+</style>
+</head>
+<body>
+
+<!-- ===== BÌA ===== -->
+<section class="page cover">
+  <div class="cover-inner">
+    <div>
+      <div class="mark">Đề xuất làm lại website · 2026</div>
+      <h1>Website Keybolts<br>nên <em>bán hàng</em>,<br>không chỉ giới thiệu.</h1>
+      <div class="rule"></div>
+      <p class="kicker">
+        Giữ nguyên toàn bộ sản phẩm, hình ảnh và nội dung anh chị đang có.
+        Làm lại phần khách nhìn thấy và phần khách bấm vào —
+        để người vào website trở thành người gọi điện, chứ không phải người xem rồi rời đi.
+      </p>
+    </div>
+    <div>
+      <div class="cstats" style="margin-top:0">
+        <div><div class="n">Đọc trong 8 phút</div><div class="l">Tài liệu chỉ 6 trang, không thuật ngữ kỹ thuật</div></div>
+        <div><div class="n">Không mất dữ liệu</div><div class="l">Sản phẩm, ảnh và thứ hạng Google được giữ nguyên</div></div>
+        <div><div class="n">Làm theo 4 bước</div><div class="l">Xem kết quả và duyệt sau từng bước</div></div>
+      </div>
+    </div>
+    <div class="cfoot">
+      <div><b>keybolts.com.vn</b>Khóa cửa · Khóa thông minh · Khóa khách sạn · Phụ kiện cửa</div>
+      <div style="text-align:right"><b>Lưu Xuân Thế</b>0932.355.207 · thexuanluu@gmail.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 01 VẤN ĐỀ ===== -->
+<section class="page">
+  <div class="head"><div class="sec">01 — Vấn đề</div><div class="site">Keybolts · Đề xuất làm lại website</div></div>
+  <div class="body-flow">
+    <h2>Website đang có <span class="accent">người xem</span>,<br>nhưng chưa có <span class="accent">người gọi</span>.</h2>
+    <p class="lead">Keybolts đã có thứ khó nhất: sản phẩm thật, hình ảnh thật, khách hàng thật. Vấn đề nằm ở chỗ những thứ đó chưa được sắp xếp để khách dễ chọn và dễ bấm liên hệ.</p>
+
+    <table class="mt7">
+      <tr><th>Khách gặp gì khi vào website</th><th>Keybolts mất gì</th></tr>
+      <tr><td>Giao diện cũ, chưa xứng với dòng khóa cao cấp</td><td>Khách so giá thay vì so giá trị</td></tr>
+      <tr><td>Sản phẩm nhiều nhưng khó tìm, không lọc theo nhu cầu được</td><td>Khách bỏ đi trước khi thấy sản phẩm phù hợp</td></tr>
+      <tr><td>Xem trên điện thoại chưa thoải mái</td><td>Mất phần lớn khách — đa số vào bằng điện thoại</td></tr>
+      <tr><td>Xem xong không biết bấm đâu để hỏi giá</td><td>Có lượt xem nhưng ít cuộc gọi</td></tr>
+      <tr><td>Khách để lại thông tin nhưng không lưu lại được</td><td>Sales không biết ai quan tâm sản phẩm nào</td></tr>
+      <tr><td>Google và các trợ lý AI khó hiểu website đang bán gì</td><td>Vắng mặt đúng lúc khách đang tìm mua</td></tr>
+    </table>
+
+    <div class="quote mt7">
+      <small>Nói gọn một câu</small>
+      Website hiện tại giống một kho thông tin sản phẩm.<br>
+      Website mới cần trở thành một công cụ thương hiệu và bán hàng.
+    </div>
+
+    <h4 class="mt5">Đường đi mà website mới phải làm được</h4>
+    <div class="flow">
+      <span>Có nhu cầu</span><i>›</i><span>Chọn loại khóa</span><i>›</i><span>Lọc &amp; xem thông số</span><i>›</i><span class="gold">Hỏi giá · Zalo · Gọi</span><i>›</i><span class="hot">Sales</span>
+    </div>
+    <p class="note">Mỗi bước khách rơi rớt là một đơn hàng đi mất.</p>
+  </div>
+  <div class="foot"><span>Keybolts — Đề xuất làm lại website</span><span class="cr">© Lưu Xuân Thế · 0932.355.207 · thexuanluu@gmail.com</span><span>01</span></div>
+</section>
+
+<!-- ===== 02 HÌNH DUNG ===== -->
+<section class="page">
+  <div class="head"><div class="sec">02 — Website mới trông thế nào</div><div class="site">Keybolts · Đề xuất làm lại website</div></div>
+  <div class="body-flow">
+    <h2>Hình dung <span class="accent">website mới</span>.</h2>
+
+    <div class="grid2 mt5">
+      <div>
+        <h4>Trang chủ</h4>
+        <div class="wf">
+          <div class="row g">Logo · Sản phẩm · Dự án · Tư vấn · Đại lý · Tìm kiếm · Hotline</div>
+          <div class="row tall">HÌNH LỚN — khóa trong không gian nội thất<br><b style="color:var(--brass-d)">[ Khám phá sản phẩm ]&nbsp; [ Nhận tư vấn ]</b></div>
+          <div class="row">DANH MỤC: Khóa thông minh · Vân tay · Khách sạn · Khóa đồng · Phụ kiện</div>
+          <div class="row">SẢN PHẨM NỔI BẬT</div>
+          <div class="split">
+            <div class="row">GIẢI PHÁP: Biệt thự · Căn hộ · Khách sạn · Văn phòng</div>
+            <div class="row">VÌ SAO CHỌN KEYBOLTS</div>
+          </div>
+          <div class="row">DỰ ÁN ĐÃ THỰC HIỆN</div>
+          <div class="split">
+            <div class="row">SẢN PHẨM MỚI</div>
+            <div class="row">TƯ VẤN CHỌN KHÓA</div>
+          </div>
+          <div class="row">HỆ THỐNG ĐẠI LÝ</div>
+          <div class="row b">NHẬN TƯ VẤN MIỄN PHÍ</div>
+          <div class="row g">THÔNG TIN LIÊN HỆ</div>
+        </div>
+      </div>
+
+      <div>
+        <h4>Trang sản phẩm — nơi quyết định doanh thu</h4>
+        <div class="wf">
+          <div class="row" style="font-size:7.2pt">Trang chủ › Khóa cửa › Khóa vân tay › Keybolts P80</div>
+          <div class="split">
+            <div class="row tall" style="padding:13mm 3mm">ẢNH SẢN PHẨM LỚN<br><span style="font-size:7pt">+ ảnh nhỏ xem thêm</span></div>
+            <div>
+              <div class="row" style="font-weight:700;color:var(--ink)">Tên sản phẩm</div>
+              <div class="row">Mã · Thương hiệu · Còn hàng</div>
+              <div class="row">Giá hoặc “Liên hệ”</div>
+              <div class="row b">[ NHẬN BÁO GIÁ ]</div>
+              <div class="row b">[ ZALO ]&nbsp; [ GỌI NGAY ]</div>
+            </div>
+          </div>
+          <div class="row">Bảo hành · Giao hàng · Cam kết chính hãng</div>
+          <div class="row">THÔNG SỐ NHANH — chất liệu, màu, kích thước, loại cửa, cách mở khóa</div>
+          <div class="row">Tổng quan · Tính năng · Thông số · Lắp đặt · Bảo hành</div>
+          <div class="split"><div class="row">ẢNH LẮP THỰC TẾ</div><div class="row">VIDEO</div></div>
+          <div class="row">SẢN PHẨM TƯƠNG TỰ &amp; BÀI TƯ VẤN LIÊN QUAN</div>
+          <div class="row b">FORM YÊU CẦU BÁO GIÁ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2 mt7">
+      <div>
+        <h4>Trên điện thoại</h4>
+        <div style="display:flex;gap:2mm">
+          <div style="flex:1;background:var(--dark);color:#fff;text-align:center;padding:3.2mm;font-size:9pt;font-weight:700">Gọi</div>
+          <div style="flex:1;background:var(--dark);color:#fff;text-align:center;padding:3.2mm;font-size:9pt;font-weight:700">Zalo</div>
+          <div style="flex:1.4;background:var(--brass);color:#fff;text-align:center;padding:3.2mm;font-size:9pt;font-weight:700">Nhận báo giá</div>
+        </div>
+        <p style="font-size:10.6pt;color:var(--ink-2);margin-top:3mm">Thanh này luôn nằm ở đáy màn hình khi khách cuộn trang. Khách muốn hỏi giá là bấm được ngay, không phải đi tìm.</p>
+      </div>
+      <div>
+        <h4>Khách để lại thông tin thế nào</h4>
+        <p style="font-size:10.6pt;color:var(--ink-2)">Form chỉ 3 ô: <b>họ tên · số điện thoại · nội dung cần tư vấn</b>. Tên sản phẩm tự điền theo trang khách đang xem. Sales nhận thông báo ngay và theo dõi được từng khách: <b>mới → đã gọi → đang tư vấn → đã báo giá → chốt</b>.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Keybolts — Đề xuất làm lại website</span><span class="cr">© Lưu Xuân Thế · 0932.355.207 · thexuanluu@gmail.com</span><span>02</span></div>
+</section>
+
+<!-- ===== 03 ĐƯỢC GÌ ===== -->
+<section class="page">
+  <div class="head"><div class="sec">03 — Keybolts được gì</div><div class="site">Keybolts · Đề xuất làm lại website</div></div>
+  <div class="body-flow">
+    <h2>Một lần đầu tư,<br><span class="accent">bốn nhóm cùng được lợi</span>.</h2>
+
+    <div class="grid2 mt5">
+      <div class="card">
+        <div class="who">Khách hàng</div>
+        <h3>Tìm đúng khóa trong vài bước</h3>
+        <ul>
+          <li>Lọc theo loại cửa, chất liệu, cách mở khóa, mức giá</li>
+          <li>Ảnh lớn rõ nét, thông số dễ đọc, so sánh được</li>
+          <li>Hỏi giá, chat Zalo, gọi hotline ngay tại trang sản phẩm</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="who">Đội Sales</div>
+        <h3>Nhận khách kèm bối cảnh</h3>
+        <ul>
+          <li>Họ tên, số điện thoại, email của khách</li>
+          <li>Biết khách đang xem sản phẩm nào khi gửi yêu cầu</li>
+          <li>Danh sách khách được lưu lại, theo dõi được trạng thái</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="who">Người quản trị</div>
+        <h3>Tự làm, không cần gọi kỹ thuật</h3>
+        <ul>
+          <li>Tự thêm sản phẩm, đổi ảnh, đổi banner khuyến mãi</li>
+          <li>Tự đăng tin, thêm danh mục, cập nhật chính sách</li>
+          <li>Tự quản lý danh sách đại lý</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="who">Doanh nghiệp</div>
+        <h3>Tài sản dùng được lâu dài</h3>
+        <ul>
+          <li>Hình ảnh thương hiệu xứng tầm sản phẩm</li>
+          <li>Đo được mỗi tháng website mang về bao nhiêu khách</li>
+          <li>Sau này mở rộng không phải xây lại từ đầu</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 class="mt3" style="font-size:18pt">Được tìm thấy trên Google —<br>và trong <span class="accent">câu trả lời của AI</span>.</h2>
+    <p class="lead" style="font-size:11.4pt">Khách bây giờ còn hỏi ChatGPT, Gemini và đọc phần tóm tắt AI ngay trên Google. Nếu thông số sản phẩm bị viết dồn vào một đoạn chữ, máy không hiểu được — và AI sẽ giới thiệu đối thủ thay vì Keybolts. Tách riêng từng thông số là làm một lần được ba việc: bộ lọc chạy nhanh, Google hiểu sản phẩm, AI trả lời đúng.</p>
+
+    <div class="grid2 mt3">
+      <div class="soft">
+        <h4 style="color:var(--muted)">Cách website cũ đang làm</h4>
+        <p>Thông số viết chung một đoạn. Khách không lọc được, Google và AI cũng không hiểu.</p>
+      </div>
+      <div class="darkcard">
+        <h4 style="color:var(--brass)">Cách website mới làm</h4>
+        <p style="font-size:10.4pt;color:#C6CDD5">Mỗi thông số được lưu riêng: thương hiệu · loại cửa · chất liệu · màu · cách mở khóa · kích thước · bảo hành · xuất xứ · giá.</p>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>Keybolts — Đề xuất làm lại website</span><span class="cr">© Lưu Xuân Thế · 0932.355.207 · thexuanluu@gmail.com</span><span>03</span></div>
+</section>
+
+<!-- ===== 04 AN TÂM ===== -->
+<section class="page">
+  <div class="head"><div class="sec">04 — Triển khai &amp; cam kết</div><div class="site">Keybolts · Đề xuất làm lại website</div></div>
+  <div class="body-flow">
+    <h2>Làm theo <span class="accent">4 bước</span>,<br>duyệt sau từng bước.</h2>
+    <p class="lead">Không phải làm kín rồi bàn giao một lần. Sau mỗi bước anh chị xem kết quả, góp ý và duyệt rồi mới đi tiếp.</p>
+    <p class="note mt3">Nền tảng: Drupal 11 cho phần quản trị, Vue.js cho phần khách nhìn thấy — bộ máy phía sau và showroom phía trước tách rời, nên sau này đổi giao diện không phải đụng đến kho dữ liệu.</p>
+
+    <div class="mt5">
+      <div class="step">
+        <div class="no">Bước 1</div>
+        <div><h3>Dựng nền</h3><div class="items">Rà soát website hiện tại · Sắp xếp lại cấu trúc trang · Thiết kế giao diện mới · Dựng hệ thống và đưa sản phẩm lên.</div></div>
+      </div>
+      <div class="step">
+        <div class="no">Bước 2</div>
+        <div><h3>Chuyển toàn bộ dữ liệu cũ</h3><div class="items">Chuyển sản phẩm và hình ảnh sang website mới · Giữ nguyên đường dẫn cũ để không mất thứ hạng Google · Kiểm tra đối chiếu từng mục.</div></div>
+      </div>
+      <div class="step">
+        <div class="no">Bước 3</div>
+        <div><h3>Biến người xem thành khách</h3><div class="items">Tìm kiếm và bộ lọc · Form nhận báo giá · Kết nối Zalo và hotline · Trang đại lý và đăng ký đại lý.</div></div>
+      </div>
+      <div class="step">
+        <div class="no">Bước 4</div>
+        <div><h3>Tối ưu &amp; đo hiệu quả</h3><div class="items">Tăng tốc độ tải trang · Tối ưu Google và AI Search · Gắn công cụ đo để biết mỗi tháng website mang về bao nhiêu khách.</div></div>
+      </div>
+      <div class="step">
+        <div class="no" style="color:var(--muted)">Sau này</div>
+        <div><h3 style="color:var(--muted)">Khi doanh nghiệp cần</h3><div class="items" style="color:var(--muted)">Quản lý khách hàng (CRM) · Bán hàng online · Cổng riêng cho đại lý · App di động · Trợ lý tư vấn tự động.</div></div>
+      </div>
+    </div>
+
+    <h4 class="mt5">Ba điều anh chị có thể yên tâm</h4>
+    <div class="grid3">
+      <div class="card">
+        <h3>Giữ nguyên dữ liệu</h3>
+        <ul class="tick" style="font-size:10.2pt">
+          <li>Không mất sản phẩm</li>
+          <li>Không mất hình ảnh</li>
+          <li>Giữ thứ hạng Google</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Tự chủ vận hành</h3>
+        <ul class="tick" style="font-size:10.2pt">
+          <li>Tự cập nhật hằng ngày</li>
+          <li>Có hướng dẫn sử dụng</li>
+          <li>Bàn giao toàn quyền</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Nghiệm thu đo được</h3>
+        <ul class="tick" style="font-size:10.2pt">
+          <li>Chạy tốt trên điện thoại</li>
+          <li>Tốc độ đạt chuẩn</li>
+          <li>Đếm được khách mới</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="foot"><span>Keybolts — Đề xuất làm lại website</span><span class="cr">© Lưu Xuân Thế · 0932.355.207 · thexuanluu@gmail.com</span><span>04</span></div>
+</section>
+
+<!-- ===== 05 KẾT ===== -->
+<section class="page cover">
+  <div class="cover-inner">
+    <div>
+      <div class="mark">Kết luận</div>
+      <h1 style="font-size:34pt;margin-top:8mm">Không chỉ thay website cũ<br>bằng website <em>đẹp hơn</em>.</h1>
+      <div class="rule"></div>
+      <p class="kicker" style="font-size:13.4pt;color:#C6CDD5;max-width:142mm">
+        Xây dựng lại Keybolts thành một nền tảng phục vụ thương hiệu và bán hàng
+        trong nhiều năm tiếp theo.
+      </p>
+
+      <div style="margin-top:11mm;border-left:2px solid var(--brass);padding-left:7mm">
+        <p style="color:#A8B1BB;font-size:10pt;line-height:1.8;max-width:134mm">
+          Giữ lại toàn bộ sản phẩm và nội dung đang có · Làm lại trên nền tảng hiện đại ·
+          Tối ưu điện thoại, tốc độ, Google và AI Search ·
+          Sẵn sàng mở rộng khi doanh nghiệp cần.
+        </p>
+      </div>
+
+    </div>
+    <div>
+      <div class="cstats" style="margin-top:0">
+        <div><div class="n">Bước tiếp theo</div><div class="l">Một buổi trao đổi 45 phút để thống nhất phạm vi Bước 1</div></div>
+        <div><div class="n">Nhận trước</div><div class="l">Bản cấu trúc trang và thiết kế giao diện để anh chị duyệt</div></div>
+        <div><div class="n">Cam kết</div><div class="l">Duyệt kết quả sau từng bước trước khi đi tiếp</div></div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,.16);padding-top:6mm;display:flex;justify-content:space-between;align-items:flex-end">
+      <div>
+        <div style="font-size:7.6pt;letter-spacing:.26em;text-transform:uppercase;color:var(--brass);font-weight:700;margin-bottom:3mm">Người thực hiện đề xuất</div>
+        <div style="font-size:16pt;font-weight:700;color:#fff;letter-spacing:-0.01em">Lưu Xuân Thế</div>
+        <div style="font-size:9.8pt;color:#9BA5B0;margin-top:2mm;line-height:1.7">
+          Điện thoại&nbsp; <span style="color:#fff">0932.355.207</span><br>
+          Email&nbsp; <span style="color:#fff">thexuanluu@gmail.com</span>
+        </div>
+      </div>
+      <div style="text-align:right;font-size:8pt;color:#6E7883;line-height:1.7">
+        <div style="color:#9BA5B0">keybolts.com.vn</div>
+        © 2026 Lưu Xuân Thế. Bảo lưu mọi quyền.<br>
+        Tài liệu thuộc bản quyền tác giả, dùng cho mục đích đánh giá đề xuất.
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

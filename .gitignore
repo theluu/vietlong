@@ -1,0 +1,29 @@
+# Drupal scaffold & dependencies
+/vendor/
+/web/core/
+/web/modules/contrib/
+/web/themes/contrib/
+/web/profiles/contrib/
+/web/libraries/
+/web/sites/default/files/
+/web/sites/default/settings.local.php
+/web/sites/default/settings.php
+/web/sites/default/services.yml
+
+# DDEV
+/.ddev/.*/
+/.ddev/db_snapshots/
+
+# Frontend
+/frontend/node_modules/
+/frontend/.nuxt/
+/frontend/.output/
+/frontend/dist/
+/frontend/app/assets/css/_generated-palette.css
+
+# SDD scratch
+/.superpowers/
+
+# OS / editor
+.DS_Store
+*.log
