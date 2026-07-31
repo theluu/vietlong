@@ -11,7 +11,7 @@ use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 #[RunTestsInSeparateProcesses]
 class TextNormalizerTest extends KernelTestBase {
 
-  protected static $modules = ['keybolts_core'];
+  protected static $modules = ['path_alias', 'keybolts_core'];
 
   public function testStripsVietnameseDiacritics(): void {
     $normalizer = $this->container->get('keybolts_core.text_normalizer');

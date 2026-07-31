@@ -1,3 +1,6 @@
 services:
   keybolts_core.text_normalizer:
     class: Drupal\keybolts_core\Service\TextNormalizer
+  keybolts_core.variant_matrix:
+    class: Drupal\keybolts_core\Service\VariantMatrixBuilder
+    arguments: ['@entity_type.manager', '@path_alias.manager']
