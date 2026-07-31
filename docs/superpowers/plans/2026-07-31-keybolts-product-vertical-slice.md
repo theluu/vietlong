@@ -510,6 +510,42 @@ kb_field('node', 'product', 'field_related_products', 'entity_reference', 'Sản
   ['handler' => 'default:node', 'handler_settings' => ['target_bundles' => ['product' => 'product']]]
 );
 
+// --- Paragraph types for the detail-page tabs --------------------------------
+// The design's detail page has four tabs; "Thông số kỹ thuật" and "Hỏi đáp"
+// need repeatable key/value and question/answer rows.
+use Drupal\paragraphs\Entity\ParagraphsType;
+
+foreach ([
+  'spec_item' => ['label' => 'Thông số', 'fields' => ['field_spec_key' => 'Tên', 'field_spec_value' => 'Giá trị']],
+  'faq_item' => ['label' => 'Hỏi đáp', 'fields' => ['field_faq_question' => 'Câu hỏi', 'field_faq_answer' => 'Trả lời']],
+  'policy_card' => ['label' => 'Thẻ chính sách', 'fields' => ['field_card_title' => 'Tiêu đề', 'field_card_desc' => 'Mô tả']],
+] as $id => $info) {
+  if (!ParagraphsType::load($id)) {
+    ParagraphsType::create(['id' => $id, 'label' => $info['label']])->save();
+    echo "paragraph type: {$id}\n";
+  }
+  foreach ($info['fields'] as $field => $label) {
+    // Answers and descriptions are long-form; keys and titles are single-line.
+    $type = str_contains($field, 'answer') || str_contains($field, 'desc') ? 'string_long' : 'string';
+    kb_field('paragraph', $id, $field, $type, $label);
+  }
+}
+
+$para_ref = fn(string $bundle) => [
+  'handler' => 'default:paragraph',
+  'handler_settings' => [
+    'target_bundles' => [$bundle => $bundle],
+    'negate' => 0,
+  ],
+];
+
+kb_field('node', 'product', 'field_specifications', 'entity_reference_revisions', 'Thông số kỹ thuật', -1,
+  ['target_type' => 'paragraph'], $para_ref('spec_item'));
+kb_field('node', 'product', 'field_faqs', 'entity_reference_revisions', 'Hỏi đáp', -1,
+  ['target_type' => 'paragraph'], $para_ref('faq_item'));
+kb_field('node', 'product', 'field_policy_cards', 'entity_reference_revisions', 'Thẻ chính sách', -1,
+  ['target_type' => 'paragraph'], $para_ref('policy_card'));
+
 echo "done\n";
 ```
 
@@ -528,7 +564,11 @@ Expected: only `done` — nothing is recreated.
 - [ ] **Step 4: Verify the field list**
 
 Run: `ddev drush field:info node product --format=csv | wc -l`
-Expected: at least `28` lines (27 fields plus the header).
+Expected: at least `31` lines (30 fields plus the header).
+
+Also confirm the three paragraph types exist:
+Run: `ddev drush php:eval "echo implode(',', array_keys(\Drupal::entityTypeManager()->getStorage('paragraphs_type')->loadMultiple())) . \"\n\";"`
+Expected: `spec_item,faq_item,policy_card` in some order.
 
 - [ ] **Step 5: Configure Pathauto for products**
 
@@ -824,6 +864,53 @@ foreach ($data['products'] as $p) {
 }
 
 echo "created {$created} products\n";
+```
+
+- [ ] **Step 3b: Seed the detail-page tab content**
+
+The specs, FAQs and policy cards live in `design/Keybolts Product Detail.html`, not the products page. Extend `extract_catalog.py` to read them from that file into `catalog.json` under `specs`, `faqs` and `policies`, using the same `js_array` helper:
+
+```python
+DETAIL = ROOT / "design" / "Keybolts Product Detail.html"
+detail_src = page_template(DETAIL.read_text(encoding="utf-8"))
+data["specs"] = js_array(detail_src, "SPECS")        # rows of {k, v}
+data["faqs"] = js_array(detail_src, "FAQS")          # rows of {q, a}
+data["policies"] = js_array(detail_src, "POLICIES")  # rows of {title, desc}
+```
+
+Then in `seed_products.php`, attach them to each node before saving. Policy cards and FAQs are genuinely shared across the catalogue; the spec rows are per-product in reality, so the `Mã sản phẩm` row is overridden with the node's own code and the rest seeded as a realistic starting point for editors:
+
+```php
+use Drupal\paragraphs\Entity\Paragraph;
+
+/**
+ * Creates paragraph entities and returns them for a reference field.
+ */
+function kb_paragraphs(array $rows, string $type, array $map): array {
+  $out = [];
+  foreach ($rows as $row) {
+    $values = ['type' => $type];
+    foreach ($map as $source => $field) {
+      $values[$field] = $row[$source] ?? '';
+    }
+    $p = Paragraph::create($values);
+    $p->save();
+    $out[] = ['target_id' => $p->id(), 'target_revision_id' => $p->getRevisionId()];
+  }
+  return $out;
+}
+
+// Inside the product loop, before Node::create():
+$specs = array_map(
+  fn(array $r) => $r['k'] === 'Mã sản phẩm' ? ['k' => $r['k'], 'v' => $p['model']] : $r,
+  $data['specs']
+);
+$values['field_specifications'] = kb_paragraphs($specs, 'spec_item',
+  ['k' => 'field_spec_key', 'v' => 'field_spec_value']);
+$values['field_faqs'] = kb_paragraphs($data['faqs'], 'faq_item',
+  ['q' => 'field_faq_question', 'a' => 'field_faq_answer']);
+$values['field_policy_cards'] = kb_paragraphs($data['policies'], 'policy_card',
+  ['title' => 'field_card_title', 'desc' => 'field_card_desc']);
 ```
 
 - [ ] **Step 4: Run the seed**
@@ -1823,7 +1910,43 @@ class ProductSerializer {
       'sizeLabel' => $this->str($node, 'field_size_label'),
       'sizeNote' => $this->str($node, 'field_size_note'),
       'images' => $this->images($node),
+      'specifications' => $this->paragraphs($node, 'field_specifications', [
+        'k' => 'field_spec_key', 'v' => 'field_spec_value',
+      ]),
+      'faqs' => $this->paragraphs($node, 'field_faqs', [
+        'q' => 'field_faq_question', 'a' => 'field_faq_answer',
+      ]),
+      'policyCards' => $this->paragraphs($node, 'field_policy_cards', [
+        'title' => 'field_card_title', 'desc' => 'field_card_desc',
+      ]),
     ];
+  }
+
+  /**
+   * Flattens a paragraph reference field into plain rows.
+   *
+   * @param array $map
+   *   Output key => paragraph field name.
+   */
+  private function paragraphs(NodeInterface $node, string $field, array $map): array {
+    if (!$node->hasField($field)) {
+      return [];
+    }
+    $rows = [];
+    foreach ($node->get($field) as $item) {
+      $paragraph = $item->entity;
+      if (!$paragraph) {
+        continue;
+      }
+      $row = [];
+      foreach ($map as $out => $source) {
+        $row[$out] = $paragraph->hasField($source) && !$paragraph->get($source)->isEmpty()
+          ? (string) $paragraph->get($source)->value
+          : '';
+      }
+      $rows[] = $row;
+    }
+    return $rows;
   }
 
   private function str(NodeInterface $node, string $field): string {
@@ -2646,6 +2769,9 @@ export interface ProductDetail extends ProductCard {
   sizeLabel: string
   sizeNote: string
   images: { url: string; alt: string }[]
+  specifications: { k: string; v: string }[]
+  faqs: { q: string; a: string }[]
+  policyCards: { title: string; desc: string }[]
   variants: VariantMatrix
   related: ProductCard[]
   breadcrumb: { label: string; url: string }[]
