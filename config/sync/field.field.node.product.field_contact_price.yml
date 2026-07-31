@@ -1,0 +1,21 @@
+uuid: 597a2aec-4f61-4ff3-a4c1-da3912fd12a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_price
+    - node.type.product
+id: node.product.field_contact_price
+field_name: field_contact_price
+entity_type: node
+bundle: product
+label: 'Liên hệ để biết giá'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

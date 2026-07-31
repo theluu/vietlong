@@ -1,0 +1,9 @@
+uuid: 35895262-53ce-423a-b520-e2bb51b4cd3f
+langcode: en
+status: true
+dependencies: {  }
+name: 'Danh mục sản phẩm'
+vid: product_category
+description: null
+weight: 0
+new_revision: false

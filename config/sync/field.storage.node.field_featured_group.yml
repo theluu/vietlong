@@ -1,0 +1,33 @@
+uuid: 79916796-f03f-4593-a01d-12be92fa59b5
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_featured_group
+field_name: field_featured_group
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: dong
+      label: 'Khoá đồng nhập khẩu'
+    -
+      value: cremone
+      label: 'CREMONE chốt khoá'
+    -
+      value: hotel
+      label: 'Khoá khách sạn'
+    -
+      value: phukien
+      label: 'Phụ kiện khác'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

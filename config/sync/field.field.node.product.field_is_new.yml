@@ -1,0 +1,21 @@
+uuid: 6ec3fa31-a458-478e-9fb3-a14cdd27ff1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_is_new
+    - node.type.product
+id: node.product.field_is_new
+field_name: field_is_new
+entity_type: node
+bundle: product
+label: 'Sản phẩm mới'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

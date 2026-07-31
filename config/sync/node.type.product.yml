@@ -1,0 +1,11 @@
+uuid: ab14e0a4-a4fb-40e5-bd59-d2ef80f90c83
+langcode: en
+status: true
+dependencies: {  }
+name: 'Sản phẩm'
+type: product
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

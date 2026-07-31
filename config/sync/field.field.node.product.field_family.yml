@@ -1,0 +1,19 @@
+uuid: 5e1025de-6f3c-4019-a477-e7233b251d8a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_family
+    - node.type.product
+id: node.product.field_family
+field_name: field_family
+entity_type: node
+bundle: product
+label: 'Dòng sản phẩm'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

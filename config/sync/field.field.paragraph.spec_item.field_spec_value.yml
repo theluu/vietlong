@@ -1,0 +1,19 @@
+uuid: becb14b7-3414-4a9c-b423-9a511c6016f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_spec_value
+    - paragraphs.paragraphs_type.spec_item
+id: paragraph.spec_item.field_spec_value
+field_name: field_spec_value
+entity_type: paragraph
+bundle: spec_item
+label: 'Giá trị'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

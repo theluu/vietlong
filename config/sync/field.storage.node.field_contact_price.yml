@@ -1,0 +1,18 @@
+uuid: 3872a5b0-4624-468b-ae50-8b6e37693c01
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_contact_price
+field_name: field_contact_price
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

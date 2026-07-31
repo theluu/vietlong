@@ -1,0 +1,19 @@
+uuid: 6e472c8b-4477-420b-b2c2-ca6d438caf74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_suffix
+    - taxonomy.vocabulary.finish
+id: taxonomy_term.finish.field_suffix
+field_name: field_suffix
+entity_type: taxonomy_term
+bundle: finish
+label: 'Hậu tố mã'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

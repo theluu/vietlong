@@ -1,0 +1,27 @@
+uuid: b988bcf5-ba08-4548-9efb-2505b2beea29
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faqs
+    - node.type.product
+    - paragraphs.paragraphs_type.faq_item
+  module:
+    - entity_reference_revisions
+id: node.product.field_faqs
+field_name: field_faqs
+entity_type: node
+bundle: product
+label: 'Hỏi đáp'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      faq_item: faq_item
+    negate: 0
+field_type: entity_reference_revisions

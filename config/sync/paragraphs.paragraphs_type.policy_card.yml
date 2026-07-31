@@ -1,0 +1,10 @@
+uuid: 60522f02-fb31-4c05-b9ca-d63f32d7f552
+langcode: en
+status: true
+dependencies: {  }
+id: policy_card
+label: 'Thẻ chính sách'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

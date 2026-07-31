@@ -1,0 +1,21 @@
+uuid: 63763869-2792-4e8b-904f-2c68a8c5766e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_badge
+    - node.type.product
+  module:
+    - options
+id: node.product.field_badge
+field_name: field_badge
+entity_type: node
+bundle: product
+label: Nhãn
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

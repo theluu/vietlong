@@ -1,0 +1,19 @@
+uuid: 00a4eecc-6fd8-43b0-ba50-e3de6bbe6aff
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_certification
+    - node.type.product
+id: node.product.field_certification
+field_name: field_certification
+entity_type: node
+bundle: product
+label: 'Chứng nhận'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: 4fb83daa-5698-46fc-8ef3-344950015447
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_swatch
+    - taxonomy.vocabulary.finish
+id: taxonomy_term.finish.field_swatch
+field_name: field_swatch
+entity_type: taxonomy_term
+bundle: finish
+label: 'Mã màu'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

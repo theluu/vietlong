@@ -1,0 +1,19 @@
+uuid: 04804347-39ce-4c72-9557-3cffa82c3e50
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_door_thickness
+    - node.type.product
+id: node.product.field_door_thickness
+field_name: field_door_thickness
+entity_type: node
+bundle: product
+label: 'Độ dày cửa'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

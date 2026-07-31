@@ -1,0 +1,27 @@
+uuid: 485404b1-120a-44f2-aa54-850fb7ade0d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_policy_cards
+    - node.type.product
+    - paragraphs.paragraphs_type.policy_card
+  module:
+    - entity_reference_revisions
+id: node.product.field_policy_cards
+field_name: field_policy_cards
+entity_type: node
+bundle: product
+label: 'Thẻ chính sách'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      policy_card: policy_card
+    negate: 0
+field_type: entity_reference_revisions

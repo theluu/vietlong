@@ -1,0 +1,19 @@
+uuid: 1f155c7e-7e52-43c7-86e9-a6a95d7b8ed4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_desc_heading
+    - node.type.product
+id: node.product.field_desc_heading
+field_name: field_desc_heading
+entity_type: node
+bundle: product
+label: 'Tiêu đề mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

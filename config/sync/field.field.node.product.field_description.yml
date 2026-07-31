@@ -1,0 +1,22 @@
+uuid: 322dff5e-b7a3-4952-9566-9e1aa6e17b2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_description
+    - node.type.product
+  module:
+    - text
+id: node.product.field_description
+field_name: field_description
+entity_type: node
+bundle: product
+label: 'Mô tả chi tiết'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

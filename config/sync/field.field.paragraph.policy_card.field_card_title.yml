@@ -1,0 +1,19 @@
+uuid: c92b6c90-3e8e-4ff9-8fd8-d97c39f4db70
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_card_title
+    - paragraphs.paragraphs_type.policy_card
+id: paragraph.policy_card.field_card_title
+field_name: field_card_title
+entity_type: paragraph
+bundle: policy_card
+label: 'Tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

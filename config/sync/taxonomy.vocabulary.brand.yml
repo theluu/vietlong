@@ -1,0 +1,9 @@
+uuid: 04ed5911-7668-4d1f-af6c-e3f102891d40
+langcode: en
+status: true
+dependencies: {  }
+name: 'Thương hiệu'
+vid: brand
+description: null
+weight: 0
+new_revision: false

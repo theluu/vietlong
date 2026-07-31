@@ -1,0 +1,19 @@
+uuid: c6d99cb1-224d-420d-b23d-427c8521900a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_tag
+    - taxonomy.vocabulary.brand
+id: taxonomy_term.brand.field_tag
+field_name: field_tag
+entity_type: taxonomy_term
+bundle: brand
+label: Tag
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

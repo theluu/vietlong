@@ -1,0 +1,27 @@
+uuid: 15f12c99-b873-495c-bc9e-ae95a1a9188d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_specifications
+    - node.type.product
+    - paragraphs.paragraphs_type.spec_item
+  module:
+    - entity_reference_revisions
+id: node.product.field_specifications
+field_name: field_specifications
+entity_type: node
+bundle: product
+label: 'Thông số kỹ thuật'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      spec_item: spec_item
+    negate: 0
+field_type: entity_reference_revisions

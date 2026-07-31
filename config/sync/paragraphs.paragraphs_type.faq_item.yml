@@ -1,0 +1,10 @@
+uuid: 820a63f5-00e6-4d08-9704-8551591c57e6
+langcode: en
+status: true
+dependencies: {  }
+id: faq_item
+label: 'Hỏi đáp'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

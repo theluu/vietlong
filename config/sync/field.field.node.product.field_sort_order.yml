@@ -1,0 +1,23 @@
+uuid: 8b0b0cd1-953c-43d5-b618-d542f0ad4ce7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sort_order
+    - node.type.product
+id: node.product.field_sort_order
+field_name: field_sort_order
+entity_type: node
+bundle: product
+label: 'Thứ tự'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

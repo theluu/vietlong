@@ -1,0 +1,19 @@
+uuid: df35acf3-5909-40a8-919b-1a4f08c11688
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_spec_key
+    - paragraphs.paragraphs_type.spec_item
+id: paragraph.spec_item.field_spec_key
+field_name: field_spec_key
+entity_type: paragraph
+bundle: spec_item
+label: Tên
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,23 @@
+uuid: dbfdd826-22b5-41c2-83d6-7988f2b8d2f3
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.product
+  module:
+    - node
+id: product
+label: Product
+type: 'canonical_entities:node'
+pattern: '/san-pham/[node:title]'
+selection_criteria:
+  -
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: node
+    bundles:
+      product: product
+selection_logic: and
+weight: 0
+relationships: {  }

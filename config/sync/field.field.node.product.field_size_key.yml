@@ -1,0 +1,19 @@
+uuid: d47ca49c-3425-48b7-9a8a-467d904ccbdd
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_size_key
+    - node.type.product
+id: node.product.field_size_key
+field_name: field_size_key
+entity_type: node
+bundle: product
+label: 'Mã size'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

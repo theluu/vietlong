@@ -1,0 +1,21 @@
+uuid: e46c4765-bcbf-419e-b559-5537a496c453
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_warranty
+field_name: field_warranty
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,10 @@
+uuid: ac292b55-3151-46b9-a343-8aa5eaad4566
+langcode: en
+status: true
+dependencies: {  }
+id: spec_item
+label: 'Thông số'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

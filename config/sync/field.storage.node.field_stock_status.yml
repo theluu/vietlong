@@ -1,0 +1,30 @@
+uuid: 0570974a-a3e8-47cb-b097-575c30781271
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_stock_status
+field_name: field_stock_status
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: con-hang
+      label: 'Còn hàng — giao 2–5 ngày'
+    -
+      value: het-hang
+      label: 'Hết hàng'
+    -
+      value: dat-truoc
+      label: 'Đặt trước'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
