@@ -564,7 +564,7 @@ Expected: only `done` — nothing is recreated.
 - [ ] **Step 4: Verify the field list**
 
 Run: `ddev drush field:info node product --format=csv | wc -l`
-Expected: at least `31` lines (30 fields plus the header).
+Expected: `30` lines — 29 fields plus the header.
 
 Also confirm the three paragraph types exist:
 Run: `ddev drush php:eval "echo implode(',', array_keys(\Drupal::entityTypeManager()->getStorage('paragraphs_type')->loadMultiple())) . \"\n\";"`
