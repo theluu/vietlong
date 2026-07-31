@@ -4,3 +4,9 @@ services:
   keybolts_core.variant_matrix:
     class: Drupal\keybolts_core\Service\VariantMatrixBuilder
     arguments: ['@entity_type.manager', '@path_alias.manager']
+  keybolts_core.product_query:
+    class: Drupal\keybolts_core\Service\ProductQuery
+    arguments: ['@entity_type.manager']
+  keybolts_core.product_facets:
+    class: Drupal\keybolts_core\Service\ProductFacetBuilder
+    arguments: ['@entity_type.manager', '@keybolts_core.product_query']
