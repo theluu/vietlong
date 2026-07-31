@@ -65,6 +65,15 @@ class ProductQuery {
    *
    * There is deliberately no price sort — price always renders as "Liên hệ".
    * An unrecognised sort value falls back to featured.
+   *
+   * Every branch ends with `sort('nid', 'ASC')`. The preceding keys are not
+   * unique per row on their own — bulk-imported products routinely share a
+   * `created` timestamp and a default `field_sort_order` of 0 — and this
+   * query is paginated with `range()`. Without a unique final key, ties are
+   * ordered arbitrarily by the database and can differ between the count
+   * query and the page query, or between two page requests, causing a
+   * product to appear on two pages or on none. `nid` is unique per row and
+   * gives the order (and therefore the pagination) a total order.
    */
   private function applySort(QueryInterface $query, string $sort): void {
     match ($sort) {
@@ -73,6 +82,7 @@ class ProductQuery {
       'cat' => $query->sort('field_category', 'ASC')->sort('title', 'ASC'),
       default => $query->sort('field_sort_order', 'ASC')->sort('created', 'DESC'),
     };
+    $query->sort('nid', 'ASC');
   }
 
 }

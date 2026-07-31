@@ -174,4 +174,55 @@ class ProductQueryTest extends KernelTestBase {
     $this->assertSame(3, $facets_two_axis['brand'][$this->terms['keybolts']->id()]);
     $this->assertArrayNotHasKey($this->terms['baltica']->id(), $facets_two_axis['brand']);
   }
+
+  /**
+   * Guards the `nid` tiebreaker added to every branch of applySort().
+   *
+   * A sort with no unique final key is not a total order: when paginated
+   * with range(), the database is free to place a tied row on either side
+   * of a page boundary, differently on each request. That means the same
+   * product can appear on two pages, or on none. Bulk-imported catalogues
+   * routinely produce exactly this: identical `created` timestamps and a
+   * default `field_sort_order` of 0 for every row.
+   *
+   * This test only proves something by checking coverage, not order: it
+   * would fail under the pre-fix sort (no `nid` tiebreaker) roughly as
+   * often as the database happens to reorder ties across separate range()
+   * queries, and always passes once every sort branch ends in a unique key.
+   */
+  public function testPaginationIsStableUnderSortTies(): void {
+    // Deliberately identical field_sort_order and created values — exactly
+    // what defeats a sort with no unique tiebreaker.
+    $tied_ids = [];
+    foreach (range(1, 6) as $i) {
+      $node = Node::create([
+        'type' => 'product', 'title' => "Tied $i", 'status' => 1,
+        'field_brand' => $this->terms['keybolts'], 'field_category' => $this->terms['dong'],
+        'field_sort_order' => 5, 'created' => 1000000000,
+      ]);
+      $node->save();
+      $tied_ids[] = (int) $node->id();
+    }
+
+    $query_service = $this->container->get('keybolts_core.product_query');
+    // 5 fixture nodes (A-E, also tied on created/sort_order by default) + 6
+    // deliberately tied nodes = 11 total, paginated 3 at a time.
+    $total = $query_service->find([])['total'];
+    $this->assertSame(11, $total);
+
+    $seen = [];
+    $pages = (int) ceil($total / 3);
+    for ($page = 1; $page <= $pages; $page++) {
+      $result = $query_service->find([], 'featured', $page, 3);
+      foreach ($result['nodes'] as $node) {
+        $seen[] = (int) $node->id();
+      }
+    }
+
+    $this->assertCount($total, $seen, 'Every product must appear exactly once across all pages.');
+    $this->assertCount($total, array_unique($seen), 'No product may appear on more than one page.');
+    foreach ($tied_ids as $tid) {
+      $this->assertContains($tid, $seen);
+    }
+  }
 }
