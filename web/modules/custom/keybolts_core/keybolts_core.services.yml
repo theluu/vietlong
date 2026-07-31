@@ -1,0 +1,3 @@
+services:
+  keybolts_core.text_normalizer:
+    class: Drupal\keybolts_core\Service\TextNormalizer

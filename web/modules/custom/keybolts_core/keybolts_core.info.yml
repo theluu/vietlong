@@ -1,0 +1,8 @@
+name: 'Keybolts Core'
+type: module
+description: 'Content model and business logic for the Keybolts catalogue.'
+package: Keybolts
+core_version_requirement: ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy

@@ -28,6 +28,12 @@
         "drupal/redirect": "^1.13",
         "drush/drush": "^13.7"
     },
+    "require-dev": {
+        "behat/mink": "^1.11",
+        "mikey179/vfsstream": "^1.6",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpunit/phpunit": "^11"
+    },
     "conflict": {
         "drupal/drupal": "*"
     },
