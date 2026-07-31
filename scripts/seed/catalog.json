@@ -1,0 +1,394 @@
+{
+  "brands": [
+    {
+      "key": "keybolts",
+      "name": "KEYBOLTS"
+    },
+    {
+      "key": "baltica",
+      "name": "BALTICA"
+    }
+  ],
+  "categories": [
+    {
+      "key": "dong",
+      "label": "Khóa đồng"
+    },
+    {
+      "key": "tay-gat",
+      "label": "Khóa tay gạt"
+    },
+    {
+      "key": "thong-minh",
+      "label": "Khóa thông minh"
+    },
+    {
+      "key": "van-tay",
+      "label": "Khóa vân tay"
+    },
+    {
+      "key": "khach-san",
+      "label": "Khóa khách sạn"
+    },
+    {
+      "key": "cremone",
+      "label": "Chốt Cremone"
+    },
+    {
+      "key": "ban-le",
+      "label": "Bản lề & tay co"
+    },
+    {
+      "key": "phu-kien",
+      "label": "Phụ kiện cửa"
+    }
+  ],
+  "finishes": [
+    {
+      "key": "pvd",
+      "label": "Vàng bóng PVD",
+      "swatch": "#c69148"
+    },
+    {
+      "key": "dsf",
+      "label": "Rêu DSF",
+      "swatch": "#6b6f5c"
+    },
+    {
+      "key": "inox",
+      "label": "Màu INOX",
+      "swatch": "#b9bec2"
+    },
+    {
+      "key": "dong",
+      "label": "Đồng nguyên chất",
+      "swatch": "#a97434"
+    }
+  ],
+  "products": [
+    {
+      "name": "Khóa Đồng Đại Sảnh",
+      "model": "KB 1700-XL-PVD",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/kb_1700-xl-pvd.png",
+      "badge": "Bán chạy",
+      "family": "KB 1700"
+    },
+    {
+      "name": "Khóa Đồng Đại",
+      "model": "KB 1700-L-PVD",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5711_0.jpg",
+      "family": "KB 1700"
+    },
+    {
+      "name": "Khóa Đồng Trung",
+      "model": "KB 1700-M-PVD",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5709_2.jpg",
+      "family": "KB 1700"
+    },
+    {
+      "name": "Khóa Đồng Thông Phòng",
+      "model": "KB 1700-S-PVD",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/1700-xl-pvd_2.png",
+      "family": "KB 1700"
+    },
+    {
+      "name": "Khóa Biệt Thự KeyBolts",
+      "model": "9310-LC DSF",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "dsf",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5713_0.jpg",
+      "badge": "Cao cấp",
+      "family": "9310"
+    },
+    {
+      "name": "Khóa Đồng Đại Sảnh Full Size",
+      "model": "KB 9310-XL DSF",
+      "brand": "keybolts",
+      "cat": "dong",
+      "finish": "dsf",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5715.jpg",
+      "family": "KB 9310"
+    },
+    {
+      "name": "Khóa Tay Gạt Cửa Gỗ",
+      "model": "KB 5875-M PVD",
+      "brand": "keybolts",
+      "cat": "tay-gat",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/1700-xl-pvd_2.png",
+      "family": "KB 5875"
+    },
+    {
+      "name": "Khóa Tay Gạt INOX 304",
+      "model": "KB 5871-M INOX",
+      "brand": "keybolts",
+      "cat": "tay-gat",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0138_copy.jpg",
+      "family": "KB 5871"
+    },
+    {
+      "name": "Khóa Tay Gạt Thông Phòng",
+      "model": "KB 5860-S PVD",
+      "brand": "keybolts",
+      "cat": "tay-gat",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5709_2.jpg",
+      "family": "KB 5860"
+    },
+    {
+      "name": "Khóa Thông Minh T28",
+      "model": "KB T28",
+      "brand": "keybolts",
+      "cat": "thong-minh",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/khoa_thong_minh_t28_0.png",
+      "badge": "Mới",
+      "family": "KB T28"
+    },
+    {
+      "name": "Khóa Thông Minh K42",
+      "model": "KB K42",
+      "brand": "keybolts",
+      "cat": "thong-minh",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/khoa_thong_minh_k42_0.png",
+      "badge": "Mới",
+      "family": "KB K42"
+    },
+    {
+      "name": "Khóa Thông Minh BD01",
+      "model": "KB BD01",
+      "brand": "keybolts",
+      "cat": "thong-minh",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/khoa_thong_minh_bd01_0.png",
+      "family": "KB BD01"
+    },
+    {
+      "name": "Khóa Vân Tay Cửa Gỗ",
+      "model": "KB 8120 PVD",
+      "brand": "keybolts",
+      "cat": "van-tay",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/khoa_thong_minh_t28_0.png",
+      "family": "KB 8120 PVD"
+    },
+    {
+      "name": "Khóa Vân Tay Cửa Kính Thủy Lực",
+      "model": "KB 8150",
+      "brand": "keybolts",
+      "cat": "van-tay",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/9-copy.jpg",
+      "family": "KB 8150"
+    },
+    {
+      "name": "Khóa Thẻ Từ Khách Sạn",
+      "model": "KB-9008 PVD",
+      "brand": "keybolts",
+      "cat": "khach-san",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/kb-9008_pvd_1.png",
+      "family": "KB"
+    },
+    {
+      "name": "Khóa Thẻ Từ Khách Sạn",
+      "model": "KB 9005 INOX",
+      "brand": "keybolts",
+      "cat": "khach-san",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/9008.jpg",
+      "family": "KB 9005 INOX"
+    },
+    {
+      "name": "Khóa Thẻ Từ Khách Sạn",
+      "model": "KB 9002-PVD",
+      "brand": "keybolts",
+      "cat": "khach-san",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/9008_pvd.jpg",
+      "family": "KB 9002"
+    },
+    {
+      "name": "CREMONE Cửa Sổ Đồng Mạ Vàng",
+      "model": "KB CXK1 PVD-S",
+      "brand": "baltica",
+      "cat": "cremone",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0183_copy.jpg",
+      "family": "KB CXK1 PVD"
+    },
+    {
+      "name": "CREMONE Cửa Đi Đồng Mạ Vàng",
+      "model": "KB CXK1 M PVD",
+      "brand": "baltica",
+      "cat": "cremone",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0152_copy_0.jpg",
+      "family": "KB CXK1 M PVD"
+    },
+    {
+      "name": "CREMONE Cửa Đại Mạ Vàng",
+      "model": "KB CXK1-L PVD",
+      "brand": "baltica",
+      "cat": "cremone",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/cxk1_pvd_du_size_1.png",
+      "family": "KB CXK1"
+    },
+    {
+      "name": "CREMONE INOX Cửa Đi",
+      "model": "KB CX4-M THẲNG",
+      "brand": "baltica",
+      "cat": "cremone",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0138_copy.jpg",
+      "family": "KB CX4"
+    },
+    {
+      "name": "Tay Co HK Trơn",
+      "model": "614 — Size 96",
+      "brand": "baltica",
+      "cat": "ban-le",
+      "finish": "dong",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5715.jpg",
+      "family": "614 — Size 96"
+    },
+    {
+      "name": "Tay Co HK Ngọc",
+      "model": "613 — Size 128",
+      "brand": "baltica",
+      "cat": "ban-le",
+      "finish": "dong",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0138_copy.jpg",
+      "family": "613 — Size 128"
+    },
+    {
+      "name": "Bản Lề Lá Đồng",
+      "model": "608 — Size 128",
+      "brand": "baltica",
+      "cat": "ban-le",
+      "finish": "dong",
+      "img": "https://keybolts.com.vn/sites/default/files/_r3_0152_copy_0.jpg",
+      "family": "608 — Size 128"
+    },
+    {
+      "name": "Chặn Cửa Thông Minh",
+      "model": "00497",
+      "brand": "baltica",
+      "cat": "phu-kien",
+      "finish": "inox",
+      "img": "https://keybolts.com.vn/sites/default/files/dpp_0173.jpg",
+      "family": "00497"
+    },
+    {
+      "name": "Tay Nắm Cửa Đồng",
+      "model": "KB TN-220 PVD",
+      "brand": "baltica",
+      "cat": "phu-kien",
+      "finish": "pvd",
+      "img": "https://keybolts.com.vn/sites/default/files/6y7a5717_0.jpg",
+      "family": "KB TN"
+    }
+  ],
+  "specs": [
+    {
+      "k": "Mã sản phẩm",
+      "v": "KB 1700-XL-PVD"
+    },
+    {
+      "k": "Chất liệu thân",
+      "v": "Đồng nguyên khối"
+    },
+    {
+      "k": "Hoàn thiện",
+      "v": "Mạ vàng bóng PVD"
+    },
+    {
+      "k": "Loại khóa",
+      "v": "Tay gạt, chìa cơ"
+    },
+    {
+      "k": "Loại cửa",
+      "v": "Cửa gỗ tự nhiên / công nghiệp"
+    },
+    {
+      "k": "Độ dày cửa",
+      "v": "40 – 55 mm"
+    },
+    {
+      "k": "Chốt cửa",
+      "v": "Thép cứng chống cắt"
+    },
+    {
+      "k": "Số chìa đi kèm",
+      "v": "3 chìa"
+    },
+    {
+      "k": "Tiêu chuẩn",
+      "v": "CE-CFF"
+    },
+    {
+      "k": "Bảo hành",
+      "v": "5 – 10 năm"
+    },
+    {
+      "k": "Xuất xứ",
+      "v": "Nhập khẩu"
+    },
+    {
+      "k": "Tình trạng",
+      "v": "Còn hàng"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Khóa này lắp được cho cửa gỗ dày bao nhiêu?",
+      "a": "Bộ khóa phù hợp cửa gỗ dày 40–55mm. Nếu cửa của bạn mỏng hoặc dày hơn khoảng này, hãy gọi hotline để được tư vấn model tương đương đúng kích thước."
+    },
+    {
+      "q": "Mạ PVD có bị xỉn màu sau vài năm không?",
+      "a": "Mạ PVD là mạ chân không, độ cứng bề mặt cao hơn mạ điện thông thường nên giữ màu bền trong môi trường ẩm. Với sử dụng bình thường trong nhà, màu gần như không đổi trong nhiều năm."
+    },
+    {
+      "q": "Vì sao website không hiển thị giá?",
+      "a": "Giá phụ thuộc vào size, hoàn thiện và số lượng. Với công trình và đại lý còn có chính sách riêng, nên Keybolts báo giá trực tiếp qua hotline 1900 9018 để đảm bảo giá đúng nhất cho từng đơn."
+    },
+    {
+      "q": "Có xuất hóa đơn VAT và bảo hành giấy không?",
+      "a": "Có. Keybolts xuất hóa đơn VAT cho cả đơn lẻ và đơn công trình, kèm phiếu bảo hành ghi rõ thời hạn theo dòng sản phẩm."
+    }
+  ],
+  "policies": [
+    {
+      "title": "Bảo hành 5–10 năm",
+      "desc": "Bảo hành theo dòng sản phẩm, áp dụng cho lỗi kỹ thuật từ nhà sản xuất. Đổi mới trong 12 tháng đầu nếu lỗi phần cơ."
+    },
+    {
+      "title": "Giao hàng toàn quốc",
+      "desc": "Hỗ trợ vận chuyển từ 4 kho Bắc Ninh, Từ Sơn, Việt Trì, Vĩnh Yên. Đơn công trình có xe giao riêng."
+    },
+    {
+      "title": "Đổi trả 7 ngày",
+      "desc": "Đổi trả trong 7 ngày nếu sản phẩm chưa lắp đặt, còn nguyên hộp và phụ kiện đi kèm."
+    },
+    {
+      "title": "Hỗ trợ lắp đặt",
+      "desc": "Hướng dẫn khoét cửa và lắp đặt qua video/kỹ thuật viên. Khu vực Bắc Ninh – Hà Nội có hỗ trợ lắp trực tiếp."
+    }
+  ]
+}
