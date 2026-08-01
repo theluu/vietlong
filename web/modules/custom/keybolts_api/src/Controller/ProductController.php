@@ -76,24 +76,33 @@ class ProductController extends ControllerBase {
    */
   public function suggest(Request $request) {
     $raw = trim((string) $request->query->get('q', ''));
-    if ($raw === '') {
+    // Cap input length to prevent excess processing.
+    $raw = substr($raw, 0, 100);
+
+    // Normalise first, then guard on the normalised needle.
+    $needle = $this->textNormalizer->normalize($raw);
+    if ($needle === '') {
       return ApiEnvelope::make([], ['total' => 0, 'page' => 1, 'limit' => 8]);
     }
 
-    $needle = $this->textNormalizer->normalize($raw);
-    $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+    $storage = $this->entityTypeManager()->getStorage('node');
+    $base_query = $storage->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'product')
       ->condition('status', 1)
-      ->condition('field_search_text', '%' . $needle . '%', 'LIKE')
-      ->range(0, 8)
-      ->execute();
+      ->condition('field_search_text', '%' . $needle . '%', 'LIKE');
 
-    $nodes = $ids ? $this->entityTypeManager()->getStorage('node')->loadMultiple($ids) : [];
+    // Get the true total count.
+    $total = (clone $base_query)->count()->execute();
+
+    // Get paginated results (capped at 8).
+    $ids = $base_query->range(0, 8)->execute();
+
+    $nodes = $ids ? $storage->loadMultiple($ids) : [];
 
     return ApiEnvelope::make(
       array_values(array_map(fn($n) => $this->serializer->card($n), $nodes)),
-      ['total' => count($nodes), 'page' => 1, 'limit' => 8],
+      ['total' => $total, 'page' => 1, 'limit' => 8],
     );
   }
 
