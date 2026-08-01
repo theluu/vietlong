@@ -9,6 +9,7 @@ use Drupal\keybolts_api\ApiEnvelope;
 use Drupal\keybolts_api\Serializer\ProductSerializer;
 use Drupal\keybolts_core\Service\ProductFacetBuilder;
 use Drupal\keybolts_core\Service\ProductQuery;
+use Drupal\keybolts_core\Service\VariantMatrixBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,7 @@ class ProductController extends ControllerBase {
     private readonly ProductQuery $productQuery,
     private readonly ProductFacetBuilder $facetBuilder,
     private readonly ProductSerializer $serializer,
+    private readonly VariantMatrixBuilder $variantMatrix,
   ) {}
 
   public static function create(ContainerInterface $container): static {
@@ -31,6 +33,7 @@ class ProductController extends ControllerBase {
       $container->get('keybolts_core.product_query'),
       $container->get('keybolts_core.product_facets'),
       $container->get('keybolts_api.product_serializer'),
+      $container->get('keybolts_core.variant_matrix'),
     );
   }
 
@@ -75,9 +78,83 @@ class ProductController extends ControllerBase {
   /**
    * GET /api/v1/products/{slug}
    *
-   * Stub — implemented in Task 10.
+   * The slug is the path alias without the `san-pham/` prefix.
    */
-  public function detail(string $slug): JsonResponse {
-    return new JsonResponse(['message' => 'Not implemented'], 501);
+  public function detail(string $slug) {
+    $path = \Drupal::service('path_alias.manager')
+      ->getPathByAlias('/san-pham/' . $slug);
+    if (!preg_match('#^/node/(\d+)$#', $path, $m)) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $node = $this->entityTypeManager()->getStorage('node')->load((int) $m[1]);
+    if (!$node || $node->bundle() !== 'product' || !$node->isPublished()) {
+      throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
+    }
+
+    $data = $this->serializer->detail($node);
+    $data['variants'] = $this->variantMatrix->build($node);
+    $data['related'] = $this->relatedProducts($node);
+    $data['breadcrumb'] = [
+      ['label' => 'Trang chủ', 'url' => '/'],
+      ['label' => 'Sản phẩm', 'url' => '/san-pham'],
+      ...($data['category']
+        ? [['label' => $data['category']['name'], 'url' => '/danh-muc/' . $data['category']['id']]]
+        : []),
+      ['label' => $node->label(), 'url' => '/' . $data['slug']],
+    ];
+    $data['jsonLd'] = $this->productJsonLd($data);
+
+    return ApiEnvelope::make($data, [], [], ['node:' . $node->id(), 'node_list:product']);
+  }
+
+  /**
+   * Up to 4 siblings in the same category, excluding the product itself.
+   */
+  private function relatedProducts($node): array {
+    $category = $node->get('field_category')->target_id;
+    if (!$category) {
+      return [];
+    }
+    $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'product')
+      ->condition('status', 1)
+      ->condition('field_category', $category)
+      ->condition('nid', $node->id(), '<>')
+      ->range(0, 4)
+      ->execute();
+    if (!$ids) {
+      return [];
+    }
+    return array_values(array_map(
+      fn($n) => $this->serializer->card($n),
+      $this->entityTypeManager()->getStorage('node')->loadMultiple($ids)
+    ));
+  }
+
+  /**
+   * Schema.org Product. Price is always "contact for price", expressed as a
+   * PriceSpecification without a value rather than a fabricated number.
+   */
+  private function productJsonLd(array $data): array {
+    return [
+      '@context' => 'https://schema.org',
+      '@type' => 'Product',
+      'name' => $data['name'],
+      'sku' => $data['model'],
+      'brand' => ['@type' => 'Brand', 'name' => $data['brand']['name'] ?? 'Keybolts'],
+      'category' => $data['category']['name'] ?? '',
+      'image' => array_column($data['images'], 'url'),
+      'description' => $data['shortDesc'],
+      'offers' => [
+        '@type' => 'Offer',
+        'availability' => $data['stockStatus'] === 'Hết hàng'
+          ? 'https://schema.org/OutOfStock'
+          : 'https://schema.org/InStock',
+        'priceCurrency' => 'VND',
+        'priceSpecification' => ['@type' => 'PriceSpecification', 'priceCurrency' => 'VND'],
+      ],
+    ];
   }
 }
