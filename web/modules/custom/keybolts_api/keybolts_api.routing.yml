@@ -1,0 +1,23 @@
+keybolts_api.products:
+  path: '/api/v1/products'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\ProductController::list'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+keybolts_api.product_suggest:
+  path: '/api/v1/products/suggest'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\ProductController::suggest'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+keybolts_api.product_detail:
+  path: '/api/v1/products/{slug}'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\ProductController::detail'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,7 @@
+name: 'Keybolts API'
+type: module
+description: 'REST endpoints consumed by the Nuxt frontend.'
+package: Keybolts
+core_version_requirement: ^11
+dependencies:
+  - keybolts_core:keybolts_core
