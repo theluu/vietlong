@@ -3043,8 +3043,12 @@ export const useSiteChrome = () => {
 
 Each must match the prototype at 375 / 768 / 1440px and use only semantic tokens. Required behaviours:
 - `TopBar` — tagline plus CE-CFF and warranty items hidden below `utilWide`; hotline always visible.
-- `MainBar` — logo with tagline shown only when `isWide`; six nav items (Sản phẩm · Giới thiệu · Dự án · Tin tức · Đại lý · Liên hệ); search and `Nhận tư vấn` CTA.
-- `MegaMenu` — opens on hover over Sản phẩm; three columns (Khóa cửa, Phụ kiện, Bộ sưu tập đồng); closes on mouse leave and on `Escape`.
+- `MainBar` — logo with tagline shown only when `isWide`; **five** nav items (Sản phẩm · Giải pháp · Dự án · Kiến thức · Đại lý); search and `Nhận tư vấn` CTA.
+- `MegaMenu` — opens on hover over Sản phẩm; two link columns (Khóa cửa, Phụ kiện) plus a `Bộ sưu tập đồng →` panel; closes on mouse leave and on `Escape`.
+
+> **Amended 2026-08-01.** The nav list above originally read "six nav items (Sản phẩm · Giới thiệu · Dự án · Tin tức · Đại lý · Liên hệ)". The prototype's actual nav is the five items now listed, with `Nhận tư vấn` as the CTA rather than a nav item. Taken verbatim from the prototype's rendered markup. The prototype's own state flags were adopted as-is: `showLogoTagline = !isMobile && isWide`, `showUtilityExtras = utilWide`, `isDesktopNav = !isMobile`, `showStickyBar = isMobile` (the plan's extra `&& !anyOpen` is unnecessary — the overlay sits at z-90 over the bar's z-60).
+>
+> The mega menu's links point at the bare `/san-pham` listing. The listing filters on taxonomy term IDs, which are not known at build time, so a `?q=<label>` param would be silently discarded by `fromQuery`. Task 19 wires them to real category IDs.
 - `MobileNavPanel` — slides down below the header, flat list, full-width `Nhận tư vấn` button.
 - `SearchOverlay` — full-screen; autofocus; debounce 300ms calling `suggestProducts`; heading is `Gợi ý phổ biến` when empty and `Kết quả (n)` when searching; empty state `Không tìm thấy sản phẩm phù hợp.` plus `Gọi 1900 9018 để được tư vấn →`; closes on `Escape` and backdrop click; `Enter` navigates to `/tim-kiem?q=`.
 - `StickyMobileCta` — visible only when `isMobile` and `!anyOpen`; three actions Gọi / Zalo / Nhận tư vấn.

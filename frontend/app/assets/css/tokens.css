@@ -102,30 +102,37 @@
   }
 }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: var(--text-body);
-  font-weight: var(--text-body-weight);
-  line-height: var(--text-body-line);
-  color: var(--color-text);
-  background: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-}
+/*
+ * These MUST stay inside `@layer base`. Unlayered CSS beats every layered rule,
+ * so an unlayered `a { color }` silently overrides `text-white`, `text-accent`
+ * and every other colour utility on links across the whole site.
+ */
+@layer base {
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    font-weight: var(--text-body-weight);
+    line-height: var(--text-body-line);
+    color: var(--color-text);
+    background: var(--color-background);
+    -webkit-font-smoothing: antialiased;
+  }
 
-a {
-  color: var(--color-link);
-}
+  a {
+    color: var(--color-link);
+  }
 
-a:hover {
-  color: var(--color-link-hover);
-}
+  a:hover {
+    color: var(--color-link-hover);
+  }
 
-::selection {
-  background: var(--color-gold-200);
-  color: var(--color-charcoal-900);
-}
+  ::selection {
+    background: var(--color-gold-200);
+    color: var(--color-charcoal-900);
+  }
 
-html {
-  scroll-behavior: smooth;
+  html {
+    scroll-behavior: smooth;
+  }
 }
