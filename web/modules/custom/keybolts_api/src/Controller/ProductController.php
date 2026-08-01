@@ -64,7 +64,7 @@ class ProductController extends ControllerBase {
         'page' => $page,
         'limit' => self::PER_PAGE,
       ],
-      $this->facetBuilder->counts($filters),
+      $this->facetBuilder->labelled($filters),
     );
   }
 

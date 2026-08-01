@@ -49,6 +49,44 @@ class ProductFacetBuilder {
   }
 
   /**
+   * The same counts, decorated with the term label the sidebar renders.
+   *
+   * counts() returns term IDs only, which a client cannot draw a filter list
+   * from — there is no endpoint that resolves a term ID to its name. Loading
+   * the terms here costs one multi-load of only the terms that actually
+   * appear in the result, rather than the whole vocabulary.
+   *
+   * @return array<string, array<int, array{label: string, count: int, swatch?: string}>>
+   */
+  public function labelled(array $filters): array {
+    $counts = $this->counts($filters);
+
+    $ids = array_unique(array_merge(...array_map('array_keys', array_values($counts))));
+    $terms = $ids
+      ? $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($ids)
+      : [];
+
+    $out = [];
+    foreach ($counts as $axis => $tally) {
+      $out[$axis] = [];
+      foreach ($tally as $tid => $count) {
+        $term = $terms[$tid] ?? NULL;
+        if (!$term) {
+          // A term deleted between the aggregate query and this load has
+          // nothing to label; dropping it beats rendering a blank filter.
+          continue;
+        }
+        $row = ['label' => $term->label(), 'count' => $count];
+        if ($term->hasField('field_swatch') && !$term->get('field_swatch')->isEmpty()) {
+          $row['swatch'] = (string) $term->get('field_swatch')->value;
+        }
+        $out[$axis][$tid] = $row;
+      }
+    }
+    return $out;
+  }
+
+  /**
    * Runs a single GROUP BY / COUNT(*) query for one axis.
    *
    * Uses the entity query aggregate API rather than hand-rolled SQL so that

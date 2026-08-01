@@ -216,6 +216,32 @@ class ProductQueryTest extends KernelTestBase {
   }
 
   /**
+   * A facet keyed only by term ID cannot be drawn as a filter list: nothing
+   * else in the API resolves a term ID to its name. labelled() carries the
+   * label (and swatch, where the vocabulary has one) alongside the count.
+   */
+  public function testLabelledFacetsCarryTermNames(): void {
+    $facets = $this->container->get('keybolts_core.product_facets')->labelled([]);
+
+    $keybolts_id = $this->terms['keybolts']->id();
+    $this->assertSame(
+      $this->terms['keybolts']->label(),
+      $facets['brand'][$keybolts_id]['label'],
+    );
+    // The count must survive the decoration unchanged.
+    $counts = $this->container->get('keybolts_core.product_facets')->counts([]);
+    $this->assertSame($counts['brand'][$keybolts_id], $facets['brand'][$keybolts_id]['count']);
+
+    // A term with no products is still absent, exactly as in counts().
+    $unused = Term::create(['vid' => 'product_category', 'name' => 'unused']);
+    $unused->save();
+    $this->assertArrayNotHasKey(
+      $unused->id(),
+      $this->container->get('keybolts_core.product_facets')->labelled([])['category'],
+    );
+  }
+
+  /**
    * Guards the `nid` tiebreaker added to every branch of applySort().
    *
    * A sort with no unique final key is not a total order: when paginated

@@ -63,8 +63,15 @@ export interface ProductDetail extends ProductCard {
   jsonLd: Record<string, unknown>
 }
 
-/** Axis name -> term label -> count. */
-export type Facets = Record<string, Record<string, number>>
+export interface FacetOption {
+  label: string
+  count: number
+  /** Present on the finish vocabulary, which carries a colour. */
+  swatch?: string
+}
+
+/** Axis name -> term ID -> option. */
+export type Facets = Record<string, Record<string, FacetOption>>
 
 export interface ListMeta {
   total: number
