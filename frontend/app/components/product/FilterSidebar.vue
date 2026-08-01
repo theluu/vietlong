@@ -21,8 +21,9 @@ const entries = (axis: Record<string, { label: string; count: number; swatch?: s
 
 <template>
   <aside class="flex flex-col gap-5">
-    <!-- Categories -->
-    <div class="border border-border">
+    <!-- Categories. Hidden entirely when the axis is locked by the route,
+         otherwise the heading renders above an empty list. -->
+    <div v-if="entries(facets.category).length" class="border border-border">
       <div
         class="text-caption border-b border-border bg-surface px-5 py-[14px] font-bold tracking-[0.14em] uppercase"
       >
@@ -52,7 +53,7 @@ const entries = (axis: Record<string, { label: string; count: number; swatch?: s
     </div>
 
     <!-- Finishes -->
-    <div class="border border-border">
+    <div v-if="entries(facets.finish).length" class="border border-border">
       <div
         class="text-caption border-b border-border bg-surface px-5 py-[14px] font-bold tracking-[0.14em] uppercase"
       >

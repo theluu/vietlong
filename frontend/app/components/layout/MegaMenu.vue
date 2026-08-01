@@ -1,28 +1,19 @@
 <script setup lang="ts">
+import { fetchHomepage } from '~/services/homepage'
+
 const { megaMenuOpen } = useSiteChrome()
 
 /*
- * Labels come from the prototype. They point at the bare listing for now:
- * the listing filters on taxonomy term IDs (see productFilterState), which are
- * not known at build time, and a `?q=` param would be silently ignored there.
- * Task 19 wires these to real category IDs from the homepage endpoint.
+ * Real category IDs, shared across every page via a stable useAsyncData key so
+ * the header costs one request per render, not one per page.
  */
-const columns = [
-  {
-    title: 'Khóa cửa',
-    links: [
-      'Khóa thông minh',
-      'Khóa vân tay',
-      'Khóa khách sạn',
-      'Khóa tay gạt đồng',
-      'Khóa chống trộm',
-    ],
-  },
-  {
-    title: 'Phụ kiện',
-    links: ['Bản lề', 'Chốt cửa Cremone', 'Phụ kiện cửa', 'Phụ kiện tủ bếp'],
-  },
-]
+const { data } = await useAsyncData('mega-menu-categories', () => fetchHomepage())
+const categories = computed(() => data.value?.data?.categories ?? [])
+
+// The prototype splits the menu into locks and accessories; the vocabulary is
+// ordered the same way, so the split follows the catalogue's own weights.
+const locks = computed(() => categories.value.slice(0, 5))
+const accessories = computed(() => categories.value.slice(5))
 </script>
 
 <template>
@@ -30,16 +21,28 @@ const columns = [
     v-if="megaMenuOpen"
     class="shadow-floating absolute top-full -left-10 z-[60] grid w-[720px] max-w-[84vw] grid-cols-[1fr_1fr_220px] gap-9 border-t-[3px] border-gold-200 bg-background px-[34px] py-8 text-text"
   >
-    <div v-for="col in columns" :key="col.title" class="flex flex-col gap-[14px]">
-      <span
-        class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase"
-      >{{ col.title }}</span>
+    <div class="flex flex-col gap-[14px]">
+      <span class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase">
+        Khóa cửa
+      </span>
       <NuxtLink
-        v-for="link in col.links"
-        :key="link"
-        to="/san-pham"
+        v-for="cat in locks"
+        :key="cat.id"
+        :to="`/danh-muc/${cat.id}`"
         class="text-body text-text no-underline hover:text-brass-700"
-      >{{ link }}</NuxtLink>
+      >{{ cat.name }}</NuxtLink>
+    </div>
+
+    <div class="flex flex-col gap-[14px]">
+      <span class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase">
+        Phụ kiện
+      </span>
+      <NuxtLink
+        v-for="cat in accessories"
+        :key="cat.id"
+        :to="`/danh-muc/${cat.id}`"
+        class="text-body text-text no-underline hover:text-brass-700"
+      >{{ cat.name }}</NuxtLink>
     </div>
 
     <NuxtLink
