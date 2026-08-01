@@ -2,3 +2,7 @@ services:
   keybolts_api.product_serializer:
     class: Drupal\keybolts_api\Serializer\ProductSerializer
     arguments: ['@entity_type.manager', '@file_url_generator', '@path_alias.manager']
+  keybolts_api.exception_subscriber:
+    class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
