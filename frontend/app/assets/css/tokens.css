@@ -118,6 +118,16 @@
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   }
 
+  .kb-assurance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+
+  .kb-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  }
+
   /* Keeps a pale finish swatch legible against a white card. */
   .kb-swatch-ring {
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
