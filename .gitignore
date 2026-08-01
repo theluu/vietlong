@@ -23,6 +23,7 @@
 
 # SDD scratch
 /.superpowers/
+/.playwright-mcp/
 
 # OS / editor
 .DS_Store

@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@import "./_generated-palette.css";
+
+/*
+ * This file IS the Tailwind config. Every token is copied from the design
+ * prototypes in design/*.html, which are the authority.
+ *
+ * Components use the *semantic* names only (--color-text, --color-surface…);
+ * the base palette below exists so the semantic layer has something to alias.
+ *
+ * `static` is required: by default Tailwind 4 emits only the theme variables it
+ * sees referenced in class names, which drops every token consumed through
+ * plain `var(--color-accent)` CSS or a dynamically built name.
+ */
+@theme static {
+  /* Brand — measured from keybolts.com.vn */
+  --color-charcoal-900: #282d30;
+  --color-gold-200:     #f7e499;
+  --color-white:        #ffffff;
+  --color-surface-50:   #f8f8f8;
+  --color-border-100:   #eeeeee;
+  --color-ink-900:      #000000;
+
+  /* Semantic — components use only these */
+  --color-primary:       var(--color-charcoal-900);
+  --color-on-primary:    var(--color-white);
+  --color-background:    var(--color-white);
+  --color-surface:       var(--color-surface-50);
+  --color-border:        var(--color-border-100);
+  --color-text:          var(--color-ink-900);
+  --color-text-muted:    var(--color-neutral-500);
+  --color-text-on-dark-muted: rgba(255, 255, 255, 0.68);
+  --color-accent:        var(--color-gold-200);
+  --color-accent-strong: var(--color-brass-500);
+  --color-accent-ink:    var(--color-brass-700);
+  --color-success:       var(--color-success-500);
+  --color-warning:       var(--color-warning-500);
+  --color-danger:        var(--color-danger-500);
+  --color-link:          var(--color-brass-700);
+  --color-link-hover:    var(--color-charcoal-900);
+
+  /* Type — Nunito Sans is the prototype's live stack; Roboto is the fallback */
+  --font-sans: "Nunito Sans", "Roboto", -apple-system, "Segoe UI", sans-serif;
+  --text-eyebrow:    12px;
+  --text-caption:    12px;
+  --text-body:       14px;
+  --text-heading:    16px;
+  --text-display:    24px;
+  --text-display-lg: 40px;
+  --text-display-xl: 56px;
+
+  /* Spacing — 3px base. The prototype's named steps (3/6/9/12/15/24/30/33/45)
+     are all multiples of 3, so the scale reaches every one of them. */
+  --spacing: 3px;
+
+  /* Breakpoints */
+  --breakpoint-sm:  576px;
+  --breakpoint-md:  768px;
+  --breakpoint-lg:  992px;
+  --breakpoint-xl:  1200px;
+  --breakpoint-2xl: 1300px;
+
+  /* Radius — one pill radius for buttons/inputs, square everywhere else */
+  --radius-none: 0px;
+  --radius-sm:   50px;
+  --radius-full: 9999px;
+
+  /* Elevation — flat by design; only overlays float */
+  --shadow-card:     none;
+  --shadow-elevated: none;
+  --shadow-floating: 0 8px 24px rgba(40, 45, 48, 0.16);
+
+  /* Motion */
+  --ease-standard: ease-in-out;
+}
+
+:root {
+  --container-max: 1360px;
+
+  /* Role weights and line-heights, measured from the source */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-bold: 700;
+  --text-display-weight: 700;
+  --text-display-line: 1.2;
+  --text-heading-weight: 300;
+  --text-heading-line: 1.4;
+  --text-body-weight: 400;
+  --text-body-line: 1.2;
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 200ms;
+}
+
+/* Progressive enhancement: wider gamut where relative colour is supported.
+   Falls back to the precomputed hex from _generated-palette.css otherwise. */
+@supports (color: oklch(from #fff l c h)) {
+  :root {
+    --color-neutral-500: oklch(from var(--color-charcoal-900) 0.48 0.006 h);
+    --color-neutral-300: oklch(from var(--color-charcoal-900) 0.82 0.004 h);
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  font-weight: var(--text-body-weight);
+  line-height: var(--text-body-line);
+  color: var(--color-text);
+  background: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:hover {
+  color: var(--color-link-hover);
+}
+
+::selection {
+  background: var(--color-gold-200);
+  color: var(--color-charcoal-900);
+}
+
+html {
+  scroll-behavior: smooth;
+}

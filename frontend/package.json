@@ -1,0 +1,21 @@
+{
+  "name": "frontend",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "palette": "node scripts/compute-oklch.mjs",
+    "build": "npm run palette && nuxt build",
+    "dev": "npm run palette && nuxt dev",
+    "generate": "npm run palette && nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "npm run palette && nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/fonts": "^0.14.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "nuxt": "^4.5.1",
+    "tailwindcss": "^4.3.3",
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
+  }
+}
