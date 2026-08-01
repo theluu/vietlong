@@ -26,7 +26,10 @@ final class ApiEnvelope {
     $response = new CacheableJsonResponse([
       'data' => $data,
       'meta' => $meta,
-      'facets' => (object) $facets,
+      'facets' => (object) array_map(
+        static fn(array $axis): object => (object) $axis,
+        $facets,
+      ),
     ]);
     $cacheability = (new CacheableMetadata())
       ->setCacheTags($cache_tags)
