@@ -9,6 +9,7 @@ use Drupal\keybolts_api\ApiEnvelope;
 use Drupal\keybolts_api\Serializer\ProductSerializer;
 use Drupal\keybolts_core\Service\ProductFacetBuilder;
 use Drupal\keybolts_core\Service\ProductQuery;
+use Drupal\keybolts_core\Service\TextNormalizer;
 use Drupal\keybolts_core\Service\VariantMatrixBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,6 +27,7 @@ class ProductController extends ControllerBase {
     private readonly ProductFacetBuilder $facetBuilder,
     private readonly ProductSerializer $serializer,
     private readonly VariantMatrixBuilder $variantMatrix,
+    private readonly TextNormalizer $textNormalizer,
   ) {}
 
   public static function create(ContainerInterface $container): static {
@@ -34,6 +36,7 @@ class ProductController extends ControllerBase {
       $container->get('keybolts_core.product_facets'),
       $container->get('keybolts_api.product_serializer'),
       $container->get('keybolts_core.variant_matrix'),
+      $container->get('keybolts_core.text_normalizer'),
     );
   }
 
@@ -66,13 +69,32 @@ class ProductController extends ControllerBase {
   }
 
   /**
-   * GET /api/v1/products/suggest
+   * GET /api/v1/products/suggest?q=
    *
-   * Stub — implemented in Task 11. Declared now only so the route order
-   * (suggest before the {slug} wildcard) is established early.
+   * Matches against the denormalised diacritic-free field so that
+   * `khoa van tay` finds `Khóa Vân Tay`.
    */
-  public function suggest(Request $request): JsonResponse {
-    return new JsonResponse(['message' => 'Not implemented'], 501);
+  public function suggest(Request $request) {
+    $raw = trim((string) $request->query->get('q', ''));
+    if ($raw === '') {
+      return ApiEnvelope::make([], ['total' => 0, 'page' => 1, 'limit' => 8]);
+    }
+
+    $needle = $this->textNormalizer->normalize($raw);
+    $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'product')
+      ->condition('status', 1)
+      ->condition('field_search_text', '%' . $needle . '%', 'LIKE')
+      ->range(0, 8)
+      ->execute();
+
+    $nodes = $ids ? $this->entityTypeManager()->getStorage('node')->loadMultiple($ids) : [];
+
+    return ApiEnvelope::make(
+      array_values(array_map(fn($n) => $this->serializer->card($n), $nodes)),
+      ['total' => count($nodes), 'page' => 1, 'limit' => 8],
+    );
   }
 
   /**
