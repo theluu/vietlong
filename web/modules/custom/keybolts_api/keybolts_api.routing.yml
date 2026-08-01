@@ -21,3 +21,11 @@ keybolts_api.product_detail:
   methods: [GET]
   requirements:
     _permission: 'access content'
+
+keybolts_api.homepage:
+  path: '/api/v1/homepage'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\HomepageController::index'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
