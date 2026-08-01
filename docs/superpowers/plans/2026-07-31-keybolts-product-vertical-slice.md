@@ -3108,6 +3108,11 @@ PY
 
 Read both files. Confirm — or correct — these assumptions before coding: 12 items per page; sort options Nổi bật / Tên A → Z / Tên Z → A / Theo danh mục; sidebar axes Thương hiệu, Danh mục sản phẩm, Hoàn thiện; brand chooser cards above the chip row; contractor CTA band at the foot.
 
+> **Checked 2026-08-01.** Page size (12), the four sort options and the contractor band are all correct. Two are not:
+>
+> - **There is no Thương hiệu axis and no brand chooser.** The current prototype's sidebar is Danh mục sản phẩm (with counts), Hoàn thiện (swatch chips) and a Tư vấn kỹ thuật CTA card — nothing else. `BrandChooser.vue` was therefore not built. `brand` stays in `FilterState` because Task 19's brand routes still set it.
+> - The API's facets were unusable for this sidebar: they were keyed by term ID with a bare count and nothing resolves an ID to a name. `ProductFacetBuilder::labelled()` now carries `label`, `count` and `swatch`.
+
 - [ ] **Step 2: Build the page with URL-driven state**
 
 The page reads `route.query` through `fromQuery`, fetches via `useAsyncData` keyed on the query so SSR and client stay in sync, and writes changes back with `router.push`. Filter state never lives only in component memory — that is what makes share, back and forward work.
