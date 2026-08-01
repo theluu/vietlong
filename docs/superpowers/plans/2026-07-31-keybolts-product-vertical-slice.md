@@ -2574,17 +2574,24 @@ console.log(lines.filter((l) => l.includes('--color')).join('\n'))
 ```bash
 cd frontend && node scripts/compute-oklch.mjs
 ```
-Expected: seven `--color-neutral-*` values running light to dark, `--color-brass-500` around `#b0894f`, `--color-brass-700` a darker brown. Every value is a 6-digit hex — no `NaN`.
+Expected: seven `--color-neutral-*` values running light to dark, `--color-brass-500` = `#ad7c2f`, `--color-brass-700` = `#723e14`. Every value is a 6-digit hex — no `NaN`.
+
+> Amended 2026-08-01: the original estimate of "around `#b0894f`" was loose. `#ad7c2f` is the correct rendering of `oklch(0.62 0.11 75)` — the conversion was checked against the CSS Color 4 reference values for red, white and blue, and round-trips to `oklch(0.621 0.11 75.07)`.
 
 - [ ] **Step 4: Write `tokens.css`**
 
 `frontend/app/assets/css/tokens.css` — this file *is* the Tailwind config. Every token below is copied from the prototype.
 
+> **Amended 2026-08-01, after re-reading the prototypes.** Two corrections; the shipped file in `frontend/app/assets/css/tokens.css` is authoritative over the snippet below.
+>
+> 1. **`@theme static`, not `@theme`** (in this file *and* in the generated palette). Tailwind 4 emits only the theme variables it sees referenced in class names. With plain `@theme`, `--color-primary`, `--color-on-primary`, `--color-surface`, `--color-accent*`, `--radius-*`, `--shadow-*`, `--text-display-lg/xl` and most of the neutral ramp were absent from the compiled CSS, so anything reading them via plain `var()` resolved to nothing. Verified fixed in the browser.
+> 2. **The font is Nunito Sans, not Roboto.** See Step 4a.
+
 ```css
 @import "tailwindcss";
 @import "./_generated-palette.css";
 
-@theme {
+@theme static {
   /* Brand */
   --color-charcoal-900: #282d30;
   --color-gold-200:     #f7e499;
@@ -2607,7 +2614,7 @@ Expected: seven `--color-neutral-*` values running light to dark, `--color-brass
   --color-link:         var(--color-brass-700);
 
   /* Type */
-  --font-sans: "Roboto", -apple-system, "Segoe UI", sans-serif;
+  --font-sans: "Nunito Sans", "Roboto", -apple-system, "Segoe UI", sans-serif;
   --text-eyebrow:    12px;
   --text-caption:    12px;
   --text-body:       14px;
@@ -2661,6 +2668,28 @@ body {
   color: var(--color-text);
   background: var(--color-background);
 }
+```
+
+- [ ] **Step 4a: Fonts — Nunito Sans** *(added 2026-08-01)*
+
+The plan originally specified Roboto, read from a `:root` block in the prototype. That block is overridden later in the same file: the prototype's rendered stylesheet sets `--font-sans: "Nunito Sans","Roboto",-apple-system,"Segoe UI",sans-serif` and bundles Nunito Sans `@font-face` rules at weights 300/400/600/700/800/900. All three slice pages (Homepage, Products, Product Detail) agree, so **Nunito Sans is the design's live font** and Roboto is its fallback.
+
+Self-host via `@nuxt/fonts` so there is no render-blocking third-party request:
+
+```ts
+modules: ['@nuxt/fonts'],
+fonts: {
+  families: [
+    { name: 'Nunito Sans', provider: 'google', weights: [300, 400, 600, 700, 800, 900] },
+  ],
+},
+```
+
+Roboto is deliberately *not* downloaded — it stays named in the stack to resolve against a locally installed copy, then falls through to `-apple-system`. Verify the Vietnamese subset ships, since the whole catalogue is Vietnamese:
+
+```bash
+curl -s "http://localhost:3000/_nuxt/assets/css/tokens.css" | grep -o 'U+1EA0-1EF9' | wc -l   # > 0
+curl -s "http://localhost:3000/_nuxt/assets/css/tokens.css" | grep -o 'fonts.gstatic.com' | wc -l  # must be 0
 ```
 
 - [ ] **Step 5: Wire Tailwind and the token file into Nuxt**
