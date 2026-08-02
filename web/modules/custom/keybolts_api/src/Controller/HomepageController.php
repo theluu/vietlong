@@ -48,11 +48,23 @@ class HomepageController extends ControllerBase {
       ->loadTree('product_category', 0, NULL, TRUE);
     $out = [];
     foreach ($terms as $term) {
+      $image = '';
+      $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'product')
+        ->condition('status', 1)
+        ->condition('field_category', $term->id())
+        ->range(0, 1)
+        ->execute();
+      if ($ids && ($product = $this->entityTypeManager()->getStorage('node')->load(reset($ids)))) {
+        $image = $this->serializer->card($product)['image']['url'] ?? '';
+      }
       $out[] = [
         'id' => (int) $term->id(),
         'name' => $term->label(),
         'number' => $term->hasField('field_number') ? (string) $term->get('field_number')->value : '',
         'desc' => $term->hasField('field_short_desc') ? (string) $term->get('field_short_desc')->value : '',
+        'image' => $image,
       ];
     }
     return $out;

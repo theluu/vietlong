@@ -6,6 +6,7 @@ export interface HomeCategory {
   name: string
   number: string
   desc: string
+  image: string
 }
 
 export interface HomeBrand {

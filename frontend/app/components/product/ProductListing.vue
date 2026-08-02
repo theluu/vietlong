@@ -72,36 +72,7 @@ const clearFilters = () =>
 
 <template>
   <div>
-    <div class="border-b border-border bg-surface">
-      <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-10">
-        <LayoutBreadcrumb :items="breadcrumb" />
-
-        <span
-          v-if="eyebrow"
-          class="text-eyebrow text-brass-700 mt-6 block font-bold tracking-[0.24em] uppercase"
-        >{{ eyebrow }}</span>
-        <h1 class="text-display-lg mt-3 font-bold tracking-[-0.03em]">{{ title }}</h1>
-        <p
-          v-if="description"
-          class="text-heading text-text-muted mt-4 max-w-[720px] font-light leading-relaxed"
-        >{{ description }}</p>
-
-        <div class="mt-8 flex flex-wrap gap-10">
-          <div class="flex flex-col">
-            <span class="text-display text-brass-700 font-bold">{{ meta.total }}</span>
-            <span class="text-caption text-text-muted">Mã sản phẩm</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-display text-brass-700 font-bold">08</span>
-            <span class="text-caption text-text-muted">Danh mục</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-display text-brass-700 font-bold">5–10</span>
-            <span class="text-caption text-text-muted">Năm bảo hành</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <ProductListingHero :title="title" :eyebrow="eyebrow" :description="description" :total="meta.total" :breadcrumb="breadcrumb" />
 
     <div
       class="kb-catalog-grid mx-auto max-w-[var(--container-max)] gap-8 px-[clamp(20px,4vw,48px)] py-12"

@@ -140,7 +140,7 @@ class ProductController extends ControllerBase {
   }
 
   /**
-   * Up to 4 siblings in the same category, excluding the product itself.
+   * Up to 8 siblings in the same category, excluding the product itself.
    */
   private function relatedProducts($node): array {
     $category = $node->get('field_category')->target_id;
@@ -153,7 +153,7 @@ class ProductController extends ControllerBase {
       ->condition('status', 1)
       ->condition('field_category', $category)
       ->condition('nid', $node->id(), '<>')
-      ->range(0, 4)
+      ->range(0, 8)
       ->execute();
     if (!$ids) {
       return [];

@@ -57,22 +57,20 @@ useHead(() => ({
 
     <!-- Gallery + buy column -->
     <div
-      class="mx-auto grid max-w-[var(--container-max)] gap-10 px-[clamp(20px,4vw,48px)] pb-12 lg:grid-cols-2"
+      class="mx-auto grid max-w-[var(--container-max)] gap-[clamp(34px,5vw,64px)] px-[clamp(20px,4vw,48px)] py-8 pb-14 lg:grid-cols-[1.02fr_.98fr]"
     >
       <ProductGallery :images="product.images" :name="product.name" />
 
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-5">
         <div class="flex flex-col gap-3">
           <span
             v-if="product.category"
             class="text-eyebrow text-brass-700 font-bold tracking-[0.2em] uppercase"
-          >{{ product.category.name }}</span>
+          >Khóa tay gạt {{ product.category.name }}</span>
 
-          <h1 class="text-display-lg m-0 font-bold tracking-[-0.03em]">{{ product.name }}</h1>
+          <h1 class="text-display-lg m-0 font-bold tracking-[-0.03em]">{{ product.name }}<template v-if="!product.name.toLowerCase().includes('keybolts')"> Keybolts</template></h1>
 
-          <p class="text-body text-text-muted m-0">
-            Mã sản phẩm: <span class="font-bold text-text">{{ product.model }}</span>
-          </p>
+          <div class="text-body text-text-muted flex flex-wrap items-center gap-5"><span>Mã sản phẩm: <strong class="text-text">{{ product.model }}</strong></span><span v-if="product.stockStatus" class="font-bold text-success">● &nbsp;{{ product.stockStatus }}</span></div>
 
           <p v-if="product.shortDesc" class="text-heading text-text-muted m-0 font-light leading-relaxed">
             {{ product.shortDesc }}
@@ -80,24 +78,22 @@ useHead(() => ({
 
           <div class="flex flex-wrap items-center gap-3">
             <span
-              v-if="product.stockStatus"
-              class="text-caption bg-success/12 text-success rounded-sm px-3 py-1 font-bold"
-            >{{ product.stockStatus }}</span>
-            <span
               v-for="tc in product.certification"
               :key="tc"
-              class="text-caption rounded-sm border border-border px-3 py-1 text-text-muted"
-            >{{ tc }}</span>
+              class="text-caption rounded-sm border border-border bg-surface px-4 py-2 text-text-muted"
+            >✓ &nbsp;{{ tc }}</span>
+            <span class="text-caption rounded-sm border border-border bg-surface px-4 py-2 text-text-muted">✓ &nbsp;Bảo hành 5–10 năm</span>
+            <span class="text-caption rounded-sm border border-border bg-surface px-4 py-2 text-text-muted">✓ &nbsp;Nhập khẩu chính hãng</span>
           </div>
         </div>
 
         <!-- Price -->
-        <div class="flex flex-col gap-2 border border-border bg-surface p-5">
-          <span class="text-caption text-text-muted tracking-[0.1em] uppercase">Giá bán</span>
-          <span class="text-display text-brass-700 font-bold">
+        <div class="grid gap-3 bg-charcoal-900 p-6 text-white sm:grid-cols-[1fr_1.25fr] sm:items-end">
+          <div><span class="text-caption block tracking-[0.1em] text-white/45 uppercase">Giá bán</span>
+          <span class="text-[36px] text-gold-200 font-bold">
             {{ product.contactPrice ? 'Liên hệ' : 'Liên hệ' }}
-          </span>
-          <span class="text-caption text-text-muted leading-relaxed">
+          </span></div>
+          <span class="text-caption leading-relaxed text-white/55">
             Giá thay đổi theo size, hoàn thiện và số lượng — gọi để nhận báo giá chính xác.
           </span>
         </div>
@@ -173,5 +169,12 @@ useHead(() => ({
         </div>
       </div>
     </div>
+
+    <section class="bg-charcoal-900 text-white">
+      <div class="mx-auto flex max-w-[var(--container-max)] flex-col gap-7 px-[clamp(20px,4vw,48px)] py-[clamp(48px,6vw,78px)] lg:flex-row lg:items-center lg:justify-between">
+        <div><span class="text-eyebrow text-gold-200 font-bold tracking-[.22em] uppercase">Tư vấn &amp; báo giá</span><h2 class="text-display-lg mt-3 mb-2 font-bold">Báo giá cho model {{ product.model }}</h2><p class="text-body m-0 text-white/60">Gửi yêu cầu để nhận cấu hình đúng kích thước cửa, hoàn thiện và số lượng.</p></div>
+        <div class="flex flex-wrap gap-3"><a :href="HOTLINE_TEL" class="rounded-sm bg-gold-200 px-7 py-4 font-bold text-charcoal-900 no-underline">Hotline {{ HOTLINE }}</a><NuxtLink to="/lien-he" class="rounded-sm border border-white/30 px-7 py-4 font-bold text-white no-underline">Gửi yêu cầu báo giá</NuxtLink></div>
+      </div>
+    </section>
   </div>
 </template>
