@@ -28,6 +28,8 @@ final class ArticleApiTest extends KernelTestBase {
     foreach ([
       'field_article_slug', 'field_article_category_key', 'field_article_category',
       'field_article_summary', 'field_article_read_time', 'field_article_image_url',
+      'field_article_author', 'field_article_updated', 'field_article_quick_answer',
+      'field_article_sections', 'field_article_compare', 'field_article_faqs',
     ] as $name) {
       $this->field($name, 'string');
     }
@@ -41,6 +43,18 @@ final class ArticleApiTest extends KernelTestBase {
     $rows = $this->container->get('keybolts_api.article_serializer')->all();
     $this->assertSame(['A', 'B'], array_column($rows, 'title'));
     $this->assertSame('a', $rows[0]['slug']);
+  }
+
+  public function testArticleDetailAndMissingSlug(): void {
+    Node::create([
+      'type' => 'article', 'title' => 'Detail', 'status' => 1,
+      'field_article_slug' => 'detail', 'field_sort_order' => 1,
+      'field_article_sections' => json_encode([['title' => 'Section']]),
+    ])->save();
+    $serializer = $this->container->get('keybolts_api.article_serializer');
+    $this->assertSame('Section', $serializer->one('detail')['sections'][0]['title']);
+    $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+    $serializer->one('missing');
   }
 
   private function field(string $name, string $type): void {

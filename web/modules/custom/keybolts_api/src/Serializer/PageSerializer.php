@@ -57,6 +57,14 @@ class PageSerializer {
     ];
   }
 
+  public function projects(NodeInterface $n): array {
+    return [
+      'eyebrow' => $this->str($n, 'field_eyebrow'),
+      'title' => $n->label(),
+      'subtitle' => $this->str($n, 'field_subtitle'),
+    ];
+  }
+
   public function dealers(NodeInterface $n): array {
     return [
       'eyebrow' => $this->str($n, 'field_eyebrow'),

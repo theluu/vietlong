@@ -54,6 +54,30 @@ keybolts_api.articles:
   requirements:
     _permission: 'access content'
 
+keybolts_api.article_detail:
+  path: '/api/v1/articles/{slug}'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::article'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+keybolts_api.projects:
+  path: '/api/v1/projects'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::projects'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
+keybolts_api.project_detail:
+  path: '/api/v1/projects/{slug}'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::project'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
 keybolts_api.contact:
   path: '/api/v1/contact'
   defaults:

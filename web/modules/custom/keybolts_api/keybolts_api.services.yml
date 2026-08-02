@@ -11,6 +11,9 @@ services:
   keybolts_api.article_serializer:
     class: Drupal\keybolts_api\Serializer\ArticleSerializer
     arguments: ['@entity_type.manager']
+  keybolts_api.project_serializer:
+    class: Drupal\keybolts_api\Serializer\ProjectSerializer
+    arguments: ['@entity_type.manager']
   keybolts_api.exception_subscriber:
     class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
     tags:

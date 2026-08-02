@@ -9,6 +9,7 @@ use Drupal\keybolts_api\ApiEnvelope;
 use Drupal\keybolts_api\Serializer\BranchSerializer;
 use Drupal\keybolts_api\Serializer\ArticleSerializer;
 use Drupal\keybolts_api\Serializer\PageSerializer;
+use Drupal\keybolts_api\Serializer\ProjectSerializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,12 +23,14 @@ class PageController extends ControllerBase {
     'contact' => 'contact_page',
     'policies' => 'policies_page',
     'news' => 'news_page',
+    'projects' => 'projects_page',
   ];
 
   public function __construct(
     private readonly BranchSerializer $branches,
     private readonly PageSerializer $pages,
     private readonly ArticleSerializer $articles,
+    private readonly ProjectSerializer $projects,
   ) {}
 
   public static function create(ContainerInterface $container): static {
@@ -35,6 +38,7 @@ class PageController extends ControllerBase {
       $container->get('keybolts_api.branch_serializer'),
       $container->get('keybolts_api.page_serializer'),
       $container->get('keybolts_api.article_serializer'),
+      $container->get('keybolts_api.project_serializer'),
     );
   }
 
@@ -48,6 +52,18 @@ class PageController extends ControllerBase {
   /** GET /api/v1/articles */
   public function articles() {
     return ApiEnvelope::make($this->articles->all(), [], [], ['node_list:article']);
+  }
+
+  public function article(string $slug) {
+    return ApiEnvelope::make($this->articles->one($slug), [], [], ['node_list:article']);
+  }
+
+  public function projects() {
+    return ApiEnvelope::make($this->projects->all(), [], [], ['node_list:project']);
+  }
+
+  public function project(string $slug) {
+    return ApiEnvelope::make($this->projects->one($slug), [], [], ['node_list:project']);
   }
 
   /**
