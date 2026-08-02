@@ -8,6 +8,9 @@ services:
   keybolts_api.page_serializer:
     class: Drupal\keybolts_api\Serializer\PageSerializer
     arguments: ['@file_url_generator']
+  keybolts_api.article_serializer:
+    class: Drupal\keybolts_api\Serializer\ArticleSerializer
+    arguments: ['@entity_type.manager']
   keybolts_api.exception_subscriber:
     class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
     tags:

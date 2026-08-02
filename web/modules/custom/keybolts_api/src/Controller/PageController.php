@@ -7,6 +7,7 @@ namespace Drupal\keybolts_api\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\keybolts_api\ApiEnvelope;
 use Drupal\keybolts_api\Serializer\BranchSerializer;
+use Drupal\keybolts_api\Serializer\ArticleSerializer;
 use Drupal\keybolts_api\Serializer\PageSerializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,17 +21,20 @@ class PageController extends ControllerBase {
     'dealers' => 'dealers_page',
     'contact' => 'contact_page',
     'policies' => 'policies_page',
+    'news' => 'news_page',
   ];
 
   public function __construct(
     private readonly BranchSerializer $branches,
     private readonly PageSerializer $pages,
+    private readonly ArticleSerializer $articles,
   ) {}
 
   public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('keybolts_api.branch_serializer'),
       $container->get('keybolts_api.page_serializer'),
+      $container->get('keybolts_api.article_serializer'),
     );
   }
 
@@ -39,6 +43,11 @@ class PageController extends ControllerBase {
    */
   public function branches() {
     return ApiEnvelope::make($this->branches->all(), [], [], ['node_list:branch']);
+  }
+
+  /** GET /api/v1/articles */
+  public function articles() {
+    return ApiEnvelope::make($this->articles->all(), [], [], ['node_list:article']);
   }
 
   /**

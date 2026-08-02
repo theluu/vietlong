@@ -46,6 +46,14 @@ keybolts_api.page:
   requirements:
     _permission: 'access content'
 
+keybolts_api.articles:
+  path: '/api/v1/articles'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::articles'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
 keybolts_api.contact:
   path: '/api/v1/contact'
   defaults:
