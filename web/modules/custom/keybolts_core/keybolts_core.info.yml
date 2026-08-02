@@ -7,3 +7,4 @@ dependencies:
   - drupal:node
   - drupal:taxonomy
   - drupal:path_alias
+  - drupal:options

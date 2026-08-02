@@ -17,7 +17,7 @@ class BranchApiTest extends KernelTestBase {
 
   protected static $modules = [
     'system', 'user', 'field', 'text', 'node', 'link', 'path_alias',
-    'keybolts_core', 'keybolts_api',
+    'options', 'keybolts_core', 'keybolts_api',
   ];
 
   protected function setUp(): void {
