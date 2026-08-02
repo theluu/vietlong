@@ -5,6 +5,9 @@ services:
   keybolts_api.branch_serializer:
     class: Drupal\keybolts_api\Serializer\BranchSerializer
     arguments: ['@entity_type.manager']
+  keybolts_api.page_serializer:
+    class: Drupal\keybolts_api\Serializer\PageSerializer
+    arguments: ['@file_url_generator']
   keybolts_api.exception_subscriber:
     class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
     tags:

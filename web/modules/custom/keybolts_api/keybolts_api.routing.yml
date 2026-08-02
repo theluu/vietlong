@@ -38,6 +38,14 @@ keybolts_api.branches:
   requirements:
     _permission: 'access content'
 
+keybolts_api.page:
+  path: '/api/v1/page/{key}'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::page'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
 keybolts_api.contact:
   path: '/api/v1/contact'
   defaults:
