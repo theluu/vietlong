@@ -29,3 +29,11 @@ keybolts_api.homepage:
   methods: [GET]
   requirements:
     _permission: 'access content'
+
+keybolts_api.branches:
+  path: '/api/v1/branches'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::branches'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
