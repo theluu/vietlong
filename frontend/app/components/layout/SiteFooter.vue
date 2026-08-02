@@ -97,7 +97,7 @@ const supportLinks = [
           <NuxtLink to="/chinh-sach" class="text-white/45 no-underline hover:text-gold-200">
             Bảo mật
           </NuxtLink>
-          <NuxtLink to="/sitemap" class="text-white/45 no-underline hover:text-gold-200">
+          <NuxtLink to="/" class="text-white/45 no-underline hover:text-gold-200">
             Sitemap
           </NuxtLink>
         </span>
