@@ -26,7 +26,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *       "html" = "Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
  *     },
  *   },
- *   admin_permission = "administer nodes",
+ *   admin_permission = "view contact submissions",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "name",

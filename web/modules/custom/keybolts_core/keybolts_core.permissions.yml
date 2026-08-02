@@ -1,0 +1,4 @@
+view contact submissions:
+  title: 'Xem yêu cầu liên hệ'
+  description: 'Xem danh sách yêu cầu liên hệ và đăng ký đại lý do khách hàng gửi.'
+  restrict access: true
