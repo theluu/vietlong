@@ -18,11 +18,10 @@ const reset = () => {
 </script>
 
 <template>
-  <section class="bg-charcoal-900 text-white">
-    <div
-      class="mx-auto grid max-w-[var(--container-max)] gap-10 px-[clamp(20px,4vw,48px)] py-16 lg:grid-cols-2"
-    >
-      <div class="flex flex-col gap-5">
+  <section class="bg-surface px-[clamp(20px,4vw,48px)] py-20">
+    <div class="mx-auto grid max-w-[1120px] overflow-hidden bg-background shadow-floating lg:grid-cols-[0.9fr_1.1fr]">
+      <div class="relative flex flex-col gap-5 overflow-hidden bg-charcoal-900 p-10 text-white md:p-14">
+        <div class="pointer-events-none absolute -right-32 -bottom-44 size-[430px] rounded-full bg-[radial-gradient(circle,rgba(195,155,82,.38),transparent_66%)]" />
         <span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">Tư vấn</span>
         <h2 class="text-display-lg m-0 font-bold tracking-[-0.03em]">Chưa biết chọn model nào?</h2>
         <p class="text-heading m-0 leading-relaxed font-light text-white/75">
@@ -37,7 +36,7 @@ const reset = () => {
         </div>
       </div>
 
-      <div class="bg-background p-8 text-text">
+      <div class="bg-background p-10 text-text md:p-14">
         <div v-if="submitted" class="flex flex-col gap-4">
           <span class="text-display font-bold">Cảm ơn bạn!</span>
           <p class="text-body text-text-muted m-0">
@@ -52,29 +51,31 @@ const reset = () => {
 
         <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
           <label class="flex flex-col gap-2">
-            <span class="text-caption text-text-muted">Họ tên</span>
+            <span class="text-caption font-bold text-text-muted">Họ tên</span>
             <input
               v-model="name"
               required
-              class="text-body rounded-sm border border-border px-4 py-3"
+              placeholder="Nguyễn Văn An"
+              class="text-body border border-border px-4 py-3.5 outline-none focus:border-brass-500"
             >
           </label>
           <label class="flex flex-col gap-2">
-            <span class="text-caption text-text-muted">Số điện thoại</span>
+            <span class="text-caption font-bold text-text-muted">Số điện thoại</span>
             <input
               v-model="phone"
               required
               inputmode="tel"
-              class="text-body rounded-sm border border-border px-4 py-3"
+              placeholder="09xx xxx xxx"
+              class="text-body border border-border px-4 py-3.5 outline-none focus:border-brass-500"
             >
           </label>
           <label class="flex flex-col gap-2">
-            <span class="text-caption text-text-muted">Nhu cầu / loại cửa</span>
-            <textarea v-model="note" rows="3" class="text-body rounded-sm border border-border px-4 py-3" />
+            <span class="text-caption font-bold text-text-muted">Nhu cầu / loại cửa</span>
+            <textarea v-model="note" rows="3" placeholder="Ví dụ: khóa cho cửa gỗ biệt thự..." class="text-body border border-border px-4 py-3 outline-none focus:border-brass-500" />
           </label>
           <button
             type="submit"
-            class="text-body cursor-pointer rounded-sm bg-gold-200 px-8 py-4 font-bold tracking-[0.06em] text-charcoal-900 uppercase"
+            class="text-body cursor-pointer bg-charcoal-900 px-8 py-4 font-bold tracking-[0.06em] text-white uppercase"
           >Gửi yêu cầu tư vấn</button>
         </form>
       </div>

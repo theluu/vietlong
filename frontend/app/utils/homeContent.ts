@@ -20,18 +20,21 @@ export const SOLUTIONS = [
   {
     key: 'biet-thu',
     title: 'Biệt thự',
+    image: 'https://keybolts.com.vn/sites/default/files/_r3_0183_copy.jpg',
     tags: ['Bảo mật cao', 'Thiết kế đẹp', 'Khóa cao cấp'],
     desc: 'Khóa cao cấp kết hợp bảo mật, thiết kế và trải nghiệm sử dụng cho không gian sống đẳng cấp.',
   },
   {
     key: 'can-ho',
     title: 'Căn hộ',
+    image: 'https://keybolts.com.vn/sites/default/files/6y7a5713_0.jpg',
     tags: ['Tiện dụng', 'Vân tay', 'Mật khẩu'],
     desc: 'Mở khóa nhanh gọn bằng vân tay hoặc mật khẩu, phù hợp căn hộ và nhà phố hiện đại.',
   },
   {
     key: 'khach-san',
     title: 'Khách sạn',
+    image: 'https://keybolts.com.vn/sites/default/files/6y7a5715.jpg',
     tags: ['Thẻ từ', 'Quản lý phòng', 'Số lượng lớn'],
     desc: 'Khóa thẻ từ và giải pháp quản lý cửa cho khách sạn, căn hộ dịch vụ quy mô lớn.',
   },
@@ -51,16 +54,16 @@ export const TECH_FEATURES = [
 ]
 
 export const PROJECT_TYPES = [
-  { key: 'biet-thu', title: 'Biệt thự', desc: 'Ứng dụng khóa đồng và khóa thông minh cao cấp cho không gian sống biệt thự.' },
-  { key: 'khach-san', title: 'Khách sạn', desc: 'Giải pháp khóa thẻ từ đồng bộ cho khách sạn và căn hộ dịch vụ.' },
-  { key: 'can-ho', title: 'Căn hộ / Chung cư', desc: 'Khóa vân tay và khóa thông minh cho căn hộ, nhà phố hiện đại.' },
+  { key: 'biet-thu', title: 'Biệt thự', desc: 'Ứng dụng khóa đồng và khóa thông minh cao cấp cho không gian sống biệt thự.', image: 'https://keybolts.com.vn/sites/default/files/_r3_0183_copy.jpg' },
+  { key: 'khach-san', title: 'Khách sạn', desc: 'Giải pháp khóa thẻ từ đồng bộ cho khách sạn và căn hộ dịch vụ.', image: 'https://keybolts.com.vn/sites/default/files/6y7a5715.jpg' },
+  { key: 'can-ho', title: 'Căn hộ / Chung cư', desc: 'Khóa vân tay và khóa thông minh cho căn hộ, nhà phố hiện đại.', image: 'https://keybolts.com.vn/sites/default/files/6y7a5713_0.jpg' },
 ]
 
 export const ARTICLES = [
-  { key: 'van-tay-cua-go', category: 'Hướng dẫn chọn', title: 'Nên chọn khóa vân tay nào cho cửa gỗ?', summary: 'So sánh các dòng phổ biến và gợi ý lựa chọn theo độ dày cửa.' },
-  { key: 'thong-minh-biet-thu', category: 'Khóa thông minh', title: 'Khóa thông minh cho biệt thự cần tính năng gì?', summary: 'Những tiêu chí quan trọng khi chọn khóa cho nhà biệt thự.' },
-  { key: 'the-tu-khach-san', category: 'FAQ', title: 'Khóa khách sạn thẻ từ hoạt động thế nào?', summary: 'Cơ chế hoạt động và ưu điểm của khóa thẻ từ trong khách sạn.' },
-  { key: 'do-day-cua', category: 'Kỹ thuật', title: 'Đo độ dày cửa trước khi chọn khóa', summary: 'Hướng dẫn đo nhanh và chọn đúng size bộ khóa.' },
+  { key: 'van-tay-cua-go', category: 'Hướng dẫn chọn', title: 'Nên chọn khóa vân tay nào cho cửa gỗ?', summary: 'So sánh các dòng phổ biến và gợi ý lựa chọn theo độ dày cửa.', image: 'https://keybolts.com.vn/sites/default/files/khoa_thong_minh_t28_0.png' },
+  { key: 'thong-minh-biet-thu', category: 'Khóa thông minh', title: 'Khóa thông minh cho biệt thự cần tính năng gì?', summary: 'Những tiêu chí quan trọng khi chọn khóa cho nhà biệt thự.', image: 'https://keybolts.com.vn/sites/default/files/_r3_0183_copy.jpg' },
+  { key: 'the-tu-khach-san', category: 'FAQ', title: 'Khóa khách sạn thẻ từ hoạt động thế nào?', summary: 'Cơ chế hoạt động và ưu điểm của khóa thẻ từ trong khách sạn.', image: 'https://keybolts.com.vn/sites/default/files/6y7a5715.jpg' },
+  { key: 'do-day-cua', category: 'Kỹ thuật', title: 'Đo độ dày cửa trước khi chọn khóa', summary: 'Hướng dẫn đo nhanh và chọn đúng size bộ khóa.', image: 'https://keybolts.com.vn/sites/default/files/6y7a5709_2.jpg' },
 ]
 
 export const FEATURED_TABS = [

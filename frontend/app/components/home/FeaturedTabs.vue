@@ -13,10 +13,15 @@ const items = computed(() => props.featured[active.value] ?? [])
 <template>
   <section class="bg-surface">
     <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-16">
-      <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Bán chạy</span>
-      <h2 class="text-display-lg mt-3 mb-8 font-bold tracking-[-0.03em]">Sản phẩm nổi bật</h2>
+      <div class="text-center">
+        <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Bán chạy</span>
+        <h2 class="text-display-lg mt-3 mb-7 font-bold tracking-[-0.03em]">Sản phẩm nổi bật</h2>
+        <div class="mb-7 flex justify-center gap-2" aria-hidden="true">
+          <span class="grid size-10 place-items-center border border-border">←</span><span class="grid size-10 place-items-center border border-border">→</span>
+        </div>
+      </div>
 
-      <div role="tablist" class="mb-8 flex flex-wrap gap-3">
+      <div role="tablist" class="mb-9 flex flex-wrap justify-center gap-x-8 gap-y-3 border-b border-border">
         <button
           v-for="t in tabs"
           :key="t.key"
@@ -24,16 +29,24 @@ const items = computed(() => props.featured[active.value] ?? [])
           role="tab"
           :aria-selected="active === t.key"
           :data-tab="t.key"
-          class="text-caption cursor-pointer rounded-sm border px-5 py-3 font-bold tracking-[0.06em] uppercase transition"
+          class="text-caption -mb-px cursor-pointer border-x-0 border-t-0 border-b-2 bg-transparent px-1 py-4 font-bold tracking-[0.06em] uppercase transition"
           :class="active === t.key
-            ? 'bg-charcoal-900 text-gold-200 border-charcoal-900'
-            : 'bg-background text-text-muted border-border hover:border-brass-500'"
+            ? 'text-charcoal-900 border-brass-600'
+            : 'text-text-muted border-transparent hover:text-charcoal-900'"
           @click="active = t.key"
         >{{ t.label }}</button>
       </div>
 
-      <div class="kb-related-grid gap-[clamp(16px,1.6vw,24px)]">
-        <ProductCard v-for="p in items" :key="p.id" :product="p" />
+      <div class="grid grid-cols-1 gap-[clamp(16px,1.6vw,24px)] sm:grid-cols-2 lg:grid-cols-4">
+        <NuxtLink v-for="p in items.slice(0, 4)" :key="p.id" :to="`/${p.slug}`" class="group flex min-w-0 flex-col bg-background p-4 text-inherit no-underline shadow-sm">
+          <div class="aspect-[4/4.35] overflow-hidden bg-surface p-5">
+            <img v-if="p.image" :src="p.image.url" :alt="p.image.alt" class="size-full object-contain transition duration-500 group-hover:scale-105">
+          </div>
+          <span class="text-eyebrow mt-5 text-brass-700 font-bold tracking-[0.14em] uppercase">{{ p.category?.name }}</span>
+          <strong class="text-heading mt-2 min-h-[3.2em] leading-snug">{{ p.name }}</strong>
+          <span class="text-caption text-text-muted mt-1">{{ p.model }}<template v-if="p.finish"> · {{ p.finish.name }}</template></span>
+          <span class="text-caption mt-5 w-fit bg-charcoal-900 px-5 py-3 font-bold tracking-[0.08em] text-white uppercase">Liên hệ tư vấn</span>
+        </NuxtLink>
       </div>
     </div>
   </section>

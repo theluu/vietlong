@@ -28,8 +28,7 @@ useSeoMeta({
     <HomeFeaturedTabs :featured="featured" />
     <HomeSolutionGrid />
     <HomeTechBlock />
-    <HomeProjectGrid />
-    <HomeArticleGrid />
+    <HomeContentPanels />
     <HomeConsultForm />
     <HomeBranchList />
   </div>
