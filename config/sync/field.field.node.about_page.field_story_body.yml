@@ -1,0 +1,22 @@
+uuid: 352fd341-dceb-481a-a637-039d450a2893
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_story_body
+    - node.type.about_page
+  module:
+    - text
+id: node.about_page.field_story_body
+field_name: field_story_body
+entity_type: node
+bundle: about_page
+label: 'Câu chuyện — nội dung'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

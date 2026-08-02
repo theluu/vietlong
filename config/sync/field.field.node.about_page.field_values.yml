@@ -1,0 +1,27 @@
+uuid: 8d3b56b9-5ccd-4e6a-b956-36cd776db170
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_values
+    - node.type.about_page
+    - paragraphs.paragraphs_type.value_item
+  module:
+    - entity_reference_revisions
+id: node.about_page.field_values
+field_name: field_values
+entity_type: node
+bundle: about_page
+label: 'Cam kết'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      value_item: value_item
+    negate: 0
+field_type: entity_reference_revisions

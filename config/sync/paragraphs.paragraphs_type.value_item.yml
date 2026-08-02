@@ -1,0 +1,10 @@
+uuid: 7c82d33b-df44-4b5d-bd17-eabc9eb12799
+langcode: en
+status: true
+dependencies: {  }
+id: value_item
+label: 'Cam kết'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

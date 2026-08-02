@@ -1,0 +1,19 @@
+uuid: aaff866b-424c-4dc9-8b6d-f472da1cd753
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_story_title
+    - node.type.about_page
+id: node.about_page.field_story_title
+field_name: field_story_title
+entity_type: node
+bundle: about_page
+label: 'Câu chuyện — tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

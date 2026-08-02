@@ -1,0 +1,10 @@
+uuid: 802d5989-9ef8-47c3-bb71-f91be77c0c64
+langcode: en
+status: true
+dependencies: {  }
+id: fact
+label: 'Con số'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

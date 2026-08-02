@@ -1,0 +1,19 @@
+uuid: bcafb3f1-c0c2-4e2d-bf4e-79cc3ce62c0b
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_seg_desc
+field_name: field_seg_desc
+entity_type: paragraph
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

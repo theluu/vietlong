@@ -1,0 +1,19 @@
+uuid: 87d66f42-2898-420d-ad03-4f2013bc1633
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_seg_desc
+    - paragraphs.paragraphs_type.segment
+id: paragraph.segment.field_seg_desc
+field_name: field_seg_desc
+entity_type: paragraph
+bundle: segment
+label: 'Mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

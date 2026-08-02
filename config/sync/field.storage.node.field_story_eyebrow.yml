@@ -1,0 +1,21 @@
+uuid: f36343a5-4e69-4f18-a730-26cd2b83b315
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_story_eyebrow
+field_name: field_story_eyebrow
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

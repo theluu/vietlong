@@ -1,0 +1,19 @@
+uuid: 08a904f1-a237-4323-97ef-1b22eb6f0c93
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_item_title
+    - paragraphs.paragraphs_type.numbered_item
+id: paragraph.numbered_item.field_item_title
+field_name: field_item_title
+entity_type: paragraph
+bundle: numbered_item
+label: 'Tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

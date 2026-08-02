@@ -1,0 +1,10 @@
+uuid: ac439dd8-1b78-42b4-b71f-8dc4f3daaa64
+langcode: en
+status: true
+dependencies: {  }
+id: numbered_item
+label: 'Mục có số thứ tự'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

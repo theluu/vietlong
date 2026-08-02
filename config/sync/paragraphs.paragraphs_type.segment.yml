@@ -1,0 +1,10 @@
+uuid: daf217e2-5a47-454e-9161-0578ea31e836
+langcode: en
+status: true
+dependencies: {  }
+id: segment
+label: 'Nhóm khách hàng'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

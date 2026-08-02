@@ -1,0 +1,27 @@
+uuid: aef29ec0-b45b-4339-b773-1bf007fb3ba3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_segments
+    - node.type.about_page
+    - paragraphs.paragraphs_type.segment
+  module:
+    - entity_reference_revisions
+id: node.about_page.field_segments
+field_name: field_segments
+entity_type: node
+bundle: about_page
+label: 'Nhóm khách hàng'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      segment: segment
+    negate: 0
+field_type: entity_reference_revisions

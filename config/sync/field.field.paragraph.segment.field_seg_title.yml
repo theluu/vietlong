@@ -1,0 +1,19 @@
+uuid: 952f989c-5080-421f-88b1-cde684c16549
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_seg_title
+    - paragraphs.paragraphs_type.segment
+id: paragraph.segment.field_seg_title
+field_name: field_seg_title
+entity_type: paragraph
+bundle: segment
+label: 'Tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,27 @@
+uuid: 0e347b6c-8c88-49ab-915b-248a36c952a2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_facts
+    - node.type.about_page
+    - paragraphs.paragraphs_type.fact
+  module:
+    - entity_reference_revisions
+id: node.about_page.field_facts
+field_name: field_facts
+entity_type: node
+bundle: about_page
+label: 'Con số'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      fact: fact
+    negate: 0
+field_type: entity_reference_revisions

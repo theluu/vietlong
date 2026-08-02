@@ -1,0 +1,19 @@
+uuid: 68b33e64-8d2b-4f3a-924f-5f89995ec1d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_item_desc
+    - paragraphs.paragraphs_type.numbered_item
+id: paragraph.numbered_item.field_item_desc
+field_name: field_item_desc
+entity_type: paragraph
+bundle: numbered_item
+label: 'Mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

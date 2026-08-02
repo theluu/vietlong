@@ -1,0 +1,19 @@
+uuid: 3867a460-fc65-465d-8772-bcb9fd63c38c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle
+    - node.type.about_page
+id: node.about_page.field_subtitle
+field_name: field_subtitle
+entity_type: node
+bundle: about_page
+label: 'Mô tả ngắn'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
