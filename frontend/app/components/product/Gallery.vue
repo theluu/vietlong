@@ -12,7 +12,7 @@ const current = computed(() => props.images[active.value] ?? null)
 </script>
 
 <template>
-  <div class="grid gap-4 sm:grid-cols-[84px_minmax(0,1fr)]">
+  <div class="grid gap-4" :class="images.length > 1 ? 'sm:grid-cols-[84px_minmax(0,1fr)]' : 'grid-cols-1'">
     <div v-if="images.length > 1" class="order-2 flex gap-3 overflow-x-auto sm:order-1 sm:flex-col">
       <button
         v-for="(img, i) in images"
