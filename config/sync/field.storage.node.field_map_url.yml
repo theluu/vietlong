@@ -1,0 +1,19 @@
+uuid: 8ede6a27-fb45-4935-9130-fb408a8e6b83
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - node
+id: node.field_map_url
+field_name: field_map_url
+entity_type: node
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,23 @@
+uuid: cab86e8b-4e34-47c2-8fcd-749a801afe8c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sort_order
+    - node.type.branch
+id: node.branch.field_sort_order
+field_name: field_sort_order
+entity_type: node
+bundle: branch
+label: 'Thứ tự'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

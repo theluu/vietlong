@@ -1,0 +1,19 @@
+uuid: 276609ef-a221-4eb5-a31a-81b4d6135c26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag
+    - node.type.branch
+id: node.branch.field_tag
+field_name: field_tag
+entity_type: node
+bundle: branch
+label: 'Nhãn (Bán buôn, Cơ sở 1…)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
