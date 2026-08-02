@@ -49,7 +49,7 @@ export const NAV_ITEMS = [
   { label: 'Sản phẩm', to: '/san-pham' },
   { label: 'Giới thiệu', to: '/gioi-thieu' },
   { label: 'Dự án', to: '/#du-an' },
-  { label: 'Tin tức', to: '/#tin-tuc' },
+  { label: 'Tin tức', to: '/tin-tuc' },
   { label: 'Đại lý', to: '/dai-ly' },
   { label: 'Liên hệ', to: '/lien-he' },
 ] as const

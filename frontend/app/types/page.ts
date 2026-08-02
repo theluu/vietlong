@@ -85,3 +85,20 @@ export interface PoliciesPage {
   supportTitle: string
   supportNote: string
 }
+
+export interface NewsPage {
+  eyebrow: string
+  title: string
+  subtitle: string
+}
+
+export interface NewsArticle {
+  id: number
+  slug: string
+  categoryKey: 'guide' | 'compare' | 'howto' | 'faq'
+  category: string
+  title: string
+  summary: string
+  readTime: string
+  image: string
+}
