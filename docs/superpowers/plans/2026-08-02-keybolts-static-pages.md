@@ -563,6 +563,13 @@ git commit -m "refactor(frontend): read showrooms from the API instead of hard-c
 - Create: `web/modules/custom/keybolts_core/src/Entity/ContactSubmission.php`
 - Create: `web/modules/custom/keybolts_core/src/ContactSubmissionListBuilder.php`
 - Modify: `web/modules/custom/keybolts_core/keybolts_core.links.menu.yml` (create if absent)
+- Modify: `web/modules/custom/keybolts_core/keybolts_core.info.yml` — add the `options` dependency
+- Modify: the four kernel tests in `web/modules/custom/keybolts_core/tests/src/Kernel/` — add `options` to `$modules`
+
+> **Two things this task will break if you skip them.**
+>
+> 1. The entity needs a `route_provider` handler (included in the code below). Without it Drupal never generates `entity.contact_submission.collection`, the menu link points at a non-existent route, and `/admin/keybolts/submissions` returns 404.
+> 2. The `source` field is `list_string`, which lives in the **`options`** module. Declare `options` in `keybolts_core.info.yml`, *and* add it to `$modules` in each existing kernel test. `KernelTestBase::enableModules()` does not resolve info.yml dependencies, and once the entity type is registered, `FieldDefinitionListener` walks every entity type — so a missing `options` fails 18 of the 22 existing tests, not just the new ones.
 
 - [ ] **Step 1: Write the entity**
 
@@ -593,6 +600,9 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   handlers = {
  *     "list_builder" = "Drupal\keybolts_core\ContactSubmissionListBuilder",
  *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "route_provider" = {
+ *       "html" = "Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider",
+ *     },
  *   },
  *   admin_permission = "administer nodes",
  *   entity_keys = {
