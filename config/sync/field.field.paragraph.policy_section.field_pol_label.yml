@@ -1,0 +1,19 @@
+uuid: 43d254b3-94d5-4343-8798-3edd761b7c1a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_pol_label
+    - paragraphs.paragraphs_type.policy_section
+id: paragraph.policy_section.field_pol_label
+field_name: field_pol_label
+entity_type: paragraph
+bundle: policy_section
+label: 'Nhãn tab'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

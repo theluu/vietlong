@@ -1,0 +1,19 @@
+uuid: a6d9fba0-6626-4ec3-a864-79743a793d4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle
+    - node.type.policies_page
+id: node.policies_page.field_subtitle
+field_name: field_subtitle
+entity_type: node
+bundle: policies_page
+label: 'Mô tả ngắn'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

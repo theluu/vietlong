@@ -157,4 +157,29 @@ kbp_field('node', 'contact_page', 'field_success_title', 'string', 'Form — ti�
 kbp_field('node', 'contact_page', 'field_success_desc', 'string_long', 'Form — mô tả thành công');
 kbp_paragraph_ref('contact_page', 'field_channels', 'Kênh liên hệ', ['contact_channel']);
 
+kbp_paragraph('policy_item', 'Khoản mục chính sách');
+kbp_field('paragraph', 'policy_item', 'field_pol_key', 'string', 'Tiêu đề khoản');
+kbp_field('paragraph', 'policy_item', 'field_pol_value', 'string_long', 'Nội dung khoản');
+
+kbp_paragraph('policy_section', 'Mục chính sách');
+kbp_field('paragraph', 'policy_section', 'field_pol_label', 'string', 'Nhãn tab');
+kbp_field('paragraph', 'policy_section', 'field_pol_eyebrow', 'string', 'Eyebrow');
+kbp_field('paragraph', 'policy_section', 'field_pol_title', 'string', 'Tiêu đề');
+kbp_field('paragraph', 'policy_section', 'field_pol_intro', 'string_long', 'Dẫn nhập');
+kbp_field('paragraph', 'policy_section', 'field_pol_note', 'string_long', 'Ghi chú');
+kbp_field(
+  'paragraph', 'policy_section', 'field_pol_items', 'entity_reference_revisions', 'Khoản mục', -1,
+  ['target_type' => 'paragraph'],
+  ['handler' => 'default:paragraph', 'handler_settings' => [
+    'target_bundles' => ['policy_item' => 'policy_item'], 'negate' => 0,
+  ]],
+);
+
+kbp_node_type('policies_page', 'Trang Chính sách');
+kbp_field('node', 'policies_page', 'field_eyebrow', 'string', 'Eyebrow');
+kbp_field('node', 'policies_page', 'field_subtitle', 'string_long', 'Mô tả ngắn');
+kbp_field('node', 'policies_page', 'field_support_title', 'string', 'Hộp hỗ trợ — tiêu đề');
+kbp_field('node', 'policies_page', 'field_support_note', 'string', 'Hộp hỗ trợ — ghi chú');
+kbp_paragraph_ref('policies_page', 'field_sections', 'Mục chính sách', ['policy_section']);
+
 echo "Done.\n";

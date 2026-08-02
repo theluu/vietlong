@@ -66,3 +66,22 @@ export interface ContactPage {
   successTitle: string
   successDesc: string
 }
+
+export interface PolicyItem { k: string; v: string }
+export interface PolicySection {
+  key: string
+  label: string
+  eyebrow: string
+  title: string
+  intro: string
+  note: string
+  items: PolicyItem[]
+}
+export interface PoliciesPage {
+  eyebrow: string
+  title: string
+  subtitle: string
+  sections: PolicySection[]
+  supportTitle: string
+  supportNote: string
+}

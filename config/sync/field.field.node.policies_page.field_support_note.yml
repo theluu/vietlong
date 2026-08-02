@@ -1,0 +1,19 @@
+uuid: e07ee881-041c-424c-ad9c-bf993641169c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_support_note
+    - node.type.policies_page
+id: node.policies_page.field_support_note
+field_name: field_support_note
+entity_type: node
+bundle: policies_page
+label: 'Hộp hỗ trợ — ghi chú'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
