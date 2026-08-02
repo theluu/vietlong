@@ -1,7 +1,9 @@
 import { apiFetch } from './http'
-import type { Branch } from '~/types/page'
+import type { AboutPage, Branch } from '~/types/page'
 
 export const fetchBranches = () => apiFetch<Branch[]>('/branches')
+export const fetchPage = <T>(key: string) => apiFetch<T>(`/page/${key}`)
+export const fetchAbout = () => fetchPage<AboutPage>('about')
 
 export interface LeadPayload {
   name: string
