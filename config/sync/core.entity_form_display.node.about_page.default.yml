@@ -1,0 +1,306 @@
+uuid: 46a0e1f4-6235-4c7c-a55b-7e274db5c200
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.about_page.field_credentials
+    - field.field.node.about_page.field_cta_primary
+    - field.field.node.about_page.field_cta_secondary
+    - field.field.node.about_page.field_eyebrow
+    - field.field.node.about_page.field_facts
+    - field.field.node.about_page.field_hero_caption
+    - field.field.node.about_page.field_hero_image
+    - field.field.node.about_page.field_segments
+    - field.field.node.about_page.field_steps
+    - field.field.node.about_page.field_story_body
+    - field.field.node.about_page.field_story_eyebrow
+    - field.field.node.about_page.field_story_title
+    - field.field.node.about_page.field_subtitle
+    - field.field.node.about_page.field_values
+    - image.style.thumbnail
+    - node.type.about_page
+  module:
+    - field_group
+    - image
+    - link
+    - paragraphs
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_hero:
+      children:
+        - field_eyebrow
+        - field_subtitle
+        - field_hero_image
+        - field_hero_caption
+        - field_cta_primary
+        - field_cta_secondary
+      label: Hero
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_con_s_:
+      children:
+        - field_facts
+      label: 'Con số'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_c_u_chuy_n:
+      children:
+        - field_story_eyebrow
+        - field_story_title
+        - field_story_body
+        - field_credentials
+      label: 'Câu chuyện'
+      region: content
+      parent_name: ''
+      weight: 3
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_kh_ch_h_ng:
+      children:
+        - field_segments
+      label: 'Khách hàng'
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_quy_tr_nh:
+      children:
+        - field_steps
+      label: 'Quy trình'
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_cam_k_t:
+      children:
+        - field_values
+      label: 'Cam kết'
+      region: content
+      parent_name: ''
+      weight: 6
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+id: node.about_page.default
+targetEntityType: node
+bundle: about_page
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_credentials:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cta_primary:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cta_secondary:
+    type: link_default
+    weight: 6
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_facts:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_hero_caption:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_hero_image:
+    type: image_image
+    weight: 3
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_segments:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_steps:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_story_body:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_story_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_story_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_subtitle:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_values:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 90
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true
