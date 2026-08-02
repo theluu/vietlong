@@ -43,3 +43,26 @@ export interface DealersPage {
   successTitle: string
   successDesc: string
 }
+
+export interface ContactChannel {
+  label: string
+  value: string
+  note: string
+  ctaLabel?: string
+  ctaUrl?: string
+}
+
+export interface ContactPage {
+  eyebrow: string
+  title: string
+  subtitle: string
+  channels: ContactChannel[]
+  companyName: string
+  companyAddress: string
+  responseTitle: string
+  responseBody: string
+  formTitle: string
+  formDesc: string
+  successTitle: string
+  successDesc: string
+}

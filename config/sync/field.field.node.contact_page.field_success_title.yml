@@ -1,0 +1,19 @@
+uuid: bc781a5d-0d73-4175-891f-e78cb4f5583b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_success_title
+    - node.type.contact_page
+id: node.contact_page.field_success_title
+field_name: field_success_title
+entity_type: node
+bundle: contact_page
+label: 'Form — tiêu đề thành công'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

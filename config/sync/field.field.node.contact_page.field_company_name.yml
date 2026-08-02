@@ -1,0 +1,19 @@
+uuid: 444b4df1-f4f2-4044-b2c0-7907de3b2d63
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_company_name
+    - node.type.contact_page
+id: node.contact_page.field_company_name
+field_name: field_company_name
+entity_type: node
+bundle: contact_page
+label: 'Tên công ty'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

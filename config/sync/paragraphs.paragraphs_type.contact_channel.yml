@@ -1,0 +1,10 @@
+uuid: 351f928f-d472-4f44-a88b-69cb61c495f4
+langcode: en
+status: true
+dependencies: {  }
+id: contact_channel
+label: 'Kênh liên hệ'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

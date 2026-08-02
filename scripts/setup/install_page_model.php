@@ -138,4 +138,23 @@ kbp_field('node', 'dealers_page', 'field_success_title', 'string', 'Form — ti�
 kbp_field('node', 'dealers_page', 'field_success_desc', 'string_long', 'Form — mô tả thành công');
 kbp_paragraph_ref('dealers_page', 'field_benefits', 'Quyền lợi', ['numbered_item']);
 
+kbp_paragraph('contact_channel', 'Kênh liên hệ');
+kbp_field('paragraph', 'contact_channel', 'field_ch_label', 'string', 'Nhãn');
+kbp_field('paragraph', 'contact_channel', 'field_ch_value', 'string', 'Giá trị');
+kbp_field('paragraph', 'contact_channel', 'field_ch_note', 'string', 'Ghi chú');
+kbp_field('paragraph', 'contact_channel', 'field_ch_url', 'link', 'Liên kết');
+
+kbp_node_type('contact_page', 'Trang Liên hệ');
+kbp_field('node', 'contact_page', 'field_eyebrow', 'string', 'Eyebrow');
+kbp_field('node', 'contact_page', 'field_subtitle', 'string_long', 'Mô tả ngắn');
+kbp_field('node', 'contact_page', 'field_company_name', 'string', 'Tên công ty');
+kbp_field('node', 'contact_page', 'field_company_address', 'string_long', 'Địa chỉ trụ sở');
+kbp_field('node', 'contact_page', 'field_response_title', 'string', 'Khối phản hồi — tiêu đề');
+kbp_field('node', 'contact_page', 'field_response_body', 'string_long', 'Khối phản hồi — nội dung');
+kbp_field('node', 'contact_page', 'field_form_title', 'string', 'Form — tiêu đề');
+kbp_field('node', 'contact_page', 'field_form_desc', 'string_long', 'Form — mô tả');
+kbp_field('node', 'contact_page', 'field_success_title', 'string', 'Form — tiêu đề thành công');
+kbp_field('node', 'contact_page', 'field_success_desc', 'string_long', 'Form — mô tả thành công');
+kbp_paragraph_ref('contact_page', 'field_channels', 'Kênh liên hệ', ['contact_channel']);
+
 echo "Done.\n";

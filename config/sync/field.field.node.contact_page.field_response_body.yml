@@ -1,0 +1,19 @@
+uuid: 965ab339-b355-4afe-878a-6b4a9f87c6d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_response_body
+    - node.type.contact_page
+id: node.contact_page.field_response_body
+field_name: field_response_body
+entity_type: node
+bundle: contact_page
+label: 'Khối phản hồi — nội dung'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

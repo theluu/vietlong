@@ -1,0 +1,19 @@
+uuid: 5f580df5-6997-4256-8430-8a89063a9351
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ch_label
+    - paragraphs.paragraphs_type.contact_channel
+id: paragraph.contact_channel.field_ch_label
+field_name: field_ch_label
+entity_type: paragraph
+bundle: contact_channel
+label: Nhãn
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

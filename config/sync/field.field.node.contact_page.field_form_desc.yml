@@ -1,0 +1,19 @@
+uuid: 83386d77-3250-4697-913e-36a0bd5777be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_form_desc
+    - node.type.contact_page
+id: node.contact_page.field_form_desc
+field_name: field_form_desc
+entity_type: node
+bundle: contact_page
+label: 'Form — mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

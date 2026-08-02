@@ -1,0 +1,19 @@
+uuid: ffc67030-8c8b-4251-bcc6-d2b0008fcb82
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_company_address
+    - node.type.contact_page
+id: node.contact_page.field_company_address
+field_name: field_company_address
+entity_type: node
+bundle: contact_page
+label: 'Địa chỉ trụ sở'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
