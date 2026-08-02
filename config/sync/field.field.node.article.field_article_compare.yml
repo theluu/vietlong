@@ -1,0 +1,19 @@
+uuid: 6728bf7d-e44f-4964-8a53-6386e088c54c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_compare
+    - node.type.article
+id: node.article.field_article_compare
+field_name: field_article_compare
+entity_type: node
+bundle: article
+label: 'Bảng so sánh (JSON)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

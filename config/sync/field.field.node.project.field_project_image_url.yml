@@ -1,0 +1,19 @@
+uuid: 964635c6-da6c-42b7-a6f8-8e85567b5b2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_image_url
+    - node.type.project
+id: node.project.field_project_image_url
+field_name: field_project_image_url
+entity_type: node
+bundle: project
+label: 'URL ảnh'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

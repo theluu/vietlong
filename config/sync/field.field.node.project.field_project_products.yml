@@ -1,0 +1,19 @@
+uuid: a4e3ac3e-31e2-41c9-9d4f-13d39bd162a7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_products
+    - node.type.project
+id: node.project.field_project_products
+field_name: field_project_products
+entity_type: node
+bundle: project
+label: 'Sản phẩm / giải pháp'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

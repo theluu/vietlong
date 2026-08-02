@@ -1,0 +1,19 @@
+uuid: 47074f85-1193-423e-87a1-3019742aa9be
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_desc
+    - node.type.project
+id: node.project.field_project_desc
+field_name: field_project_desc
+entity_type: node
+bundle: project
+label: 'Mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

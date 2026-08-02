@@ -1,0 +1,19 @@
+uuid: f301240f-0720-49f0-80d7-35c150a0bfe5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_sections
+    - node.type.article
+id: node.article.field_article_sections
+field_name: field_article_sections
+entity_type: node
+bundle: article
+label: 'Các mục nội dung (JSON)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

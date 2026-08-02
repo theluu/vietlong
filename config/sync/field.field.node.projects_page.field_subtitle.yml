@@ -1,0 +1,19 @@
+uuid: 190eac4e-3a07-47d8-b8eb-818dd45ebf79
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle
+    - node.type.projects_page
+id: node.projects_page.field_subtitle
+field_name: field_subtitle
+entity_type: node
+bundle: projects_page
+label: 'Mô tả ngắn'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

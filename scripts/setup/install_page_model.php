@@ -194,5 +194,24 @@ kbp_field('node', 'article', 'field_article_read_time', 'string', 'Thời gian �
 kbp_field('node', 'article', 'field_article_image_url', 'string', 'URL ảnh');
 kbp_field('node', 'article', 'field_article_slug', 'string', 'Slug');
 kbp_field('node', 'article', 'field_sort_order', 'integer', 'Thứ tự');
+kbp_field('node', 'article', 'field_article_author', 'string', 'Tác giả');
+kbp_field('node', 'article', 'field_article_updated', 'string', 'Ngày cập nhật');
+kbp_field('node', 'article', 'field_article_quick_answer', 'string_long', 'Trả lời nhanh');
+kbp_field('node', 'article', 'field_article_sections', 'string_long', 'Các mục nội dung (JSON)');
+kbp_field('node', 'article', 'field_article_compare', 'string_long', 'Bảng so sánh (JSON)');
+kbp_field('node', 'article', 'field_article_faqs', 'string_long', 'Câu hỏi thường gặp (JSON)');
+
+kbp_node_type('projects_page', 'Trang Dự án');
+kbp_field('node', 'projects_page', 'field_eyebrow', 'string', 'Eyebrow');
+kbp_field('node', 'projects_page', 'field_subtitle', 'string_long', 'Mô tả ngắn');
+
+kbp_node_type('project', 'Dự án');
+kbp_field('node', 'project', 'field_project_type', 'string', 'Loại công trình');
+kbp_field('node', 'project', 'field_project_type_key', 'string', 'Mã loại công trình');
+kbp_field('node', 'project', 'field_project_desc', 'string_long', 'Mô tả');
+kbp_field('node', 'project', 'field_project_products', 'string', 'Sản phẩm / giải pháp');
+kbp_field('node', 'project', 'field_project_image_url', 'string', 'URL ảnh');
+kbp_field('node', 'project', 'field_project_slug', 'string', 'Slug');
+kbp_field('node', 'project', 'field_sort_order', 'integer', 'Thứ tự');
 
 echo "Done.\n";

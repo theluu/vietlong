@@ -1,0 +1,19 @@
+uuid: e88d0939-7b63-453a-8001-aff7f93f58e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_updated
+    - node.type.article
+id: node.article.field_article_updated
+field_name: field_article_updated
+entity_type: node
+bundle: article
+label: 'Ngày cập nhật'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

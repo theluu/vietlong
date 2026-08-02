@@ -1,0 +1,19 @@
+uuid: 5b7022a9-09b1-4eb5-9e20-449169a8e7b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_type
+    - node.type.project
+id: node.project.field_project_type
+field_name: field_project_type
+entity_type: node
+bundle: project
+label: 'Loại công trình'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

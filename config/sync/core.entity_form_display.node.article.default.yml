@@ -3,12 +3,18 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.article.field_article_author
     - field.field.node.article.field_article_category
     - field.field.node.article.field_article_category_key
+    - field.field.node.article.field_article_compare
+    - field.field.node.article.field_article_faqs
     - field.field.node.article.field_article_image_url
+    - field.field.node.article.field_article_quick_answer
     - field.field.node.article.field_article_read_time
+    - field.field.node.article.field_article_sections
     - field.field.node.article.field_article_slug
     - field.field.node.article.field_article_summary
+    - field.field.node.article.field_article_updated
     - field.field.node.article.field_sort_order
     - node.type.article
   module:
@@ -33,6 +39,22 @@ third_party_settings:
       format_settings:
         formatter: closed
         description: ''
+    group_n_i_dung_chi_ti_t:
+      children:
+        - field_article_author
+        - field_article_updated
+        - field_article_quick_answer
+        - field_article_sections
+        - field_article_compare
+        - field_article_faqs
+      label: 'Nội dung chi tiết'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
 id: node.article.default
 targetEntityType: node
 bundle: article
@@ -43,6 +65,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_article_author:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_article_category:
     type: string_textfield
@@ -60,6 +90,22 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_article_compare:
+    type: string_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_article_faqs:
+    type: string_textarea
+    weight: 6
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_article_image_url:
     type: string_textfield
     weight: 5
@@ -68,12 +114,28 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_article_quick_answer:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_article_read_time:
     type: string_textfield
     weight: 4
     region: content
     settings:
       size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_article_sections:
+    type: string_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
   field_article_slug:
@@ -90,6 +152,14 @@ content:
     region: content
     settings:
       rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_article_updated:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_sort_order:
