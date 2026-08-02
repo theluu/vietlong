@@ -37,3 +37,11 @@ keybolts_api.branches:
   methods: [GET]
   requirements:
     _permission: 'access content'
+
+keybolts_api.contact:
+  path: '/api/v1/contact'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\ContactController::submit'
+  methods: [POST]
+  requirements:
+    _permission: 'access content'
