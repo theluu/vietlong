@@ -124,6 +124,24 @@ class ProductController extends ControllerBase {
     }
 
     $data = $this->serializer->detail($node);
+    // The approved detail design uses sibling size photography as the
+    // product-family gallery when a node only owns one primary image.
+    if (count($data['images']) < 4 && !empty($data['family'])) {
+      $family_ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'product')
+        ->condition('status', 1)
+        ->condition('field_family', $data['family'])
+        ->condition('nid', $node->id(), '<>')
+        ->range(0, 3)
+        ->execute();
+      foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($family_ids) as $sibling) {
+        $image = $this->serializer->card($sibling)['image'];
+        if ($image) {
+          $data['images'][] = $image;
+        }
+      }
+    }
     $data['variants'] = $this->variantMatrix->build($node);
     $data['related'] = $this->relatedProducts($node);
     $data['breadcrumb'] = [
@@ -155,8 +173,15 @@ class ProductController extends ControllerBase {
       ->condition('nid', $node->id(), '<>')
       ->range(0, 8)
       ->execute();
-    if (!$ids) {
-      return [];
+    if (count($ids) < 8) {
+      $fallback = $this->entityTypeManager()->getStorage('node')->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'product')
+        ->condition('status', 1)
+        ->condition('nid', array_merge([(int) $node->id()], array_values($ids)), 'NOT IN')
+        ->range(0, 8 - count($ids))
+        ->execute();
+      $ids += $fallback;
     }
     return array_values(array_map(
       fn($n) => $this->serializer->card($n),

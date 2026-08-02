@@ -99,14 +99,16 @@ class HomepageController extends ControllerBase {
         ->condition('field_featured_group', $group)
         ->range(0, 5)
         ->execute();
-      if (!$ids) {
-        $ids = $storage->getQuery()
+      if (count($ids) < 4) {
+        $fallback = $storage->getQuery()
           ->accessCheck(TRUE)
           ->condition('type', 'product')
           ->condition('status', 1)
+          ->condition('nid', array_values($ids), 'NOT IN')
           ->sort('created', 'DESC')
-          ->range(0, 5)
+          ->range(0, 4 - count($ids))
           ->execute();
+        $ids += $fallback;
       }
       $out[$group] = array_values(array_map(
         fn($n) => $this->serializer->card($n),

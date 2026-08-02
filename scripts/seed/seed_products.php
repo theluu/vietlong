@@ -134,6 +134,18 @@ foreach ($data['products'] as $p) {
   $existing = \Drupal::entityTypeManager()->getStorage('node')
     ->loadByProperties(['type' => 'product', 'field_product_code' => $p['model']]);
   if ($existing) {
+    // Keep seeded catalogue content repeatable: earlier runs created the
+    // products before the design's detail copy was added.
+    $node = reset($existing);
+    $node->set('field_desc_heading', $data['detail']['heading']);
+    $node->set('field_description', [
+      'value' => $data['detail']['description'],
+      'format' => 'basic_html',
+    ]);
+    $node->set('field_highlights', $data['detail']['highlights']);
+    $node->set('field_door_thickness', '40–55 mm');
+    $node->set('field_origin', 'Nhập khẩu');
+    $node->save();
     continue;
   }
 
@@ -162,6 +174,14 @@ foreach ($data['products'] as $p) {
     'field_category' => $cats[$p['cat']] ?? NULL,
     'field_finish' => $finishes[$p['finish']] ?? NULL,
     'field_short_desc' => sprintf('%s — mã %s.', $p['name'], $p['model']),
+    'field_desc_heading' => $data['detail']['heading'],
+    'field_description' => [
+      'value' => $data['detail']['description'],
+      'format' => 'basic_html',
+    ],
+    'field_highlights' => $data['detail']['highlights'],
+    'field_door_thickness' => '40–55 mm',
+    'field_origin' => 'Nhập khẩu',
     'field_stock_status' => 'con-hang',
     'field_contact_price' => TRUE,
     'field_warranty' => '5–10 năm',
