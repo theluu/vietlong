@@ -102,3 +102,33 @@ export interface NewsArticle {
   readTime: string
   image: string
 }
+
+export interface ArticleSection {
+  id: string
+  title: string
+  paragraphs: string[]
+  list?: string[]
+  note?: string
+}
+export interface ArticleCompareRow { door: string; thickness: string; lock: string; backup: string }
+export interface ArticleFaq { question: string; answer: string }
+export interface ArticleDetail extends NewsArticle {
+  author: string
+  updated: string
+  quickAnswer: string
+  sections: ArticleSection[]
+  compareRows: ArticleCompareRow[]
+  faqs: ArticleFaq[]
+}
+
+export interface ProjectsPage { eyebrow: string; title: string; subtitle: string }
+export interface Project {
+  id: number
+  slug: string
+  typeKey: 'biet-thu' | 'khach-san' | 'can-ho' | 'van-phong'
+  type: string
+  title: string
+  description: string
+  products: string
+  image: string
+}

@@ -4,7 +4,7 @@ defineProps<{ article: NewsArticle }>()
 </script>
 
 <template>
-  <article class="group flex min-w-0 flex-col overflow-hidden border border-border bg-background transition hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating">
+  <NuxtLink :to="`/tin-tuc/${article.slug}`" class="group flex min-w-0 flex-col overflow-hidden border border-border bg-background text-inherit no-underline transition hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating">
     <div class="aspect-[16/10] overflow-hidden bg-surface">
       <img
         :src="article.image"
@@ -19,5 +19,5 @@ defineProps<{ article: NewsArticle }>()
       <p class="text-caption text-text-muted m-0 leading-relaxed">{{ article.summary }}</p>
       <span class="text-caption text-text-muted mt-auto pt-3">{{ article.readTime }}</span>
     </div>
-  </article>
+  </NuxtLink>
 </template>
