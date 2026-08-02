@@ -1,0 +1,19 @@
+uuid: 36de31d2-0ef3-44fe-9092-f492820428e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_form_title
+    - node.type.dealers_page
+id: node.dealers_page.field_form_title
+field_name: field_form_title
+entity_type: node
+bundle: dealers_page
+label: 'Form — tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

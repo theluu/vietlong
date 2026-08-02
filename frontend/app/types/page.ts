@@ -31,3 +31,15 @@ export interface AboutPage {
   steps: NumberedItem[]
   values: ValueItem[]
 }
+
+export interface DealersPage {
+  eyebrow: string
+  title: string
+  subtitle: string
+  benefits: NumberedItem[]
+  criteria: string[]
+  formTitle: string
+  formDesc: string
+  successTitle: string
+  successDesc: string
+}

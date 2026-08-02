@@ -1,0 +1,19 @@
+uuid: 48e47ad7-7cee-4e00-b283-2a25ff05afc2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_criteria
+    - node.type.dealers_page
+id: node.dealers_page.field_criteria
+field_name: field_criteria
+entity_type: node
+bundle: dealers_page
+label: 'Điều kiện'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

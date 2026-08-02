@@ -1,0 +1,19 @@
+uuid: 1c1a45d9-634f-44d2-b59d-fc4ee5307ae5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_eyebrow
+    - node.type.dealers_page
+id: node.dealers_page.field_eyebrow
+field_name: field_eyebrow
+entity_type: node
+bundle: dealers_page
+label: Eyebrow
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

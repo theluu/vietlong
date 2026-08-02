@@ -128,4 +128,14 @@ kbp_paragraph_ref('about_page', 'field_segments', 'Nhóm khách hàng', ['segmen
 kbp_paragraph_ref('about_page', 'field_steps', 'Quy trình', ['numbered_item']);
 kbp_paragraph_ref('about_page', 'field_values', 'Cam kết', ['value_item']);
 
+kbp_node_type('dealers_page', 'Trang Đại lý');
+kbp_field('node', 'dealers_page', 'field_eyebrow', 'string', 'Eyebrow');
+kbp_field('node', 'dealers_page', 'field_subtitle', 'string_long', 'Mô tả ngắn');
+kbp_field('node', 'dealers_page', 'field_criteria', 'string', 'Điều kiện', -1);
+kbp_field('node', 'dealers_page', 'field_form_title', 'string', 'Form — tiêu đề');
+kbp_field('node', 'dealers_page', 'field_form_desc', 'string_long', 'Form — mô tả');
+kbp_field('node', 'dealers_page', 'field_success_title', 'string', 'Form — tiêu đề thành công');
+kbp_field('node', 'dealers_page', 'field_success_desc', 'string_long', 'Form — mô tả thành công');
+kbp_paragraph_ref('dealers_page', 'field_benefits', 'Quyền lợi', ['numbered_item']);
+
 echo "Done.\n";

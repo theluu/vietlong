@@ -1,0 +1,19 @@
+uuid: 8d72e6de-603d-4db2-8c47-7578b51060b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_subtitle
+    - node.type.dealers_page
+id: node.dealers_page.field_subtitle
+field_name: field_subtitle
+entity_type: node
+bundle: dealers_page
+label: 'Mô tả ngắn'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
