@@ -7,7 +7,7 @@
     "test": "vitest run",
     "ddev-ca": "node -e \"console.log(require('child_process').execSync('mkcert -CAROOT').toString().trim()+'/rootCA.pem')\"",
     "build": "npm run palette && nuxt build",
-    "dev": "npm run palette && NODE_EXTRA_CA_CERTS=\"${NODE_EXTRA_CA_CERTS:-$(npm run --silent ddev-ca)}\" nuxt dev",
+    "dev": "npm run palette && NODE_EXTRA_CA_CERTS=\"${NODE_EXTRA_CA_CERTS:-$(npm run --silent ddev-ca)}\" nuxt dev --host 0.0.0.0 --port 3100",
     "generate": "npm run palette && NODE_EXTRA_CA_CERTS=\"${NODE_EXTRA_CA_CERTS:-$(npm run --silent ddev-ca)}\" nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "npm run palette && nuxt prepare"
