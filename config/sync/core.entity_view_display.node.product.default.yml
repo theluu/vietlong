@@ -1,0 +1,102 @@
+uuid: 8bdf76fe-b958-43a6-a4a7-0c73a6c42b83
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.product.field_badge
+    - field.field.node.product.field_brand
+    - field.field.node.product.field_category
+    - field.field.node.product.field_certification
+    - field.field.node.product.field_contact_price
+    - field.field.node.product.field_desc_heading
+    - field.field.node.product.field_description
+    - field.field.node.product.field_door_thickness
+    - field.field.node.product.field_family
+    - field.field.node.product.field_faqs
+    - field.field.node.product.field_featured
+    - field.field.node.product.field_featured_group
+    - field.field.node.product.field_finish
+    - field.field.node.product.field_highlights
+    - field.field.node.product.field_images
+    - field.field.node.product.field_is_new
+    - field.field.node.product.field_origin
+    - field.field.node.product.field_policy_cards
+    - field.field.node.product.field_product_code
+    - field.field.node.product.field_related_products
+    - field.field.node.product.field_search_text
+    - field.field.node.product.field_short_desc
+    - field.field.node.product.field_size_key
+    - field.field.node.product.field_size_label
+    - field.field.node.product.field_size_note
+    - field.field.node.product.field_sort_order
+    - field.field.node.product.field_specifications
+    - field.field.node.product.field_stock_status
+    - field.field.node.product.field_warranty
+    - node.type.product
+  module:
+    - image
+    - user
+id: node.product.default
+targetEntityType: node
+bundle: product
+mode: default
+content:
+  field_images:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_product_code:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+      link_rel: canonical
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_short_desc:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_badge: true
+  field_brand: true
+  field_category: true
+  field_certification: true
+  field_contact_price: true
+  field_desc_heading: true
+  field_description: true
+  field_door_thickness: true
+  field_family: true
+  field_faqs: true
+  field_featured: true
+  field_featured_group: true
+  field_finish: true
+  field_highlights: true
+  field_is_new: true
+  field_origin: true
+  field_policy_cards: true
+  field_related_products: true
+  field_search_text: true
+  field_size_key: true
+  field_size_label: true
+  field_size_note: true
+  field_sort_order: true
+  field_specifications: true
+  field_stock_status: true
+  field_warranty: true

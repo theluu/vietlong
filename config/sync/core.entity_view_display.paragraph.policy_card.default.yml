@@ -1,0 +1,30 @@
+uuid: de0c342a-f381-4d41-b003-9e531a0b8c9f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.policy_card.field_card_desc
+    - field.field.paragraph.policy_card.field_card_title
+    - paragraphs.paragraphs_type.policy_card
+id: paragraph.policy_card.default
+targetEntityType: paragraph
+bundle: policy_card
+mode: default
+content:
+  field_card_desc:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_card_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+      link_rel: canonical
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

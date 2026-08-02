@@ -1,0 +1,32 @@
+uuid: c941b253-9a79-49c8-bbc9-1512a83bc29b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.spec_item.field_spec_key
+    - field.field.paragraph.spec_item.field_spec_value
+    - paragraphs.paragraphs_type.spec_item
+id: paragraph.spec_item.default
+targetEntityType: paragraph
+bundle: spec_item
+mode: default
+content:
+  field_spec_key:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+      link_rel: canonical
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_spec_value:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+      link_rel: canonical
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

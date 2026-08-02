@@ -24,6 +24,7 @@ module:
   image: 0
   jsonapi: 0
   jsonapi_extras: 0
+  keybolts_api: 0
   keybolts_core: 0
   layout_builder: 0
   layout_discovery: 0

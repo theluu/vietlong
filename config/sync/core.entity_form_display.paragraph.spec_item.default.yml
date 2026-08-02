@@ -1,0 +1,32 @@
+uuid: 1c50c1fe-2187-401e-9ed2-72fdd4778d51
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.spec_item.field_spec_key
+    - field.field.paragraph.spec_item.field_spec_value
+    - paragraphs.paragraphs_type.spec_item
+id: paragraph.spec_item.default
+targetEntityType: paragraph
+bundle: spec_item
+mode: default
+content:
+  field_spec_key:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_spec_value:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
