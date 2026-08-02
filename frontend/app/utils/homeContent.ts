@@ -63,14 +63,6 @@ export const ARTICLES = [
   { key: 'do-day-cua', category: 'Kỹ thuật', title: 'Đo độ dày cửa trước khi chọn khóa', summary: 'Hướng dẫn đo nhanh và chọn đúng size bộ khóa.' },
 ]
 
-export const LOCATIONS = [
-  { name: 'Văn phòng bán buôn', addr: 'Khu phố Lê Hồng Phong, P. Đông Ngàn, TP. Từ Sơn, Bắc Ninh', phone: '0912.411.309', tel: '0912411309' },
-  { name: 'Cơ sở 1 — Từ Sơn', addr: '217–219 Trần Phú, P. Đông Ngàn, TP. Từ Sơn, Bắc Ninh', phone: '0968.689.112', tel: '0968689112' },
-  { name: 'Cơ sở 2 — Bắc Ninh', addr: 'Cụm CN Võ Cường, P. Võ Cường, TP. Bắc Ninh', phone: '0981.255.215', tel: '0981255215' },
-  { name: 'Cơ sở 3 — Việt Trì', addr: '1308 Đại lộ Hùng Vương, P. Tiên Cát, TP. Việt Trì, Phú Thọ', phone: '0984.84.6655', tel: '0984846655' },
-  { name: 'Cơ sở 4 — Vĩnh Yên', addr: '531 đường Mê Linh, P. Khai Quang, TP. Vĩnh Yên, Vĩnh Phúc', phone: '0984.84.6622', tel: '0984846622' },
-]
-
 export const FEATURED_TABS = [
   { key: 'dong', label: 'Khoá đồng nhập khẩu' },
   { key: 'cremone', label: 'Chốt Cremone' },

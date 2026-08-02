@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { LOCATIONS } from '~/utils/homeContent'
+import { fetchBranches } from '~/services/pages'
+
+// Stable key so the header, homepage and Contact page share one request.
+const { data } = await useAsyncData('branches', () => fetchBranches())
+const branches = computed(() => data.value?.data ?? [])
 </script>
 
 <template>
@@ -9,16 +13,16 @@ import { LOCATIONS } from '~/utils/homeContent'
 
     <div class="grid grid-cols-1 gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
       <div
-        v-for="loc in LOCATIONS"
-        :key="loc.tel"
+        v-for="loc in branches"
+        :key="loc.id"
         class="flex flex-col gap-3 bg-background p-[26px] transition hover:bg-surface"
       >
         <span class="text-heading font-bold">{{ loc.name }}</span>
-        <span class="text-caption text-text-muted leading-relaxed">{{ loc.addr }}</span>
+        <span class="text-caption text-text-muted leading-relaxed">{{ loc.address }}</span>
         <a
-          :href="`tel:${loc.tel}`"
+          :href="`tel:${loc.phoneTel}`"
           class="text-body text-brass-700 font-bold no-underline"
-        >{{ loc.phone }}</a>
+        >{{ loc.phoneDisplay }}</a>
       </div>
     </div>
   </section>
