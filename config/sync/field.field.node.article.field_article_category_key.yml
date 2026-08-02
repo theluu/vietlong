@@ -1,0 +1,19 @@
+uuid: 6fa9e42f-846d-4bec-beba-3f1ee7248443
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_category_key
+    - node.type.article
+id: node.article.field_article_category_key
+field_name: field_article_category_key
+entity_type: node
+bundle: article
+label: 'Mã chuyên mục'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

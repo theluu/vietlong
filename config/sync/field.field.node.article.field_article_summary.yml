@@ -1,0 +1,19 @@
+uuid: cc5c95c5-d19d-4060-881d-c1c7b603ff55
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_summary
+    - node.type.article
+id: node.article.field_article_summary
+field_name: field_article_summary
+entity_type: node
+bundle: article
+label: 'Tóm tắt'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

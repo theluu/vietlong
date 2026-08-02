@@ -182,4 +182,17 @@ kbp_field('node', 'policies_page', 'field_support_title', 'string', 'Hộp hỗ 
 kbp_field('node', 'policies_page', 'field_support_note', 'string', 'Hộp hỗ trợ — ghi chú');
 kbp_paragraph_ref('policies_page', 'field_sections', 'Mục chính sách', ['policy_section']);
 
+kbp_node_type('news_page', 'Trang Tin tức');
+kbp_field('node', 'news_page', 'field_eyebrow', 'string', 'Eyebrow');
+kbp_field('node', 'news_page', 'field_subtitle', 'string_long', 'Mô tả ngắn');
+
+kbp_node_type('article', 'Bài viết');
+kbp_field('node', 'article', 'field_article_category', 'string', 'Chuyên mục');
+kbp_field('node', 'article', 'field_article_category_key', 'string', 'Mã chuyên mục');
+kbp_field('node', 'article', 'field_article_summary', 'string_long', 'Tóm tắt');
+kbp_field('node', 'article', 'field_article_read_time', 'string', 'Thời gian đọc');
+kbp_field('node', 'article', 'field_article_image_url', 'string', 'URL ảnh');
+kbp_field('node', 'article', 'field_article_slug', 'string', 'Slug');
+kbp_field('node', 'article', 'field_sort_order', 'integer', 'Thứ tự');
+
 echo "Done.\n";

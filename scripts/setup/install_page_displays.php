@@ -40,6 +40,12 @@ const KB_PAGE_FORMS = [
     'Mục chính sách' => ['field_sections' => 1],
     'Hỗ trợ' => ['field_support_title' => 1, 'field_support_note' => 2],
   ],
+  'news_page' => [
+    'Hero' => ['field_eyebrow' => 1, 'field_subtitle' => 2],
+  ],
+  'article' => [
+    'Nội dung thẻ' => ['field_article_category' => 1, 'field_article_category_key' => 2, 'field_article_summary' => 3, 'field_article_read_time' => 4, 'field_article_image_url' => 5, 'field_article_slug' => 6, 'field_sort_order' => 7],
+  ],
 ];
 
 /** Picks a sensible widget from the field's type. */

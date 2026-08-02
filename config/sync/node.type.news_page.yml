@@ -1,0 +1,11 @@
+uuid: 1465dc4e-ac66-4ea1-b95c-9b85457e14f2
+langcode: en
+status: true
+dependencies: {  }
+name: 'Trang Tin tức'
+type: news_page
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

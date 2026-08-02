@@ -1,0 +1,19 @@
+uuid: b0a899b1-b6c7-4f45-9238-80d0704fec24
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_eyebrow
+    - node.type.news_page
+id: node.news_page.field_eyebrow
+field_name: field_eyebrow
+entity_type: node
+bundle: news_page
+label: Eyebrow
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

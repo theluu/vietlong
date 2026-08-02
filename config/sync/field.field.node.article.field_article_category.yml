@@ -1,0 +1,19 @@
+uuid: e96061ad-782a-45ad-9d48-280a99d0e370
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_category
+    - node.type.article
+id: node.article.field_article_category
+field_name: field_article_category
+entity_type: node
+bundle: article
+label: 'Chuyên mục'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

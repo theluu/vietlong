@@ -1,0 +1,11 @@
+uuid: bdcf6c66-75fe-4e27-a93d-54adaae6fb37
+langcode: en
+status: true
+dependencies: {  }
+name: 'Bài viết'
+type: article
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true
