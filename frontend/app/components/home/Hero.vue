@@ -14,7 +14,7 @@ defineProps<{ image?: string | null }>()
 
     <div class="relative mx-auto grid max-w-[var(--container-max)] items-stretch md:grid-cols-2">
       <div
-        class="flex flex-col justify-center gap-7 px-[clamp(20px,4vw,48px)] py-[clamp(56px,7vw,110px)]"
+        class="flex flex-col justify-center gap-[26px] px-[clamp(20px,4vw,48px)] py-[clamp(56px,7vw,110px)]"
       >
         <div class="flex items-center gap-4">
           <span class="h-[2px] w-12 bg-gold-200" />
@@ -38,18 +38,18 @@ defineProps<{ image?: string | null }>()
 
         <div class="mt-1 flex flex-wrap gap-4">
           <NuxtLink
-            to="/san-pham"
+            to="#categories"
             class="text-body inline-flex items-center gap-3 rounded-sm bg-gold-200 px-[34px] py-[18px] font-bold tracking-[0.07em] text-charcoal-900 uppercase no-underline transition hover:-translate-y-0.5 hover:bg-white"
-          >Xem bộ sưu tập →</NuxtLink>
+          >Xem bộ sưu tập<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></NuxtLink>
           <NuxtLink
-            to="/lien-he"
+            to="#consultation"
             class="text-body inline-flex items-center rounded-sm border border-white/30 px-[34px] py-[18px] tracking-[0.07em] text-white uppercase no-underline hover:border-gold-200 hover:text-gold-200"
           >Tư vấn miễn phí</NuxtLink>
         </div>
       </div>
 
       <div class="relative min-h-[clamp(360px,46vw,620px)]">
-        <div class="absolute inset-0 overflow-hidden bg-neutral-700">
+        <div class="kb-hero-frame absolute inset-0 overflow-hidden bg-neutral-700">
           <img
             v-if="image"
             :src="image"

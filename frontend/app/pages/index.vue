@@ -9,9 +9,14 @@ const featured = computed(() => payload.value?.featured ?? {})
 
 // Reuse the first featured product's photo as the hero image so the LCP
 // element is a real catalogue shot rather than a placeholder.
-const heroImage = computed(
-  () => Object.values(featured.value).flat().find(p => p.image)?.image?.url ?? null,
-)
+const heroImage = computed(() => {
+  const products = Object.values(featured.value).flat()
+  // The approved hero uses the 6y7a5717 catalogue photograph. Keep the image
+  // backend-owned while selecting the exact design asset deterministically.
+  return products.find(p => p.image?.url.includes('6y7a5717'))?.image?.url
+    ?? products.find(p => p.image)?.image?.url
+    ?? null
+})
 
 useSeoMeta({
   title: 'Keybolts — Khóa cửa & phụ kiện nhập khẩu chính hãng',
