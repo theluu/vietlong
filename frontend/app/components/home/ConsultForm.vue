@@ -35,12 +35,13 @@ const reset = () => {
 
 <template>
   <section id="consultation" class="border-t border-border bg-surface py-[clamp(60px,7vw,104px)]">
-    <div class="mx-auto grid max-w-[var(--container-max)] overflow-hidden border border-border bg-background px-0 shadow-floating lg:grid-cols-2">
+    <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+    <div class="grid overflow-hidden border border-border bg-background shadow-floating lg:grid-cols-2">
       <div class="relative flex flex-col justify-center gap-[18px] overflow-hidden bg-charcoal-900 p-[clamp(34px,4vw,56px)] text-white">
         <div class="pointer-events-none absolute -top-[30%] -right-[20%] h-[160%] w-[70%] bg-[radial-gradient(circle,rgba(198,145,72,.3),transparent_62%)]" />
         <div class="relative flex items-center gap-[14px]"><span class="h-px w-[34px] bg-gold-200"/><span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">Tư vấn</span></div>
-        <h2 class="text-display-lg m-0 font-bold tracking-[-0.03em]">Chưa biết chọn model nào?</h2>
-        <p class="text-heading m-0 leading-relaxed font-light text-white/75">
+        <h2 class="m-0 text-[clamp(var(--text-display),3vw,var(--text-display-lg))] leading-[1.12] font-bold tracking-[-0.03em]">Chưa biết chọn model nào?</h2>
+        <p class="text-heading m-0 leading-[1.75] font-light text-white/74">
           Để lại thông tin — kỹ thuật Keybolts sẽ gọi lại và tư vấn theo đúng loại cửa, độ
           dày và nhu cầu sử dụng của bạn.
         </p>
@@ -65,7 +66,7 @@ const reset = () => {
         </div>
 
         <form v-else class="flex flex-col gap-5" @submit.prevent="submit">
-          <label class="flex flex-col gap-2">
+          <label class="flex flex-col gap-[6px]">
             <span class="text-body text-text">Họ tên</span>
             <input
               v-model="name"
@@ -74,7 +75,7 @@ const reset = () => {
               class="text-body h-[48px] border border-border px-[15px] outline-none focus:border-brass-500"
             >
           </label>
-          <label class="flex flex-col gap-2">
+          <label class="flex flex-col gap-[6px]">
             <span class="text-body text-text">Số điện thoại</span>
             <input
               v-model="phone"
@@ -84,7 +85,7 @@ const reset = () => {
               class="text-body h-[48px] border border-border px-[15px] outline-none focus:border-brass-500"
             >
           </label>
-          <label class="flex flex-col gap-2">
+          <label class="flex flex-col gap-[6px]">
             <span class="text-body text-text">Nhu cầu / loại cửa</span>
             <textarea v-model="note" rows="3" placeholder="Ví dụ: cửa gỗ 45mm, cần khóa vân tay cho căn hộ" class="text-body border border-border px-[15px] py-[9px] outline-none focus:border-brass-500" />
           </label>
@@ -96,6 +97,7 @@ const reset = () => {
           <p v-if="failed" class="text-caption text-danger m-0">Không gửi được. Vui lòng gọi {{ HOTLINE }}.</p>
         </form>
       </div>
+    </div>
     </div>
   </section>
 </template>
