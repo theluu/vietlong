@@ -100,14 +100,16 @@ class HomepageController extends ControllerBase {
         ->range(0, 5)
         ->execute();
       if (count($ids) < 4) {
-        $fallback = $storage->getQuery()
+        $fallback_query = $storage->getQuery()
           ->accessCheck(TRUE)
           ->condition('type', 'product')
           ->condition('status', 1)
-          ->condition('nid', array_values($ids), 'NOT IN')
           ->sort('created', 'DESC')
-          ->range(0, 4 - count($ids))
-          ->execute();
+          ->range(0, 4 - count($ids));
+        if ($ids) {
+          $fallback_query->condition('nid', array_values($ids), 'NOT IN');
+        }
+        $fallback = $fallback_query->execute();
         $ids += $fallback;
       }
       $out[$group] = array_values(array_map(

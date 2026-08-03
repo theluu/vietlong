@@ -15,7 +15,11 @@ const [firstNav, ...restNav] = NAV_ITEMS
       class="mx-auto flex max-w-[var(--container-max)] items-center justify-between gap-[clamp(16px,2.4vw,40px)] px-[clamp(20px,4vw,48px)] py-4"
     >
       <NuxtLink to="/" class="flex min-w-0 items-center gap-4 no-underline">
-        <span class="text-display text-gold-200 font-bold tracking-[-0.02em]">Keybolts</span>
+        <img
+          src="https://keybolts.com.vn/sites/all/themes/khoavietlong/images/logoweb.png"
+          alt="Keybolts"
+          class="h-[46px] w-auto flex-shrink-0 object-contain md:h-[58px]"
+        >
         <span
           v-if="showLogoTagline"
           class="flex flex-col gap-[3px] border-l border-white/20 pl-4"
@@ -71,8 +75,8 @@ const [firstNav, ...restNav] = NAV_ITEMS
 
         <NuxtLink
           to="/lien-he"
-          class="text-body rounded-sm bg-gold-200 px-[26px] py-[13px] font-bold tracking-[0.06em] whitespace-nowrap text-charcoal-900 uppercase no-underline hover:bg-white"
-        >Nhận tư vấn</NuxtLink>
+          class="text-body flex items-center gap-2 rounded-sm bg-gold-200 px-[26px] py-[13px] font-bold tracking-[0.06em] whitespace-nowrap text-charcoal-900 uppercase no-underline hover:bg-white"
+        ><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Nhận tư vấn</NuxtLink>
       </div>
 
       <!-- Mobile actions -->

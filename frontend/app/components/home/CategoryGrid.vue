@@ -2,11 +2,17 @@
 import type { HomeCategory } from '~/services/homepage'
 
 defineProps<{ categories: HomeCategory[] }>()
+
+const track = ref<HTMLElement | null>(null)
+const scroll = (direction: number) => {
+  const card = track.value?.firstElementChild as HTMLElement | null
+  track.value?.scrollBy({ left: direction * ((card?.offsetWidth ?? 286) + 24) * 2, behavior: 'smooth' })
+}
 </script>
 
 <template>
   <section id="categories" class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-[clamp(60px,7vw,104px)]">
-    <div class="mb-11 flex flex-col items-center gap-3.5 text-center">
+    <div class="mb-7 flex flex-col items-center gap-3.5 text-center">
     <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">— Danh mục</span>
     <h2 class="text-display-lg m-0 font-bold tracking-[-0.03em]">Khám phá sản phẩm</h2>
     <p class="text-heading text-text-muted m-0 max-w-[720px] font-light leading-relaxed">
@@ -14,8 +20,12 @@ defineProps<{ categories: HomeCategory[] }>()
       hoàn thiện.
     </p>
     </div>
+    <div class="mb-7 flex justify-center gap-2">
+      <button type="button" aria-label="Danh mục trước" class="grid size-11 cursor-pointer place-items-center border border-border bg-background text-xl transition hover:border-brass-500 hover:bg-charcoal-900 hover:text-white" @click="scroll(-1)">←</button>
+      <button type="button" aria-label="Danh mục tiếp theo" class="grid size-11 cursor-pointer place-items-center border border-border bg-background text-xl transition hover:border-brass-500 hover:bg-charcoal-900 hover:text-white" @click="scroll(1)">→</button>
+    </div>
 
-    <div class="kb-track flex snap-x gap-6 overflow-x-auto pb-2">
+    <div ref="track" class="kb-track flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2">
       <NuxtLink
         v-for="cat in categories"
         :key="cat.id"

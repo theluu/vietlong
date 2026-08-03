@@ -8,6 +8,11 @@ const props = defineProps<{ featured: Record<string, ProductCard[]> }>()
 const tabs = computed(() => FEATURED_TABS.filter(t => (props.featured[t.key]?.length ?? 0) > 0))
 const active = ref(tabs.value[0]?.key ?? 'dong')
 const items = computed(() => props.featured[active.value] ?? [])
+const track = ref<HTMLElement | null>(null)
+const scroll = (direction: number) => {
+  const card = track.value?.firstElementChild as HTMLElement | null
+  track.value?.scrollBy({ left: direction * ((card?.offsetWidth ?? 260) + 24) * 2, behavior: 'smooth' })
+}
 </script>
 
 <template>
@@ -16,8 +21,9 @@ const items = computed(() => props.featured[active.value] ?? [])
       <div class="text-center">
         <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Bán chạy</span>
         <h2 class="text-display-lg mt-3 mb-7 font-bold tracking-[-0.03em]">Sản phẩm nổi bật</h2>
-        <div class="mb-7 flex justify-center gap-2" aria-hidden="true">
-          <span class="grid size-10 place-items-center border border-border">←</span><span class="grid size-10 place-items-center border border-border">→</span>
+        <div class="mb-7 flex justify-center gap-2">
+          <button type="button" aria-label="Sản phẩm trước" class="grid size-11 cursor-pointer place-items-center border border-border bg-background text-xl hover:border-brass-500 hover:bg-charcoal-900 hover:text-white" @click="scroll(-1)">←</button>
+          <button type="button" aria-label="Sản phẩm tiếp theo" class="grid size-11 cursor-pointer place-items-center border border-border bg-background text-xl hover:border-brass-500 hover:bg-charcoal-900 hover:text-white" @click="scroll(1)">→</button>
         </div>
       </div>
 
@@ -37,8 +43,8 @@ const items = computed(() => props.featured[active.value] ?? [])
         >{{ t.label }}</button>
       </div>
 
-      <div class="grid grid-cols-1 gap-[clamp(16px,1.6vw,24px)] sm:grid-cols-2 lg:grid-cols-4">
-        <NuxtLink v-for="p in items.slice(0, 4)" :key="p.id" :to="`/${p.slug}`" class="group flex min-w-0 flex-col bg-background p-4 text-inherit no-underline shadow-sm">
+      <div ref="track" class="kb-track flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2">
+        <NuxtLink v-for="p in items" :key="p.id" :to="`/${p.slug}`" class="group flex w-[clamp(238px,22vw,310px)] flex-none snap-start flex-col bg-background p-4 text-inherit no-underline shadow-sm">
           <div class="aspect-[4/4.35] overflow-hidden bg-surface p-5">
             <img v-if="p.image" :src="p.image.url" :alt="p.image.alt" class="size-full object-contain transition duration-500 group-hover:scale-105">
           </div>

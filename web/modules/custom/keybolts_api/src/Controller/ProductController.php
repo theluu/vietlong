@@ -174,11 +174,12 @@ class ProductController extends ControllerBase {
       ->range(0, 8)
       ->execute();
     if (count($ids) < 8) {
+      $excluded = array_merge([(int) $node->id()], array_values($ids));
       $fallback = $this->entityTypeManager()->getStorage('node')->getQuery()
         ->accessCheck(TRUE)
         ->condition('type', 'product')
         ->condition('status', 1)
-        ->condition('nid', array_merge([(int) $node->id()], array_values($ids)), 'NOT IN')
+        ->condition('nid', $excluded, 'NOT IN')
         ->range(0, 8 - count($ids))
         ->execute();
       $ids += $fallback;
