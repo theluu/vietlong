@@ -16,43 +16,50 @@ const scroll = (direction: number) => {
 </script>
 
 <template>
-  <section class="bg-surface">
-    <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-16">
-      <div class="text-center">
-        <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Bán chạy</span>
-        <h2 class="text-display-lg mt-3 mb-7 font-bold tracking-[-0.03em]">Sản phẩm nổi bật</h2>
-        <div class="mb-7 flex justify-center gap-2">
-          <button type="button" aria-label="Sản phẩm trước" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-          <button type="button" aria-label="Sản phẩm tiếp theo" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
+  <section id="products" class="border-y border-border bg-surface py-[clamp(60px,7vw,104px)]">
+    <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+      <div class="mb-[30px] flex flex-col items-center gap-[22px] text-center">
+        <div class="flex max-w-[780px] flex-col items-center gap-[14px]">
+          <div class="flex items-center gap-[14px]">
+            <span class="h-px w-[34px] bg-brass-500" />
+            <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Bán chạy</span>
+          </div>
+          <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Sản phẩm nổi bật</h2>
+        </div>
+        <div class="flex items-center justify-center gap-[12px]">
+          <button type="button" aria-label="Trước" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background text-charcoal-900 transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button type="button" aria-label="Sau" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background text-charcoal-900 transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
       </div>
 
-      <div role="tablist" class="mb-9 flex flex-wrap justify-center gap-x-8 gap-y-3 border-b border-border">
-        <button
-          v-for="t in tabs"
-          :key="t.key"
-          type="button"
-          role="tab"
-          :aria-selected="active === t.key"
-          :data-tab="t.key"
-          class="text-caption -mb-px cursor-pointer border-x-0 border-t-0 border-b-2 bg-transparent px-1 py-4 font-bold tracking-[0.06em] uppercase transition"
-          :class="active === t.key
-            ? 'text-charcoal-900 border-brass-600'
-            : 'text-text-muted border-transparent hover:text-charcoal-900'"
-          @click="active = t.key"
-        >{{ t.label }}</button>
+      <div class="mb-[30px] flex justify-center overflow-x-auto">
+        <div role="tablist" class="inline-flex min-w-max border-b border-border shadow-[0_4px_10px_rgba(40,45,48,.04)]">
+          <button
+            v-for="t in tabs"
+            :key="t.key"
+            type="button"
+            role="tab"
+            :aria-selected="active === t.key"
+            :data-tab="t.key"
+            class="text-body -mb-px cursor-pointer border-x-0 border-t-0 border-b-2 bg-transparent px-[14px] py-[14px] font-normal transition"
+            :class="active === t.key
+              ? 'text-charcoal-900 border-brass-500'
+              : 'text-text-muted border-transparent hover:text-charcoal-900'"
+            @click="active = t.key"
+          >{{ t.label }}</button>
+        </div>
       </div>
 
-      <div ref="track" class="kb-track flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2">
-        <article v-for="p in items" :key="p.id" class="kb-home-product-card group flex flex-none snap-start flex-col border border-border bg-background text-inherit transition hover:-translate-y-1.5 hover:shadow-floating">
-          <NuxtLink :to="`/${p.slug}`" class="aspect-square overflow-hidden bg-white text-inherit no-underline">
+      <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
+        <article v-for="p in items" :key="p.id" class="kb-home-product-card group flex min-w-0 snap-start flex-col border border-border bg-background text-inherit transition hover:-translate-y-[6px] hover:border-neutral-300 hover:shadow-floating">
+          <NuxtLink :to="`/${p.slug}`" class="kb-product-image-frame aspect-square overflow-hidden bg-white text-inherit no-underline">
             <img v-if="p.image" :src="p.image.url" :alt="p.image.alt" class="size-full object-contain transition duration-500 group-hover:scale-105">
           </NuxtLink>
-          <div class="flex flex-1 flex-col gap-[9px] border-t border-border p-5">
-            <span class="text-eyebrow text-neutral-600 tracking-[0.14em] uppercase">{{ p.category?.name }}</span>
-            <strong class="text-heading min-h-[2.8em] leading-[1.4]">{{ p.name }}</strong>
-            <span class="text-caption text-neutral-600 leading-relaxed">{{ p.model }}<template v-if="p.finish"> · {{ p.finish.name }}</template></span>
-            <a href="#consultation" class="text-caption mt-auto bg-charcoal-900 py-3.5 text-center font-bold tracking-[0.1em] text-white uppercase no-underline hover:bg-brass-700">Liên hệ tư vấn</a>
+          <div class="flex flex-1 flex-col gap-[9px] border-t border-border px-[20px] py-[22px]">
+            <span class="text-eyebrow text-neutral-600 leading-[1.5] tracking-[0.14em] uppercase">{{ p.category?.name }}</span>
+            <strong class="text-heading min-h-[2.8em] leading-[1.4] tracking-[-0.015em]">{{ p.name }}</strong>
+            <span class="text-caption text-neutral-600 leading-[1.6]">{{ p.model }}<template v-if="p.finish"> · {{ p.finish.name }}</template></span>
+            <a href="#consultation" class="text-caption mt-auto rounded-sm bg-charcoal-900 py-[14px] text-center font-bold tracking-[0.1em] text-white uppercase no-underline transition hover:bg-brass-700">Liên hệ tư vấn</a>
           </div>
         </article>
       </div>

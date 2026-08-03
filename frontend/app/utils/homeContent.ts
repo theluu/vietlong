@@ -68,7 +68,7 @@ export const ARTICLES = [
 
 export const FEATURED_TABS = [
   { key: 'dong', label: 'Khoá đồng nhập khẩu' },
-  { key: 'cremone', label: 'Chốt Cremone' },
-  { key: 'hotel', label: 'Khóa khách sạn' },
-  { key: 'phukien', label: 'Phụ kiện cửa' },
+  { key: 'cremone', label: 'CREMONE chốt khoá' },
+  { key: 'hotel', label: 'Khoá khách sạn' },
+  { key: 'phukien', label: 'Phụ kiện khác' },
 ]
