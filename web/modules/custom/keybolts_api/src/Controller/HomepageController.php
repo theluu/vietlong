@@ -67,6 +67,7 @@ class HomepageController extends ControllerBase {
         'image' => $image,
       ];
     }
+    usort($out, static fn(array $a, array $b): int => $a['number'] <=> $b['number']);
     return $out;
   }
 

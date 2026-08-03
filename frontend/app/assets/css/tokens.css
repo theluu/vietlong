@@ -101,6 +101,54 @@
  * silently. These three are written out here instead.
  */
 @layer components {
+  @keyframes kbRing {
+    0% { opacity: .8; transform: scale(.82); }
+    80%, 100% { opacity: 0; transform: scale(1.32); }
+  }
+
+  @keyframes kbShake {
+    0%, 72%, 100% { transform: rotate(0); }
+    76% { transform: rotate(-14deg); }
+    80% { transform: rotate(12deg); }
+    84% { transform: rotate(-10deg); }
+    88% { transform: rotate(7deg); }
+  }
+
+  .kb-floating-call::before {
+    position: absolute;
+    inset: -8px;
+    border: 2px solid rgba(208, 2, 27, .55);
+    border-radius: 999px;
+    animation: kbRing 1.8s ease-out infinite;
+    content: '';
+  }
+
+  .kb-phone-shake { animation: kbShake 2.4s ease-in-out infinite; }
+
+  .kb-home-category-card,
+  .kb-home-product-card,
+  .kb-home-solution-card { flex-basis: 100%; }
+
+  @media (width >= 640px) {
+    .kb-home-category-card,
+    .kb-home-product-card { flex-basis: calc((100% - 24px) / 2); }
+  }
+
+  @media (width >= 768px) {
+    .kb-home-solution-card { flex-basis: calc((100% - 24px) / 2); }
+  }
+
+  @media (width >= 992px) {
+    .kb-home-category-card,
+    .kb-home-product-card { flex-basis: calc((100% - 48px) / 3); }
+  }
+
+  @media (width >= 1200px) {
+    .kb-home-category-card,
+    .kb-home-product-card { flex-basis: calc((100% - 72px) / 4); }
+    .kb-home-solution-card { flex-basis: calc((100% - 48px) / 3); }
+  }
+
   /* Sidebar + results, stacking below the lg breakpoint. */
   .kb-catalog-grid {
     display: grid;

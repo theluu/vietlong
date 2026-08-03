@@ -27,6 +27,7 @@ onUnmounted(() => {
     </main>
 
     <LayoutSiteFooter />
+    <LayoutFloatingCall />
     <LayoutStickyMobileCta />
     <LayoutSearchOverlay />
   </div>

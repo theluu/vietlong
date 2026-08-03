@@ -1,12 +1,28 @@
 <script setup lang="ts">
+import { submitLead } from '~/services/pages'
+import { normalisePhone, validateLead } from '~/utils/leadForm'
+
 const name = ref('')
 const phone = ref('')
 const note = ref('')
 const submitted = ref(false)
+const sending = ref(false)
+const failed = ref(false)
 
-// The prototype only confirms locally; there is no submission endpoint yet.
-const submit = () => {
-  if (name.value && phone.value) submitted.value = true
+const submit = async () => {
+  if (validateLead({ name: name.value, phone: phone.value }).length) return
+  sending.value = true
+  failed.value = false
+  try {
+    await submitLead({ name: name.value.trim(), phone: normalisePhone(phone.value), message: note.value.trim(), source: 'consult' })
+    submitted.value = true
+  }
+  catch {
+    failed.value = true
+  }
+  finally {
+    sending.value = false
+  }
 }
 
 const reset = () => {
@@ -18,25 +34,24 @@ const reset = () => {
 </script>
 
 <template>
-  <section class="bg-surface px-[clamp(20px,4vw,48px)] py-20">
-    <div class="mx-auto grid max-w-[1120px] overflow-hidden bg-background shadow-floating lg:grid-cols-[0.9fr_1.1fr]">
-      <div class="relative flex flex-col gap-5 overflow-hidden bg-charcoal-900 p-10 text-white md:p-14">
-        <div class="pointer-events-none absolute -right-32 -bottom-44 size-[430px] rounded-full bg-[radial-gradient(circle,rgba(195,155,82,.38),transparent_66%)]" />
-        <span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">Tư vấn</span>
+  <section id="consultation" class="border-t border-border bg-surface py-[clamp(60px,7vw,104px)]">
+    <div class="mx-auto grid max-w-[var(--container-max)] overflow-hidden border border-border bg-background px-0 shadow-floating lg:grid-cols-2">
+      <div class="relative flex flex-col justify-center gap-[18px] overflow-hidden bg-charcoal-900 p-[clamp(34px,4vw,56px)] text-white">
+        <div class="pointer-events-none absolute -top-[30%] -right-[20%] h-[160%] w-[70%] bg-[radial-gradient(circle,rgba(198,145,72,.3),transparent_62%)]" />
+        <div class="relative flex items-center gap-[14px]"><span class="h-px w-[34px] bg-gold-200"/><span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">Tư vấn</span></div>
         <h2 class="text-display-lg m-0 font-bold tracking-[-0.03em]">Chưa biết chọn model nào?</h2>
         <p class="text-heading m-0 leading-relaxed font-light text-white/75">
           Để lại thông tin — kỹ thuật Keybolts sẽ gọi lại và tư vấn theo đúng loại cửa, độ
           dày và nhu cầu sử dụng của bạn.
         </p>
-        <div class="flex flex-col gap-1">
-          <span class="text-caption tracking-[0.1em] text-white/60 uppercase">Hotline</span>
-          <a :href="HOTLINE_TEL" class="text-display flex items-center gap-3 text-gold-200 font-bold no-underline">
-            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>{{ HOTLINE }}
+        <div class="relative mt-4 border-t border-white/15 pt-[26px]">
+          <a :href="HOTLINE_TEL" class="flex items-center gap-4 text-white no-underline">
+            <span class="grid size-[46px] flex-none place-items-center border border-gold-200/40 text-gold-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span><span class="flex flex-col gap-0.5"><span class="text-eyebrow tracking-[0.14em] text-white/60 uppercase">Hotline</span><strong class="text-display leading-none">{{ HOTLINE }}</strong></span>
           </a>
         </div>
       </div>
 
-      <div class="bg-background p-10 text-text md:p-14">
+      <div class="bg-background p-[clamp(34px,4vw,56px)] text-text">
         <div v-if="submitted" class="flex flex-col gap-4">
           <span class="text-display font-bold">Cảm ơn bạn!</span>
           <p class="text-body text-text-muted m-0">
@@ -49,34 +64,36 @@ const reset = () => {
           >Gửi yêu cầu khác</button>
         </div>
 
-        <form v-else class="flex flex-col gap-4" @submit.prevent="submit">
+        <form v-else class="flex flex-col gap-5" @submit.prevent="submit">
           <label class="flex flex-col gap-2">
-            <span class="text-caption font-bold text-text-muted">Họ tên</span>
+            <span class="text-body text-text">Họ tên</span>
             <input
               v-model="name"
               required
-              placeholder="Nguyễn Văn An"
-              class="text-body border border-border px-4 py-3.5 outline-none focus:border-brass-500"
+              placeholder="Nguyễn Văn A"
+              class="text-body h-[48px] border border-border px-[15px] outline-none focus:border-brass-500"
             >
           </label>
           <label class="flex flex-col gap-2">
-            <span class="text-caption font-bold text-text-muted">Số điện thoại</span>
+            <span class="text-body text-text">Số điện thoại</span>
             <input
               v-model="phone"
               required
               inputmode="tel"
               placeholder="09xx xxx xxx"
-              class="text-body border border-border px-4 py-3.5 outline-none focus:border-brass-500"
+              class="text-body h-[48px] border border-border px-[15px] outline-none focus:border-brass-500"
             >
           </label>
           <label class="flex flex-col gap-2">
-            <span class="text-caption font-bold text-text-muted">Nhu cầu / loại cửa</span>
-            <textarea v-model="note" rows="3" placeholder="Ví dụ: khóa cho cửa gỗ biệt thự..." class="text-body border border-border px-4 py-3 outline-none focus:border-brass-500" />
+            <span class="text-body text-text">Nhu cầu / loại cửa</span>
+            <textarea v-model="note" rows="3" placeholder="Ví dụ: cửa gỗ 45mm, cần khóa vân tay cho căn hộ" class="text-body border border-border px-[15px] py-[9px] outline-none focus:border-brass-500" />
           </label>
           <button
             type="submit"
-            class="text-body cursor-pointer bg-charcoal-900 px-8 py-4 font-bold tracking-[0.06em] text-white uppercase"
-          >Gửi yêu cầu tư vấn</button>
+            :disabled="sending"
+            class="text-body mt-2 flex cursor-pointer items-center justify-center gap-[11px] bg-charcoal-900 px-8 py-[19px] font-bold tracking-[0.07em] text-gold-200 uppercase hover:bg-brass-700 disabled:opacity-60"
+          >{{ sending ? 'Đang gửi…' : 'Gửi yêu cầu tư vấn' }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
+          <p v-if="failed" class="text-caption text-danger m-0">Không gửi được. Vui lòng gọi {{ HOTLINE }}.</p>
         </form>
       </div>
     </div>

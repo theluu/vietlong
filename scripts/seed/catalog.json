@@ -12,35 +12,51 @@
   "categories": [
     {
       "key": "dong",
-      "label": "Khóa đồng"
+      "label": "Khóa đồng",
+      "number": "04",
+      "desc": "Chất liệu đồng bền bỉ, thiết kế sang trọng."
     },
     {
       "key": "tay-gat",
-      "label": "Khóa tay gạt"
+      "label": "Khóa tay gạt",
+      "number": "05",
+      "desc": "Thao tác một chạm, phù hợp cửa gỗ."
     },
     {
       "key": "thong-minh",
-      "label": "Khóa thông minh"
+      "label": "Khóa thông minh",
+      "number": "01",
+      "desc": "Điều khiển tiện lợi, bảo mật hiện đại."
     },
     {
       "key": "van-tay",
-      "label": "Khóa vân tay"
+      "label": "Khóa vân tay",
+      "number": "02",
+      "desc": "Mở khóa nhanh chỉ với dấu vân tay."
     },
     {
       "key": "khach-san",
-      "label": "Khóa khách sạn"
+      "label": "Khóa khách sạn",
+      "number": "03",
+      "desc": "Thẻ từ cho khách sạn, căn hộ dịch vụ."
     },
     {
       "key": "cremone",
-      "label": "Chốt Cremone"
+      "label": "Chốt Cremone",
+      "number": "08",
+      "desc": "Chốt đồng và inox cho cửa đi, cửa sổ."
     },
     {
       "key": "ban-le",
-      "label": "Bản lề & tay co"
+      "label": "Bản lề & tay co",
+      "number": "06",
+      "desc": "Đa dạng kích thước, chịu tải và bền cao."
     },
     {
       "key": "phu-kien",
-      "label": "Phụ kiện cửa"
+      "label": "Phụ kiện cửa",
+      "number": "07",
+      "desc": "Chốt, tay nắm và phụ kiện đi kèm đầy đủ."
     }
   ],
   "finishes": [

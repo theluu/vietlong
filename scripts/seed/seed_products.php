@@ -107,8 +107,14 @@ foreach ($data['brands'] as $b) {
 }
 foreach ($data['categories'] as $i => $c) {
   $cats[$c['key']] = kb_term('product_category', $c['label'], [
-    'field_number' => sprintf('%02d', $i + 1),
+    'field_number' => $c['number'] ?? sprintf('%02d', $i + 1),
+    'field_short_desc' => $c['desc'] ?? '',
   ]);
+  // kb_term returns existing terms unchanged; keep repeat runs aligned with
+  // the latest approved homepage ordering and copy.
+  $cats[$c['key']]->set('field_number', $c['number'] ?? sprintf('%02d', $i + 1));
+  $cats[$c['key']]->set('field_short_desc', $c['desc'] ?? '');
+  $cats[$c['key']]->save();
 }
 foreach ($data['finishes'] as $f) {
   $finishes[$f['key']] = kb_term('finish', $f['label'], [
