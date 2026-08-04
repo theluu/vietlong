@@ -166,3 +166,37 @@ function keybolts_core_preprocess_menu(array &$variables): void {
     }
   );
 }
+
+/**
+ * Implements hook_form_alter().
+ *
+ * The action buttons on a node form read "Save", "Preview", "Delete" in
+ * English and are styled like every other button on the page. For an editor
+ * who came to change one sentence, the button that commits the change should
+ * be the most obvious thing on screen and should be in their language.
+ */
+function keybolts_core_form_alter(array &$form, \Drupal\Core\Form\FormStateInterface $form_state, string $form_id): void {
+  // Node forms are node_{type}_form when adding and node_{type}_edit_form when
+  // editing, so matching on a single suffix misses half of them.
+  if (!str_starts_with($form_id, 'node_') || !isset($form['actions'])) {
+    return;
+  }
+  if (!in_array('bien_tap_vien', \Drupal::currentUser()->getRoles(), TRUE)) {
+    return;
+  }
+  $labels = [
+    'submit' => 'Lưu thay đổi',
+    'preview' => 'Xem thử',
+    'delete' => 'Xoá',
+  ];
+  foreach ($labels as $key => $label) {
+    if (isset($form['actions'][$key]['#value'])) {
+      $form['actions'][$key]['#value'] = t($label);
+    }
+    if (isset($form['actions'][$key]['#title'])) {
+      $form['actions'][$key]['#title'] = t($label);
+    }
+  }
+  $form['actions']['#attributes']['class'][] = 'kb-formactions';
+  $form['#attached']['library'][] = 'keybolts_core/dashboard';
+}
