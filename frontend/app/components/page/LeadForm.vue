@@ -2,6 +2,7 @@
 import { submitLead, type LeadPayload } from '~/services/pages'
 import { normalisePhone, RECAPTCHA_ACTIONS, validateLead } from '~/utils/leadForm'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const props = withDefaults(defineProps<{
   source: LeadPayload['source']
   title: string

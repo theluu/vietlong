@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
+</script>
+
 <template>
   <a
     :href="HOTLINE_TEL"

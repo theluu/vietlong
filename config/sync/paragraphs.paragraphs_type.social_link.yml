@@ -1,0 +1,10 @@
+uuid: 1e34e39c-773d-4d27-b84a-15afa81b2cef
+langcode: en
+status: true
+dependencies: {  }
+id: social_link
+label: 'Mạng xã hội'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

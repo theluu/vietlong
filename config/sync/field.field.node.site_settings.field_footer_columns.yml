@@ -1,0 +1,27 @@
+uuid: 4620eb13-516f-42f1-a717-003814bd312b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_columns
+    - node.type.site_settings
+    - paragraphs.paragraphs_type.footer_column
+  module:
+    - entity_reference_revisions
+id: node.site_settings.field_footer_columns
+field_name: field_footer_columns
+entity_type: node
+bundle: site_settings
+label: 'Footer — các cột link'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      footer_column: footer_column
+    negate: 0
+field_type: entity_reference_revisions

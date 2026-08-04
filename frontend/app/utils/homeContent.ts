@@ -6,7 +6,7 @@
 export const USPS = [
   { title: 'Bảo hành 5–10 năm', desc: 'Chính hãng, có phiếu bảo hành' },
   { title: 'Giao hàng toàn quốc', desc: 'Hỗ trợ vận chuyển công trình' },
-  { title: 'Tư vấn theo loại cửa', desc: 'Kỹ thuật hỗ trợ 1900 9018' },
+  { title: 'Tư vấn theo loại cửa', desc: 'Kỹ thuật hỗ trợ theo hotline' },
   { title: 'Đạt chuẩn CE-CFF', desc: 'Nhập khẩu, kiểm định đầy đủ' },
 ]
 

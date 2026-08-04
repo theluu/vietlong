@@ -1,0 +1,19 @@
+uuid: 54fac795-7c22-439e-9a02-466ff12eeefe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hotline
+    - node.type.site_settings
+id: node.site_settings.field_hotline
+field_name: field_hotline
+entity_type: node
+bundle: site_settings
+label: 'Hotline (hiển thị)'
+description: 'Ví dụ: 1900 9018'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

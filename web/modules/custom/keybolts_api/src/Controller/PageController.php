@@ -10,6 +10,7 @@ use Drupal\keybolts_api\Serializer\BranchSerializer;
 use Drupal\keybolts_api\Serializer\ArticleSerializer;
 use Drupal\keybolts_api\Serializer\PageSerializer;
 use Drupal\keybolts_api\Serializer\ProjectSerializer;
+use Drupal\keybolts_api\Serializer\SiteSerializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,6 +32,7 @@ class PageController extends ControllerBase {
     private readonly PageSerializer $pages,
     private readonly ArticleSerializer $articles,
     private readonly ProjectSerializer $projects,
+    private readonly SiteSerializer $site,
   ) {}
 
   public static function create(ContainerInterface $container): static {
@@ -39,7 +41,18 @@ class PageController extends ControllerBase {
       $container->get('keybolts_api.page_serializer'),
       $container->get('keybolts_api.article_serializer'),
       $container->get('keybolts_api.project_serializer'),
+      $container->get('keybolts_api.site_serializer'),
     );
+  }
+
+  /**
+   * GET /api/v1/site
+   *
+   * Every page needs this, so it is one request cached by tag rather than a
+   * field on each page payload.
+   */
+  public function site() {
+    return ApiEnvelope::make($this->site->all(), [], [], $this->site->cacheTags());
   }
 
   /**

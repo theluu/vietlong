@@ -2,6 +2,7 @@
 import { suggestProducts } from '~/services/products'
 import type { ProductCard } from '~/types/product'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const { searchOpen, closeAll } = useSiteChrome()
 const router = useRouter()
 

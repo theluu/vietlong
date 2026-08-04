@@ -1,0 +1,10 @@
+uuid: 27b27207-94e0-40fe-a2ea-6076a62af8e1
+langcode: en
+status: true
+dependencies: {  }
+id: footer_link
+label: 'Link ở footer'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

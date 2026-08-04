@@ -1,0 +1,27 @@
+uuid: c238d176-0bfb-4c87-bbd7-1f9b45e15c26
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_social
+    - node.type.site_settings
+    - paragraphs.paragraphs_type.social_link
+  module:
+    - entity_reference_revisions
+id: node.site_settings.field_social
+field_name: field_social
+entity_type: node
+bundle: site_settings
+label: 'Mạng xã hội'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      social_link: social_link
+    negate: 0
+field_type: entity_reference_revisions

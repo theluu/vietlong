@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const props = defineProps<{ error: NuxtError }>()
 
 const isNotFound = computed(() => props.error?.statusCode === 404)

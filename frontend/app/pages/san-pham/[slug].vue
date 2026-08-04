@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { fetchProduct } from '~/services/products'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 

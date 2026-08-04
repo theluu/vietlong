@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { fetchAbout, fetchBranches } from '~/services/pages'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const { data } = await useAsyncData('page:about', () => fetchAbout())
 const { data: branchData } = await useAsyncData('branches', () => fetchBranches())
 

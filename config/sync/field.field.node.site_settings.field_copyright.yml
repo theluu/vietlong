@@ -1,0 +1,19 @@
+uuid: e55f3403-9aa5-4c3f-9064-56a2570aea3c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_copyright
+    - node.type.site_settings
+id: node.site_settings.field_copyright
+field_name: field_copyright
+entity_type: node
+bundle: site_settings
+label: 'Dòng bản quyền'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

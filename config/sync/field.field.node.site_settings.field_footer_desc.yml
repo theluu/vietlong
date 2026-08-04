@@ -1,0 +1,19 @@
+uuid: 913c629d-85a4-4b91-ab2e-431c1b54c36d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_footer_desc
+    - node.type.site_settings
+id: node.site_settings.field_footer_desc
+field_name: field_footer_desc
+entity_type: node
+bundle: site_settings
+label: 'Footer — mô tả công ty'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

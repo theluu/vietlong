@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { fetchHomepage } from '~/services/homepage'
+const { hotline: HOTLINE } = useSite()
 
 const { data } = await useAsyncData('homepage', () => fetchHomepage())
 
@@ -21,7 +22,7 @@ const heroImage = computed(() => {
 useSeoMeta({
   title: 'Keybolts — Khóa cửa & phụ kiện nhập khẩu chính hãng',
   description:
-    'Khóa đồng, khóa vân tay, khóa thông minh, khóa thẻ từ khách sạn và phụ kiện cửa nhập khẩu. Đạt chứng nhận CE-CFF, bảo hành 5–10 năm. Hotline 1900 9018.',
+    `Khóa đồng, khóa vân tay, khóa thông minh, khóa thẻ từ khách sạn và phụ kiện cửa nhập khẩu. Đạt chứng nhận CE-CFF, bảo hành 5–10 năm. Hotline ${HOTLINE}.`,
 })
 </script>
 

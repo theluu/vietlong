@@ -2,6 +2,7 @@
 import { submitLead } from '~/services/pages'
 import { normalisePhone, RECAPTCHA_ACTIONS, validateLead } from '~/utils/leadForm'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const { execute, preload } = useRecaptcha()
 
 // Loads api.js so Google's badge is on screen before the visitor submits.

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL, social } = useSite()
+
+// Zalo is the one social channel that doubles as a contact button.
+const zalo = computed(() => social.value.find(s => s.icon === 'zalo')?.url ?? '#')
 // The prototype gates this on the mobile breakpoint alone — the search overlay
 // (z-90) and mega menu simply paint over it.
 const { isMobile } = useViewport()
@@ -23,7 +27,7 @@ const { isMobile } = useViewport()
       </a>
 
       <a
-        href="https://zalo.me/19009018"
+        :href="zalo"
         rel="noopener"
         class="text-caption flex flex-1 flex-col items-center gap-1 border-l border-white/14 py-[11px] text-white no-underline"
       >

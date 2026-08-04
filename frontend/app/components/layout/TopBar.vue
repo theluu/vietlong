@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL, topbar } = useSite()
 // The CE-CFF and warranty items drop out below 1200px; the hotline never does.
 const { utilWide } = useViewport()
 </script>
@@ -8,16 +9,14 @@ const { utilWide } = useViewport()
     <div
       class="mx-auto flex max-w-[var(--container-max)] items-center justify-between gap-8 px-[clamp(20px,4vw,48px)] py-[9px] text-caption tracking-[0.04em]"
     >
-      <span class="truncate">
-        Nhà nhập khẩu &amp; phân phối khóa cửa cao cấp — Bắc Ninh · Phú Thọ · Vĩnh Phúc
-      </span>
+      <span class="truncate">{{ topbar.text }}</span>
 
       <div class="flex flex-shrink-0 items-center gap-[22px]">
         <span v-if="utilWide" class="flex items-center gap-[22px]">
-          <span class="whitespace-nowrap">Chứng nhận CE-CFF</span>
-          <span class="h-3 w-px bg-white/22" />
-          <span class="whitespace-nowrap">Bảo hành 5–10 năm</span>
-          <span class="h-3 w-px bg-white/22" />
+          <template v-for="badge in topbar.badges" :key="badge">
+            <span class="whitespace-nowrap">{{ badge }}</span>
+            <span class="h-3 w-px bg-white/22" />
+          </template>
         </span>
 
         <a

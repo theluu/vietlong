@@ -1,0 +1,14 @@
+uuid: 148e53a1-bdce-4a01-8e0a-bada1c24a870
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.bien_tap_vien
+  module:
+    - user
+id: user_remove_role_action.bien_tap_vien
+label: 'Remove the Biên tập viên nội dung role from the selected user(s)'
+type: user
+plugin: user_remove_role_action
+configuration:
+  rid: bien_tap_vien

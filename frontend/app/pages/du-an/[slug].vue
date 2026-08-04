@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { RelatedItem } from '~/types/page'
 import { fetchProject, fetchProjects } from '~/services/pages'
+const { hotline: HOTLINE } = useSite()
 
 const slug = String(useRoute().params.slug)
 const { data, error } = await useAsyncData(`project:${slug}`, () => fetchProject(slug))
@@ -102,7 +103,7 @@ useHead(() => ({
           <ArticleConsultCard
             label="Cần tư vấn?"
             title="Gửi bảng thống kê cửa, nhận báo giá trong 24h"
-            phone="1900 9018"
+            :phone="HOTLINE"
           />
         </aside>
       </div>

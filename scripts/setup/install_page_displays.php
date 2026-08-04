@@ -11,6 +11,14 @@
  */
 
 const KB_PAGE_FORMS = [
+  'site_settings' => [
+    'Liên hệ' => ['field_hotline' => 1, 'field_hotline_tel' => 2, 'field_email' => 3, 'field_address' => 4, 'field_working_hours' => 5],
+    'Công ty' => ['field_company_name' => 1, 'field_company_short' => 2, 'field_copyright' => 3],
+    'Thanh trên & header' => ['field_topbar_text' => 1, 'field_topbar_badges' => 2, 'field_header_tagline' => 3, 'field_header_cta' => 4],
+    'Footer' => ['field_footer_desc' => 1, 'field_footer_columns' => 2],
+    'Mạng xã hội' => ['field_social' => 1],
+    'SEO' => ['field_seo_title' => 1, 'field_seo_desc' => 2],
+  ],
   'lead' => [
     'Khách hàng' => ['field_lead_phone' => 1, 'field_lead_email' => 2, 'field_lead_message' => 3],
     'Nguồn' => ['field_lead_source' => 1, 'field_lead_recaptcha' => 2, 'field_lead_ip' => 3],
@@ -142,3 +150,33 @@ foreach (KB_PAGE_FORMS as $bundle => $groups) {
 }
 
 echo "\nDone.\n";
+
+/**
+ * Paragraph forms for the site-wide chrome. Without these the rows render
+ * empty, the same trap the product paragraphs hit.
+ */
+$paragraph_forms = [
+  'social_link' => ['field_social_label' => 1, 'field_social_icon' => 2, 'field_social_url' => 3],
+  'footer_link' => ['field_flink_label' => 1, 'field_flink_url' => 2],
+  'footer_column' => ['field_fcol_title' => 1, 'field_fcol_links' => 2],
+];
+
+foreach ($paragraph_forms as $bundle => $fields) {
+  $storage = $etm->getStorage('entity_form_display');
+  $id = "paragraph.{$bundle}.default";
+  $display = $storage->load($id) ?: $storage->create([
+    'targetEntityType' => 'paragraph', 'bundle' => $bundle, 'mode' => 'default', 'status' => TRUE,
+  ]);
+  $defs = $field_manager->getFieldDefinitions('paragraph', $bundle);
+  foreach ($fields as $field => $weight) {
+    if (!isset($defs[$field])) {
+      continue;
+    }
+    $display->setComponent($field, [
+      'type' => kbp_widget($defs[$field]->getType()),
+      'weight' => $weight,
+    ]);
+  }
+  $display->save();
+  echo "paragraph form display: {$bundle}\n";
+}

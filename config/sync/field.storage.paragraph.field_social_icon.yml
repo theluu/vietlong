@@ -1,0 +1,39 @@
+uuid: b185fccc-bafe-46aa-828e-67b3db719631
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_social_icon
+field_name: field_social_icon
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: facebook
+      label: Facebook
+    -
+      value: youtube
+      label: YouTube
+    -
+      value: zalo
+      label: Zalo
+    -
+      value: tiktok
+      label: TikTok
+    -
+      value: instagram
+      label: Instagram
+    -
+      value: linkedin
+      label: LinkedIn
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

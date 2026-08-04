@@ -1,0 +1,19 @@
+uuid: cc7f0e50-4055-4385-a867-e8812ecbdbf6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seo_title
+    - node.type.site_settings
+id: node.site_settings.field_seo_title
+field_name: field_seo_title
+entity_type: node
+bundle: site_settings
+label: 'SEO — tiêu đề mặc định'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

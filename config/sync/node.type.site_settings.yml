@@ -1,0 +1,11 @@
+uuid: 7e35422c-46a2-4734-8e45-2a4b06b12243
+langcode: en
+status: true
+dependencies: {  }
+name: 'Cấu hình chung'
+type: site_settings
+description: null
+help: null
+new_revision: true
+preview_mode: 1
+display_submitted: true

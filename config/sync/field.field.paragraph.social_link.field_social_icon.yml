@@ -1,0 +1,21 @@
+uuid: 1ce64d84-7110-48fa-b494-f64ac8516076
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_social_icon
+    - paragraphs.paragraphs_type.social_link
+  module:
+    - options
+id: paragraph.social_link.field_social_icon
+field_name: field_social_icon
+entity_type: paragraph
+bundle: social_link
+label: 'Biểu tượng'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

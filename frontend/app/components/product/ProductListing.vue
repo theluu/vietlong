@@ -3,6 +3,7 @@ import { fetchProducts } from '~/services/products'
 import { fromQuery, toQuery, type FilterState } from '~/utils/productFilterState'
 import type { ListMeta } from '~/types/product'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const props = defineProps<{
   title: string
   eyebrow?: string

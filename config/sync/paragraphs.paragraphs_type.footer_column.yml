@@ -1,0 +1,10 @@
+uuid: 1d792ec2-9188-4fcc-aafb-8b957a1fb847
+langcode: en
+status: true
+dependencies: {  }
+id: footer_column
+label: 'Cột footer'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

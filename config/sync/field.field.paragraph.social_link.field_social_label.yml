@@ -1,0 +1,19 @@
+uuid: e24bf7c3-8019-45b1-a32c-5f347def117a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_social_label
+    - paragraphs.paragraphs_type.social_link
+id: paragraph.social_link.field_social_label
+field_name: field_social_label
+entity_type: paragraph
+bundle: social_link
+label: 'Tên hiển thị'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

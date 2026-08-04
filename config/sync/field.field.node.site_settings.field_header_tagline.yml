@@ -1,0 +1,19 @@
+uuid: bda192ff-d56a-47be-a1c7-d189a7f0ff45
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_header_tagline
+    - node.type.site_settings
+id: node.site_settings.field_header_tagline
+field_name: field_header_tagline
+entity_type: node
+bundle: site_settings
+label: 'Header — dòng mô tả dưới logo'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

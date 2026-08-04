@@ -14,6 +14,9 @@ services:
   keybolts_api.project_serializer:
     class: Drupal\keybolts_api\Serializer\ProjectSerializer
     arguments: ['@entity_type.manager']
+  keybolts_api.site_serializer:
+    class: Drupal\keybolts_api\Serializer\SiteSerializer
+    arguments: ['@entity_type.manager', '@menu.link_tree']
   keybolts_api.exception_subscriber:
     class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
     tags:

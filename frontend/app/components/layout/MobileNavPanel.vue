@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { menu } = useSite()
 const { isMobile } = useViewport()
 const { mobileNavOpen, closeAll } = useSiteChrome()
 
@@ -13,7 +14,7 @@ const open = computed(() => isMobile.value && mobileNavOpen.value)
     class="flex flex-col gap-[18px] border-t border-white/12 px-[clamp(20px,4vw,48px)] pt-5 pb-6"
   >
     <NuxtLink
-      v-for="item in NAV_ITEMS"
+      v-for="item in menu"
       :key="item.to"
       :to="item.to"
       class="text-heading font-bold text-white no-underline"

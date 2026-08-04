@@ -1,0 +1,19 @@
+uuid: 8a12a7cf-275c-4fa3-bcb9-0556235e1104
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hotline_tel
+    - node.type.site_settings
+id: node.site_settings.field_hotline_tel
+field_name: field_hotline_tel
+entity_type: node
+bundle: site_settings
+label: 'Hotline (số gọi)'
+description: 'Chỉ chữ số, dùng cho nút gọi. Ví dụ: 19009018'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,10 +1,13 @@
 <script setup lang="ts">
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL, menu, header } = useSite()
 const { isMobile, isWide } = useViewport()
 const { megaMenuOpen, openSearch, toggleMobileNav } = useSiteChrome()
 
 // The prototype shows the logo tagline only on a wide desktop viewport.
 const showLogoTagline = computed(() => !isMobile.value && isWide.value)
-const [firstNav, ...restNav] = NAV_ITEMS
+// The first menu item opens the mega menu on hover; the rest are plain links.
+const firstNav = computed(() => menu.value[0] ?? { label: '', to: '/' })
+const restNav = computed(() => menu.value.slice(1))
 </script>
 
 <template>

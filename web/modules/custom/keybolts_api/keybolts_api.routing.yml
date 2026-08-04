@@ -1,3 +1,11 @@
+keybolts_api.site:
+  path: '/api/v1/site'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\PageController::site'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+
 keybolts_api.products:
   path: '/api/v1/products'
   defaults:

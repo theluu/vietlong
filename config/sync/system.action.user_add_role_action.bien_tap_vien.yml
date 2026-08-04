@@ -1,0 +1,14 @@
+uuid: 7a8598b0-4bbe-44b8-8c61-6b699b14acd9
+langcode: en
+status: true
+dependencies:
+  config:
+    - user.role.bien_tap_vien
+  module:
+    - user
+id: user_add_role_action.bien_tap_vien
+label: 'Add the Biên tập viên nội dung role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: bien_tap_vien

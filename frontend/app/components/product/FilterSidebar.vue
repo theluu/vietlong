@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Facets } from '~/types/product'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 defineProps<{
   facets: Facets
   category: string

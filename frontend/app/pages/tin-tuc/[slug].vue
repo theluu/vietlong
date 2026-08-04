@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { RelatedItem } from '~/types/page'
 import { fetchArticle, fetchArticles } from '~/services/pages'
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 
 const slug = String(useRoute().params.slug)
 const { data, error } = await useAsyncData(`article:${slug}`, () => fetchArticle(slug))
@@ -97,7 +98,7 @@ useHead(() => ({
               <span class="text-caption text-text-muted leading-[1.8]">Nhóm kỹ thuật phụ trách khảo sát cửa và lắp đặt tại 5 cơ sở Bắc Ninh, Phú Thọ, Vĩnh Phúc.</span>
             </div>
             <a
-              href="tel:19009018"
+              :href="HOTLINE_TEL"
               class="bg-charcoal-900 text-gold-200 text-caption hover:bg-neutral-700 inline-flex shrink-0 items-center gap-[10px] rounded-sm px-[28px] py-[15px] font-bold tracking-[0.08em] uppercase no-underline transition"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -141,7 +142,7 @@ useHead(() => ({
           <ArticleConsultCard
             label="Cần tư vấn?"
             title="Gửi ảnh cửa, nhận gợi ý model trong 24h"
-            phone="1900 9018"
+            :phone="HOTLINE"
           />
         </aside>
       </div>

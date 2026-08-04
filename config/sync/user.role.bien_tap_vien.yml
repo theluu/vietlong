@@ -1,0 +1,60 @@
+uuid: 1791c3f9-c9be-4d9c-8c81-7e302b209a5c
+langcode: en
+status: true
+dependencies:
+  config:
+    - filter.format.basic_html
+    - node.type.about_page
+    - node.type.article
+    - node.type.branch
+    - node.type.contact_page
+    - node.type.dealers_page
+    - node.type.lead
+    - node.type.news_page
+    - node.type.policies_page
+    - node.type.product
+    - node.type.project
+    - node.type.projects_page
+    - node.type.site_settings
+  module:
+    - file
+    - filter
+    - node
+    - system
+    - toolbar
+id: bien_tap_vien
+label: 'Biên tập viên nội dung'
+weight: 3
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content'
+  - 'access content overview'
+  - 'access files overview'
+  - 'access site in maintenance mode'
+  - 'access toolbar'
+  - 'administer menu'
+  - 'create article content'
+  - 'create branch content'
+  - 'create product content'
+  - 'create project content'
+  - 'delete any article content'
+  - 'delete any branch content'
+  - 'delete any lead content'
+  - 'delete any product content'
+  - 'delete any project content'
+  - 'edit any about_page content'
+  - 'edit any article content'
+  - 'edit any branch content'
+  - 'edit any contact_page content'
+  - 'edit any dealers_page content'
+  - 'edit any lead content'
+  - 'edit any news_page content'
+  - 'edit any policies_page content'
+  - 'edit any product content'
+  - 'edit any project content'
+  - 'edit any projects_page content'
+  - 'edit any site_settings content'
+  - 'use text format basic_html'
+  - 'view own unpublished content'
+  - 'view the administration theme'

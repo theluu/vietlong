@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { fetchPolicies } from '~/services/pages'
 
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
 const { data } = await useAsyncData('page:policies', () => fetchPolicies())
 const page = computed(() => data.value?.data)
 
