@@ -139,6 +139,21 @@ class ContactSubmissionTest extends KernelTestBase {
     });
   }
 
+  /**
+   * Offices share one public IP, so the brake must be generous and must say
+   * plainly that it fired — a silent failure looks like a broken form.
+   */
+  public function testFloodLimitReportsItselfDistinctly(): void {
+    for ($i = 0; $i < 15; $i++) {
+      [$status] = $this->post(['name' => 'A', 'phone' => '090000' . $i]);
+      $this->assertSame(201, $status, "submission {$i} should be accepted");
+    }
+    [$status, $body] = $this->post(['name' => 'A', 'phone' => '0900009999']);
+    $this->assertSame(429, $status);
+    $this->assertContains('flood', $body['errors']);
+    $this->assertSame(15, $this->countSubmissions());
+  }
+
   private function latest(): ContactSubmission {
     $storage = $this->container->get('entity_type.manager')->getStorage('contact_submission');
     $ids = $storage->getQuery()->accessCheck(FALSE)->sort('id', 'DESC')->range(0, 1)->execute();

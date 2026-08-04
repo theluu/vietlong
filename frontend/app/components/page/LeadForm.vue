@@ -20,6 +20,7 @@ const sending = ref(false)
 const sent = ref(false)
 const failed = ref(false)
 const blocked = ref(false)
+const throttled = ref(false)
 
 const invalid = (field: string) => errors.value.includes(field)
 
@@ -29,6 +30,7 @@ async function submit() {
   sending.value = true
   failed.value = false
   blocked.value = false
+  throttled.value = false
   try {
     const action = RECAPTCHA_ACTIONS[props.source]
     const token = await execute(action)
@@ -44,10 +46,13 @@ async function submit() {
     sent.value = true
   }
   catch (error) {
-    // 422 with errors:["recaptcha"] means Google scored the visitor as a bot.
+    // The server distinguishes "you look like a bot" (422 recaptcha) from
+    // "too many attempts from this address" (429 flood). Showing one generic
+    // failure for both leaves a real customer with no idea what to do next.
     const codes = (error as { data?: { errors?: string[] } })?.data?.errors ?? []
     blocked.value = codes.includes('recaptcha')
-    failed.value = !blocked.value
+    throttled.value = codes.includes('flood')
+    failed.value = !blocked.value && !throttled.value
   }
   finally {
     sending.value = false
@@ -62,6 +67,7 @@ function reset() {
   sent.value = false
   failed.value = false
   blocked.value = false
+  throttled.value = false
 }
 
 const fieldClass = (field: string) => [
@@ -119,6 +125,9 @@ const fieldClass = (field: string) => [
     </p>
     <p v-if="blocked" class="text-caption text-danger m-0">
       Không xác thực được yêu cầu. Vui lòng tải lại trang hoặc gọi {{ HOTLINE }}.
+    </p>
+    <p v-if="throttled" class="text-caption text-danger m-0">
+      Đã gửi quá nhiều lần từ địa chỉ này. Vui lòng thử lại sau ít phút hoặc gọi {{ HOTLINE }}.
     </p>
     <p v-if="failed" class="text-caption text-danger m-0">
       Không gửi được. Vui lòng gọi {{ HOTLINE }}.

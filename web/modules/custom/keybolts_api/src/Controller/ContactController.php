@@ -18,7 +18,10 @@ class ContactController extends ControllerBase {
 
   private const ALLOWED_SOURCES = ['contact', 'dealer', 'consult'];
   private const FLOOD_EVENT = 'keybolts_api.contact';
-  private const FLOOD_LIMIT = 5;
+  // Offices and shops in Vietnam routinely share one public IP, so a tight
+  // per-IP limit locks out colleagues rather than bots. reCAPTCHA and the
+  // honeypot are the real spam gates; this is only a stampede brake.
+  private const FLOOD_LIMIT = 15;
   private const FLOOD_WINDOW = 600;
 
   public function __construct(
@@ -47,7 +50,10 @@ class ContactController extends ControllerBase {
 
     $ip = (string) $request->getClientIp();
     if (!$this->flood->isAllowed(self::FLOOD_EVENT, self::FLOOD_LIMIT, self::FLOOD_WINDOW, $ip)) {
-      return $this->noStore(['error' => 'Quá nhiều yêu cầu. Vui lòng thử lại sau.'], 429);
+      return $this->noStore([
+        'errors' => ['flood'],
+        'error' => 'Quá nhiều yêu cầu. Vui lòng thử lại sau ít phút.',
+      ], 429);
     }
 
     $name = trim((string) ($data['name'] ?? ''));

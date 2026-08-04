@@ -11,12 +11,14 @@ const submitted = ref(false)
 const sending = ref(false)
 const failed = ref(false)
 const blocked = ref(false)
+const throttled = ref(false)
 
 const submit = async () => {
   if (validateLead({ name: name.value, phone: phone.value, message: note.value }).length) return
   sending.value = true
   failed.value = false
   blocked.value = false
+  throttled.value = false
   try {
     const token = await execute(RECAPTCHA_ACTIONS.consult)
     await submitLead({
@@ -32,7 +34,8 @@ const submit = async () => {
   catch (error) {
     const codes = (error as { data?: { errors?: string[] } })?.data?.errors ?? []
     blocked.value = codes.includes('recaptcha')
-    failed.value = !blocked.value
+    throttled.value = codes.includes('flood')
+    failed.value = !blocked.value && !throttled.value
   }
   finally {
     sending.value = false
@@ -46,6 +49,7 @@ const reset = () => {
   submitted.value = false
   failed.value = false
   blocked.value = false
+  throttled.value = false
 }
 </script>
 
@@ -111,6 +115,7 @@ const reset = () => {
             class="text-body mt-2 flex cursor-pointer items-center justify-center gap-[11px] bg-charcoal-900 px-8 py-[19px] font-bold tracking-[0.07em] text-gold-200 uppercase hover:bg-brass-700 disabled:opacity-60"
           >{{ sending ? 'Đang gửi…' : 'Gửi yêu cầu tư vấn' }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
           <p v-if="blocked" class="text-caption text-danger m-0">Không xác thực được yêu cầu. Vui lòng tải lại trang hoặc gọi {{ HOTLINE }}.</p>
+          <p v-if="throttled" class="text-caption text-danger m-0">Đã gửi quá nhiều lần từ địa chỉ này. Vui lòng thử lại sau ít phút hoặc gọi {{ HOTLINE }}.</p>
           <p v-if="failed" class="text-caption text-danger m-0">Không gửi được. Vui lòng gọi {{ HOTLINE }}.</p>
         </form>
       </div>

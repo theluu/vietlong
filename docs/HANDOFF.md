@@ -144,6 +144,30 @@ real customer's enquiry is worse than storing one unscored lead.
 Leads land in `/admin/keybolts/submissions` (entity `contact_submission`, not a
 node — they are operational records, not published content).
 
+**The contact endpoint needs `reverse_proxy` configured or its rate limit
+collapses into one shared bucket.** Requests reach Drupal through ddev's
+router, so without the settings below every visitor is recorded as the
+router's address and fifteen submissions from anybody lock out the whole site
+for ten minutes. In `web/sites/default/settings.php`:
+
+```php
+$settings['reverse_proxy'] = TRUE;
+$settings['reverse_proxy_addresses'] = ['172.16.0.0/12', '192.168.0.0/16', '10.0.0.0/8'];
+$settings['reverse_proxy_trusted_headers'] =
+  \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR
+  | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
+  | \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT;
+```
+
+Production must narrow that list to the real proxy/CDN addresses. Too broad
+and a client can spoof `X-Forwarded-For` to dodge the limit.
+
+Clearing the limit while testing:
+
+```bash
+ddev drush php:eval '\Drupal::database()->delete("flood")->condition("event","keybolts_api.contact")->execute();'
+```
+
 ## Commands
 
 ```bash
