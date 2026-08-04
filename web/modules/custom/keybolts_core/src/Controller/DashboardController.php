@@ -69,8 +69,12 @@ final class DashboardController extends ControllerBase {
       ],
       'pages' => $this->section('Nội dung từng trang', $this->pageCards()),
       'collections' => $this->section('Danh mục nội dung', $this->collectionCards()),
-      'leads' => $this->section('Yêu cầu liên hệ', $this->leadCards()),
-      'settings' => $this->section('Cấu hình hệ thống', $this->systemCards()),
+      // Leads and system settings were one card each, which read as two
+      // stranded blocks at the bottom of the page. One row instead.
+      'other' => $this->section(
+        'Yêu cầu khách gửi & cấu hình',
+        array_merge($this->leadCards(), $this->systemCards()),
+      ),
     ];
   }
 
