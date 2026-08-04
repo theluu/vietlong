@@ -77,6 +77,15 @@ const KB_PAGE_FORMS = [
   ],
 ];
 
+/**
+ * Fields whose widget cannot be guessed from the field type. The hero headline
+ * is a plain string but is written across three lines, and a string_textfield
+ * silently strips the newlines on save.
+ */
+const KB_WIDGET_OVERRIDES = [
+  'field_hero_title' => 'string_textarea',
+];
+
 /** Picks a sensible widget from the field's type. */
 function kbp_widget(string $type): string {
   return match ($type) {
@@ -121,8 +130,9 @@ foreach (KB_PAGE_FORMS as $bundle => $groups) {
         continue;
       }
       $display->setComponent($field, [
-        'type' => kbp_widget($defs[$field]->getType()),
+        'type' => KB_WIDGET_OVERRIDES[$field] ?? kbp_widget($defs[$field]->getType()),
         'weight' => $weight,
+        'settings' => isset(KB_WIDGET_OVERRIDES[$field]) ? ['rows' => 3] : [],
       ]);
       $children[] = $field;
     }

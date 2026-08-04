@@ -235,3 +235,80 @@
   .kb-dash-hero p { font-size: .9375rem; }
   .kb-dash-grid { grid-template-columns: 1fr; }
 }
+
+/* Back bar ---------------------------------------------------------------- */
+
+.kb-backbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  /* Clears Gin's sticky toolbar, which otherwise sits on top of these. */
+  padding: 2.6rem 0 .5rem;
+}
+
+.kb-backbar-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem 1.05rem;
+  border: 1px solid #282d30;
+  border-radius: 999px;
+  background: #282d30;
+  color: #f7e499;
+  font-size: .9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.kb-backbar-link:hover {
+  background: #000;
+  color: #f7e499;
+  text-decoration: none;
+  transform: translateX(-2px);
+}
+
+.kb-backbar-link svg { width: 18px; height: 18px; }
+
+.kb-backbar-link--ghost {
+  border-color: #d5d5da;
+  background: transparent;
+  color: #282d30;
+}
+
+.kb-backbar-link--ghost:hover {
+  border-color: #ad7c2f;
+  background: rgba(173, 124, 47, .08);
+  color: #ad7c2f;
+  transform: none;
+}
+
+/*
+ * Gin rebuilds its toolbar titles after hook_toolbar_alter, so the English
+ * "Home" and "Close" cannot be renamed from PHP. The back bar covers both, so
+ * they are hidden for editors — administrators never load this stylesheet.
+ */
+/*
+ * "Close" and the orientation toggle only collapse or re-hang a tray the
+ * editor has no reason to touch, and both labels are English.
+ */
+/* admin_toolbar_tools adds this one; it is not in the admin menu tree, so it
+   cannot be filtered in hook_preprocess_menu. It duplicates "Xem website". */
+.toolbar-tray .toolbar-icon-admin-toolbar-tools-help,
+.toolbar-tray .toolbar-menu__trigger,
+.toolbar-tray .toolbar-icon-toggle-vertical,
+.toolbar-tray .toolbar-icon-toggle-horizontal,
+.toolbar-tray .toolbar-toggle-orientation {
+  display: none !important;
+}
+
+/*
+ * Gin's own breadcrumb reads "Back to site | Administration" in English and
+ * duplicates the back bar above. Hidden for editors, who get the Vietnamese
+ * button instead; administrators never load this stylesheet.
+ */
+.gin-breadcrumb-wrapper,
+.region-breadcrumb,
+nav.breadcrumb {
+  display: none;
+}

@@ -70,9 +70,54 @@ function keybolts_core_toolbar_alter(&$items): void {
   if (\Drupal::currentUser()->hasPermission('administer site configuration')) {
     return;
   }
-  foreach (['shortcuts', 'tour', 'devel', 'contextual'] as $tab) {
+  foreach (['shortcuts', 'tour', 'devel', 'contextual', 'home'] as $tab) {
     unset($items[$tab]);
   }
+}
+
+/**
+ * Implements hook_page_top().
+ *
+ * A bar back to the dashboard on every admin page except the dashboard
+ * itself. Without it the only way back from an edit form is the browser
+ * button or a small toolbar tab, which is the first thing a non-technical
+ * editor gets stuck on.
+ */
+function keybolts_core_page_top(array &$page_top): void {
+  $account = \Drupal::currentUser();
+  if (!in_array('bien_tap_vien', $account->getRoles(), TRUE)) {
+    return;
+  }
+  $route = \Drupal::routeMatch()->getRouteName();
+  if ($route === 'keybolts_core.dashboard' || !\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+  $page_top['keybolts_back'] = [
+    '#type' => 'container',
+    '#attributes' => ['class' => ['kb-backbar']],
+    '#attached' => ['library' => ['keybolts_core/dashboard']],
+    'back' => [
+      '#type' => 'link',
+      '#title' => \Drupal\Core\Render\Markup::create(
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" '
+        . 'stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>'
+        . '<span>Về trang quản trị</span>'
+      ),
+      '#url' => \Drupal\Core\Url::fromRoute('keybolts_core.dashboard'),
+      '#attributes' => ['class' => ['kb-backbar-link']],
+    ],
+    'site' => [
+      '#type' => 'link',
+      '#title' => \Drupal\Core\Render\Markup::create(
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+        . 'stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/>'
+        . '<path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>'
+        . '<span>Xem website</span>'
+      ),
+      '#url' => \Drupal\Core\Url::fromUri('base:/'),
+      '#attributes' => ['class' => ['kb-backbar-link', 'kb-backbar-link--ghost'], 'target' => '_blank'],
+    ],
+  ];
 }
 
 /**
@@ -103,6 +148,8 @@ function keybolts_core_preprocess_menu(array &$variables): void {
     return;
   }
   $hide = [
+    // Duplicates the back bar's "Xem website" and reads in English.
+    '<front>',
     'system.admin_structure',
     'system.admin_config',
     'system.themes_page',

@@ -1,4 +1,4 @@
-uuid: b0f0b3d9-ffb6-479a-8232-4641a6f39749
+uuid: cd32729a-9c7e-45f4-920d-fa4f815827dc
 langcode: en
 status: true
 dependencies:
@@ -7,11 +7,9 @@ dependencies:
 id: node.field_hero_title
 field_name: field_hero_title
 entity_type: node
-type: string
+type: string_long
 settings:
-  max_length: 255
   case_sensitive: false
-  is_ascii: false
 module: core
 locked: false
 cardinality: 1

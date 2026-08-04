@@ -87,7 +87,9 @@ kbh_node_type('home_page', 'Trang chủ');
 
 // Hero
 kbh_field('node', 'home_page', 'field_hero_eyebrow', 'string', 'Hero — eyebrow');
-kbh_field('node', 'home_page', 'field_hero_title', 'string', 'Hero — tiêu đề', 1, [], [], 'Xuống dòng bằng Enter. Bọc từ cần tô màu vàng gradient trong dấu *, ví dụ: Khóa cửa *đẳng cấp* cho từng công trình');
+// string_long, not string: the headline runs across three lines and a
+// single-line widget silently strips the newlines on save.
+kbh_field('node', 'home_page', 'field_hero_title', 'string_long', 'Hero — tiêu đề', 1, [], [], 'Xuống dòng bằng Enter. Bọc từ cần tô màu vàng gradient trong dấu *, ví dụ: Khóa cửa *đẳng cấp* cho từng công trình');
 kbh_field('node', 'home_page', 'field_hero_subtitle', 'string_long', 'Hero — mô tả');
 kbh_field('node', 'home_page', 'field_hero_cta1', 'link', 'Hero — nút chính');
 kbh_field('node', 'home_page', 'field_hero_cta2', 'link', 'Hero — nút phụ');
