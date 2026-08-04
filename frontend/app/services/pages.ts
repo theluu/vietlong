@@ -19,8 +19,12 @@ export interface LeadPayload {
   phone: string
   message: string
   source: 'contact' | 'dealer' | 'consult'
+  email?: string
   /** Honeypot — must stay empty for real users. */
   website?: string
+  /** Absent when reCAPTCHA is unconfigured or its script failed to load. */
+  recaptchaToken?: string
+  recaptchaAction?: string
 }
 
 export async function submitLead(payload: LeadPayload): Promise<void> {

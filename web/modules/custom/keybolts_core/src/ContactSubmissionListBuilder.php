@@ -26,6 +26,7 @@ class ContactSubmissionListBuilder extends EntityListBuilder {
       'name' => $this->t('Họ tên'),
       'phone' => $this->t('Điện thoại'),
       'source' => $this->t('Nguồn'),
+      'recaptcha_score' => $this->t('reCAPTCHA'),
       'message' => $this->t('Nội dung'),
     ] + parent::buildHeader();
   }
@@ -37,6 +38,7 @@ class ContactSubmissionListBuilder extends EntityListBuilder {
       'name' => $entity->get('name')->value,
       'phone' => $entity->get('phone')->value,
       'source' => $entity->get('source')->value,
+      'recaptcha_score' => $entity->get('recaptcha_score')->value ?? '—',
       'message' => mb_substr((string) $entity->get('message')->value, 0, 80),
     ] + parent::buildRow($entity);
   }

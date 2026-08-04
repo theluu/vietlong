@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { normalisePhone, validateLead } from '../app/utils/leadForm'
+import { normalisePhone, RECAPTCHA_ACTIONS, validateLead } from '../app/utils/leadForm'
 
 describe('validateLead', () => {
   it('requires name and phone', () => {
@@ -24,5 +24,19 @@ describe('normalisePhone', () => {
 
   it('keeps a leading + for international numbers', () => {
     expect(normalisePhone('+84 912 411 309')).toBe('+84912411309')
+  })
+})
+
+describe('RECAPTCHA_ACTIONS', () => {
+  it('gives every lead source its own action name', () => {
+    const actions = Object.values(RECAPTCHA_ACTIONS)
+    expect(actions).toHaveLength(3)
+    expect(new Set(actions).size).toBe(3)
+  })
+
+  it('names actions after the form, which is what Google reports on', () => {
+    expect(RECAPTCHA_ACTIONS.contact).toBe('contact_form')
+    expect(RECAPTCHA_ACTIONS.dealer).toBe('dealer_form')
+    expect(RECAPTCHA_ACTIONS.consult).toBe('consult_form')
   })
 })

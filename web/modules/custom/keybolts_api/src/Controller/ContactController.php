@@ -6,6 +6,7 @@ namespace Drupal\keybolts_api\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Flood\FloodInterface;
+use Drupal\keybolts_core\Service\RecaptchaVerifier;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +23,14 @@ class ContactController extends ControllerBase {
 
   public function __construct(
     private readonly FloodInterface $flood,
+    private readonly RecaptchaVerifier $recaptcha,
   ) {}
 
   public static function create(ContainerInterface $container): static {
-    return new static($container->get('flood'));
+    return new static(
+      $container->get('flood'),
+      $container->get('keybolts_core.recaptcha'),
+    );
   }
 
   /**
@@ -63,11 +68,24 @@ class ContactController extends ControllerBase {
       $source = 'contact';
     }
 
+    // reCAPTCHA is the second gate, after the honeypot. Only a score we
+    // actually received and that came back low is rejected — an unknown answer
+    // (no key configured, Google down) must never cost a real lead.
+    $score = $this->recaptcha->verify(
+      (string) ($data['recaptchaToken'] ?? ''),
+      (string) ($data['recaptchaAction'] ?? $source),
+    );
+    if ($score !== NULL && $score < $this->recaptcha->threshold()) {
+      return $this->noStore(['errors' => ['recaptcha']], 422);
+    }
+
     $this->entityTypeManager()->getStorage('contact_submission')->create([
       'name' => mb_substr($name, 0, 255),
       'phone' => mb_substr($phone, 0, 60),
+      'email' => mb_substr(trim((string) ($data['email'] ?? '')), 0, 254),
       'message' => mb_substr(trim((string) ($data['message'] ?? '')), 0, 4000),
       'source' => $source,
+      'recaptcha_score' => $score,
       'ip' => $ip,
     ])->save();
 

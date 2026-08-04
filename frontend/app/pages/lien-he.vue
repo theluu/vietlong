@@ -20,39 +20,42 @@ useHead({ link: [{ rel: 'canonical', href: 'https://keybolts.com.vn/lien-he' }] 
 
 <template>
   <div v-if="page">
-    <PageHero
-      :eyebrow="page.eyebrow"
-      :title="page.title"
-      :subtitle="page.subtitle"
-      :breadcrumb="[
-        { label: 'Trang chủ', url: '/' },
-        { label: 'Liên hệ', url: '/lien-he' },
-      ]"
-    />
+    <PageCenteredHero :eyebrow="page.eyebrow" :title="page.title" :subtitle="page.subtitle" />
 
-    <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-12">
-      <PageContactChannels :channels="page.channels" />
-    </div>
-
-    <section class="bg-surface">
-      <div class="mx-auto grid max-w-[var(--container-max)] gap-10 px-[clamp(20px,4vw,48px)] py-16 lg:grid-cols-2">
-        <div class="flex flex-col gap-4">
-          <h2 class="text-display m-0 font-bold tracking-[-0.02em]">{{ page.responseTitle }}</h2>
-          <p class="text-body text-text-muted m-0 leading-relaxed">{{ page.responseBody }}</p>
-          <span class="text-body mt-4 font-bold">{{ page.companyName }}</span>
-          <span class="text-caption text-text-muted">{{ page.companyAddress }}</span>
+    <section class="bg-background py-[clamp(48px,5vw,72px)]">
+      <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+        <div class="mb-[clamp(40px,4vw,60px)]">
+          <PageContactChannels :channels="page.channels" />
         </div>
 
-        <PageLeadForm
-          source="contact"
-          :title="page.formTitle"
-          :desc="page.formDesc"
-          :success-title="page.successTitle"
-          :success-desc="page.successDesc"
-        />
+        <PageFormPanel>
+          <template #left>
+            <span class="text-eyebrow text-brass-700 font-bold tracking-[0.22em] uppercase">Gửi yêu cầu</span>
+            <h2 class="text-display-lg m-0 leading-[1.15] font-bold">{{ page.responseTitle }}</h2>
+            <p class="text-body text-text-muted m-0 leading-[1.85]">{{ page.responseBody }}</p>
+            <div class="border-border flex flex-col gap-[10px] border-t pt-[16px]">
+              <span class="text-caption text-text-muted">{{ page.companyName }}</span>
+              <span class="text-caption text-text-muted">{{ page.companyAddress }}</span>
+            </div>
+          </template>
+          <template #form>
+            <PageLeadForm
+              source="contact"
+              :title="page.formTitle"
+              :desc="page.formDesc"
+              :success-title="page.successTitle"
+              :success-desc="page.successDesc"
+              submit-label="Gửi liên hệ"
+            />
+          </template>
+        </PageFormPanel>
       </div>
     </section>
 
-    <PageBranchGrid eyebrow="Địa chỉ" title="Showroom &amp; kho hàng" :branches="branches" />
+    <section class="border-border bg-surface border-t">
+      <PageBranchGrid eyebrow="Địa chỉ" title="Showroom &amp; kho hàng" :branches="branches" />
+    </section>
+
+    <PageBranchMap :branches="branches" />
   </div>
 </template>

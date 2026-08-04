@@ -1,3 +1,13 @@
+/**
+ * Google reports reCAPTCHA stats per action, so each form gets its own name.
+ * The server rejects a token whose action does not match the form it arrived on.
+ */
+export const RECAPTCHA_ACTIONS = {
+  contact: 'contact_form',
+  dealer: 'dealer_form',
+  consult: 'consult_form',
+} as const
+
 export interface LeadState {
   name: string
   phone: string

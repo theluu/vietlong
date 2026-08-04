@@ -109,6 +109,41 @@ Restart `npm run dev` when a new utility does not apply.
 **Nuxt de-duplicates component path segments.** `components/product/ProductCard.vue`
 resolves as `<ProductCard>`, not `<ProductProductCard>`.
 
+**Vite blocks the ddev hostname unless it is allow-listed.** The dev server is
+reached through ddev's router, not `localhost`, so `vite.server.allowedHosts` in
+`nuxt.config.ts` must list `.ddev.site`. Without it every route answers 403.
+
+## reCAPTCHA v3
+
+Three forms are gated: `/lien-he`, `/dai-ly`, and the homepage consultation
+block. Keys are not in the repo.
+
+Site key is public — `frontend/.env`:
+
+```
+NUXT_PUBLIC_RECAPTCHA_SITE_KEY=6Lxxxxxxxxxxxxxxxxxxxxx
+```
+
+Secret key belongs in `web/sites/default/settings.php`, which is **not**
+committed:
+
+```php
+$settings['keybolts_recaptcha_secret'] = '6Lxxxxxxxxxxxxxxxxxxxxx';
+$settings['keybolts_recaptcha_threshold'] = 0.5;
+```
+
+Behaviour with no keys configured: the script never loads, no token is sent,
+the server skips verification and stores the lead with an empty score. Forms
+keep working — this is how dev and staging run.
+
+Behaviour with keys configured: a score below the threshold is rejected with
+`422 {"errors":["recaptcha"]}` and nothing is stored. If Google is unreachable
+the lead is **accepted** with an empty score and a warning is logged — losing a
+real customer's enquiry is worse than storing one unscored lead.
+
+Leads land in `/admin/keybolts/submissions` (entity `contact_submission`, not a
+node — they are operational records, not published content).
+
 ## Commands
 
 ```bash

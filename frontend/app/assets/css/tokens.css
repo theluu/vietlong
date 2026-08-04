@@ -194,9 +194,41 @@
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
   }
 
+  /* Read-next cards under an article or project. */
+  .kb-article-related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  /* Carousels and the article comparison table scroll without a visible bar. */
+  .kb-track { scrollbar-width: none; }
+  .kb-track::-webkit-scrollbar { display: none; }
+
   .kb-fact-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  /* Đại lý & liên hệ — auto-fit grids copied from the prototypes. */
+  .kb-benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .kb-branch-grid  { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .kb-channel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .kb-form-panel   { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+
+  /* Branch picker beside the map; stacks below 900px like the prototype. */
+  .kb-map-grid { display: grid; grid-template-columns: 1fr; }
+
+  @media (width >= 900px) {
+    .kb-map-grid { grid-template-columns: 380px minmax(0, 1fr); }
+  }
+
+  /* The gold wash behind the centred page heroes. */
+  .kb-hero-glow::before {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 82% 12%, rgba(247, 228, 153, .14), transparent 55%);
+    content: '';
+    pointer-events: none;
   }
 
   .kb-segment-grid {

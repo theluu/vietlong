@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { submitLead } from '~/services/pages'
-import { normalisePhone, validateLead } from '~/utils/leadForm'
+import { normalisePhone, RECAPTCHA_ACTIONS, validateLead } from '~/utils/leadForm'
+
+const { execute } = useRecaptcha()
 
 const name = ref('')
 const phone = ref('')
@@ -8,17 +10,29 @@ const note = ref('')
 const submitted = ref(false)
 const sending = ref(false)
 const failed = ref(false)
+const blocked = ref(false)
 
 const submit = async () => {
-  if (validateLead({ name: name.value, phone: phone.value }).length) return
+  if (validateLead({ name: name.value, phone: phone.value, message: note.value }).length) return
   sending.value = true
   failed.value = false
+  blocked.value = false
   try {
-    await submitLead({ name: name.value.trim(), phone: normalisePhone(phone.value), message: note.value.trim(), source: 'consult' })
+    const token = await execute(RECAPTCHA_ACTIONS.consult)
+    await submitLead({
+      name: name.value.trim(),
+      phone: normalisePhone(phone.value),
+      message: note.value.trim(),
+      source: 'consult',
+      recaptchaToken: token ?? undefined,
+      recaptchaAction: RECAPTCHA_ACTIONS.consult,
+    })
     submitted.value = true
   }
-  catch {
-    failed.value = true
+  catch (error) {
+    const codes = (error as { data?: { errors?: string[] } })?.data?.errors ?? []
+    blocked.value = codes.includes('recaptcha')
+    failed.value = !blocked.value
   }
   finally {
     sending.value = false
@@ -30,6 +44,8 @@ const reset = () => {
   phone.value = ''
   note.value = ''
   submitted.value = false
+  failed.value = false
+  blocked.value = false
 }
 </script>
 
@@ -94,6 +110,7 @@ const reset = () => {
             :disabled="sending"
             class="text-body mt-2 flex cursor-pointer items-center justify-center gap-[11px] bg-charcoal-900 px-8 py-[19px] font-bold tracking-[0.07em] text-gold-200 uppercase hover:bg-brass-700 disabled:opacity-60"
           >{{ sending ? 'Đang gửi…' : 'Gửi yêu cầu tư vấn' }}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></button>
+          <p v-if="blocked" class="text-caption text-danger m-0">Không xác thực được yêu cầu. Vui lòng tải lại trang hoặc gọi {{ HOTLINE }}.</p>
           <p v-if="failed" class="text-caption text-danger m-0">Không gửi được. Vui lòng gọi {{ HOTLINE }}.</p>
         </form>
       </div>

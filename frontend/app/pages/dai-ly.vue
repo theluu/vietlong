@@ -20,31 +20,38 @@ useHead({ link: [{ rel: 'canonical', href: 'https://keybolts.com.vn/dai-ly' }] }
 
 <template>
   <div v-if="page">
-    <PageHero
-      :eyebrow="page.eyebrow"
-      :title="page.title"
-      :subtitle="page.subtitle"
-      :breadcrumb="[
-        { label: 'Trang chủ', url: '/' },
-        { label: 'Đại lý', url: '/dai-ly' },
-      ]"
-    />
+    <PageCenteredHero :eyebrow="page.eyebrow" :title="page.title" :subtitle="page.subtitle" />
 
-    <PageStepList eyebrow="Quyền lợi" title="Keybolts hỗ trợ đại lý những gì" :steps="page.benefits" />
+    <section class="bg-background py-[clamp(48px,5vw,72px)]">
+      <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+        <PageBenefitGrid :items="page.benefits" />
+      </div>
+    </section>
 
-    <section class="bg-surface">
-      <div class="mx-auto grid max-w-[var(--container-max)] gap-10 px-[clamp(20px,4vw,48px)] py-16 lg:grid-cols-2">
-        <PageCriteriaList eyebrow="Điều kiện" title="Ai có thể làm đại lý?" :items="page.criteria" />
-        <PageLeadForm
-          source="dealer"
-          :title="page.formTitle"
-          :desc="page.formDesc"
-          :success-title="page.successTitle"
-          :success-desc="page.successDesc"
-        />
+    <section class="border-border bg-surface border-t py-[clamp(48px,5vw,72px)]">
+      <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+        <PageFormPanel>
+          <template #left>
+            <span class="text-eyebrow text-brass-700 font-bold tracking-[0.22em] uppercase">Điều kiện</span>
+            <h2 class="text-display-lg m-0 leading-[1.15] font-bold">Ai có thể làm đại lý?</h2>
+            <PageCriteriaList :items="page.criteria" />
+          </template>
+          <template #form>
+            <PageLeadForm
+              source="dealer"
+              :title="page.formTitle"
+              :desc="page.formDesc"
+              :success-title="page.successTitle"
+              :success-desc="page.successDesc"
+              submit-label="Gửi đăng ký"
+            />
+          </template>
+        </PageFormPanel>
       </div>
     </section>
 
     <PageBranchGrid eyebrow="Hệ thống" title="Điểm bán &amp; kho hàng" :branches="branches" />
+
+    <PageBranchMap :branches="branches" />
   </div>
 </template>
