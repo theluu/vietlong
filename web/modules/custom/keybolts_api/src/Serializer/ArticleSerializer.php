@@ -6,12 +6,15 @@ namespace Drupal\keybolts_api\Serializer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\node\NodeInterface;
+use Drupal\path_alias\AliasManagerInterface;
 
 /** Serializes published news cards in editor-controlled order. */
 final class ArticleSerializer {
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly AliasManagerInterface $aliasManager,
+    private readonly ProductSerializer $productSerializer,
   ) {}
 
   public function all(): array {
@@ -42,7 +45,37 @@ final class ArticleSerializer {
       'sections' => $this->json($node, 'field_article_sections'),
       'compareRows' => $this->json($node, 'field_article_compare'),
       'faqs' => $this->json($node, 'field_article_faqs'),
+      'products' => $this->products($node),
     ];
+  }
+
+  /**
+   * Resolves the editor-picked product slugs into cards.
+   *
+   * The field stores bare aliases (`khoa-van-tay-cua-go`) rather than a copy of
+   * the product data, so a renamed or unpublished product drops out of the
+   * sidebar instead of going stale.
+   */
+  private function products(NodeInterface $node): array {
+    if (!$node->hasField('field_article_products')) {
+      return [];
+    }
+    $storage = $this->entityTypeManager->getStorage('node');
+    $cards = [];
+    foreach ($this->json($node, 'field_article_products') as $slug) {
+      if (!is_string($slug) || $slug === '') {
+        continue;
+      }
+      $path = $this->aliasManager->getPathByAlias('/san-pham/' . $slug);
+      if (!preg_match('#^/node/(\d+)$#', $path, $m)) {
+        continue;
+      }
+      $product = $storage->load((int) $m[1]);
+      if ($product instanceof NodeInterface && $product->isPublished()) {
+        $cards[] = $this->productSerializer->card($product);
+      }
+    }
+    return $cards;
   }
 
   private function toArray(NodeInterface $node): array {

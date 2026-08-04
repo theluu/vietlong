@@ -27,6 +27,22 @@ function kb_news_slug(string $title): string {
   return trim(preg_replace('/[^a-z0-9]+/', '-', strtolower($ascii ?: $title)), '-');
 }
 
+/** Writes the detail body onto an article, clearing anything not supplied. */
+function kb_news_detail(\Drupal\node\NodeInterface $node, array $detail): void {
+  $node->set('field_article_quick_answer', $detail['quick'] ?? '');
+  foreach ([
+    'field_article_sections' => 'sections',
+    'field_article_compare' => 'compare',
+    'field_article_faqs' => 'faqs',
+    'field_article_products' => 'products',
+  ] as $field => $key) {
+    $value = $detail[$key] ?? [];
+    $node->set($field, $value ? json_encode($value, JSON_UNESCAPED_UNICODE) : '');
+  }
+}
+
+$details = require __DIR__ . '/article_details.php';
+
 $storage = \Drupal::entityTypeManager()->getStorage('node');
 $pages = $storage->loadByProperties(['type' => 'news_page']);
 $page = $pages ? reset($pages) : Node::create(['type' => 'news_page']);
@@ -48,6 +64,7 @@ foreach (KB_NEWS_ARTICLES as $i => [$key, $category, $title, $summary, $read_tim
   $node->set('field_sort_order', $i + 1);
   $node->set('field_article_author', 'Đội kỹ thuật Keybolts');
   $node->set('field_article_updated', 'Cập nhật 07/2026');
+  kb_news_detail($node, $details[$title] ?? []);
   $node->setPublished()->save();
 }
 
@@ -83,6 +100,11 @@ $featured->set('field_article_faqs', json_encode([
   ['question' => 'Vân tay trẻ nhỏ có đăng ký được không?', 'answer' => 'Được với trẻ từ khoảng 6 tuổi trở lên. Trẻ nhỏ hơn có vân tay chưa rõ nét, nên dùng thẻ từ hoặc mã số riêng cho bé.'],
   ['question' => 'Cửa gỗ đã lắp khóa cũ thì thay được không?', 'answer' => 'Phần lớn trường hợp thay được nếu lỗ khoét cũ nhỏ hơn hoặc bằng thân khóa mới. Gửi ảnh lỗ khoét hiện tại qua Zalo để kỹ thuật xác nhận trước khi đặt hàng.'],
   ['question' => 'Bảo hành có bao gồm cụm vân tay không?', 'answer' => 'Có. Cụm cảm biến vân tay và bo mạch được bảo hành 2 năm, phần cơ khí 5 năm; Keybolts có sẵn linh kiện thay thế tại kho.'],
+], JSON_UNESCAPED_UNICODE));
+$featured->set('field_article_products', json_encode([
+  'khoa-van-tay-cua-go',
+  'khoa-van-tay-cua-kinh-thuy-luc',
+  'khoa-thong-minh-k42',
 ], JSON_UNESCAPED_UNICODE));
 $featured->setPublished()->save();
 

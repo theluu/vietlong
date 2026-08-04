@@ -1,0 +1,19 @@
+uuid: 45c92d4d-e377-4c0b-bf06-b9ba5029bc06
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_products
+    - node.type.article
+id: node.article.field_article_products
+field_name: field_article_products
+entity_type: node
+bundle: article
+label: 'Sản phẩm nhắc đến (JSON slug)'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

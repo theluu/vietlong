@@ -200,6 +200,7 @@ kbp_field('node', 'article', 'field_article_quick_answer', 'string_long', 'Trả
 kbp_field('node', 'article', 'field_article_sections', 'string_long', 'Các mục nội dung (JSON)');
 kbp_field('node', 'article', 'field_article_compare', 'string_long', 'Bảng so sánh (JSON)');
 kbp_field('node', 'article', 'field_article_faqs', 'string_long', 'Câu hỏi thường gặp (JSON)');
+kbp_field('node', 'article', 'field_article_products', 'string_long', 'Sản phẩm nhắc đến (JSON slug)');
 
 kbp_node_type('projects_page', 'Trang Dự án');
 kbp_field('node', 'projects_page', 'field_eyebrow', 'string', 'Eyebrow');

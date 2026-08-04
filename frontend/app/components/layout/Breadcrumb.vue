@@ -34,7 +34,7 @@ useHead(() => ({
           :to="item.url"
           class="text-text-muted no-underline hover:text-brass-700"
         >{{ item.label }}</NuxtLink>
-        <span v-else aria-current="page" class="text-text">{{ item.label }}</span>
+        <span v-else aria-current="page" class="text-brass-700 font-bold">{{ item.label }}</span>
         <span v-if="i < items.length - 1" aria-hidden="true">/</span>
       </li>
     </ol>

@@ -45,7 +45,7 @@ const KB_PAGE_FORMS = [
   ],
   'article' => [
     'Nội dung thẻ' => ['field_article_category' => 1, 'field_article_category_key' => 2, 'field_article_summary' => 3, 'field_article_read_time' => 4, 'field_article_image_url' => 5, 'field_article_slug' => 6, 'field_sort_order' => 7],
-    'Nội dung chi tiết' => ['field_article_author' => 1, 'field_article_updated' => 2, 'field_article_quick_answer' => 3, 'field_article_sections' => 4, 'field_article_compare' => 5, 'field_article_faqs' => 6],
+    'Nội dung chi tiết' => ['field_article_author' => 1, 'field_article_updated' => 2, 'field_article_quick_answer' => 3, 'field_article_sections' => 4, 'field_article_compare' => 5, 'field_article_faqs' => 6, 'field_article_products' => 7],
   ],
   'projects_page' => [
     'Hero' => ['field_eyebrow' => 1, 'field_subtitle' => 2],

@@ -1,3 +1,5 @@
+import type { ProductCard } from '~/types/product'
+
 export interface Branch {
   id: number
   name: string
@@ -119,6 +121,19 @@ export interface ArticleDetail extends NewsArticle {
   sections: ArticleSection[]
   compareRows: ArticleCompareRow[]
   faqs: ArticleFaq[]
+  /** Editor-picked products, resolved server-side from their aliases. */
+  products: ProductCard[]
+}
+
+/** One read-next card under an article or project. */
+export interface RelatedItem {
+  key: string | number
+  to: string
+  image: string
+  badge: string
+  title: string
+  summary: string
+  meta: string
 }
 
 export interface ProjectsPage { eyebrow: string; title: string; subtitle: string }

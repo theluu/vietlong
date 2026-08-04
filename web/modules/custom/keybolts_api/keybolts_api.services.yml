@@ -10,7 +10,7 @@ services:
     arguments: ['@file_url_generator']
   keybolts_api.article_serializer:
     class: Drupal\keybolts_api\Serializer\ArticleSerializer
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@path_alias.manager', '@keybolts_api.product_serializer']
   keybolts_api.project_serializer:
     class: Drupal\keybolts_api\Serializer\ProjectSerializer
     arguments: ['@entity_type.manager']

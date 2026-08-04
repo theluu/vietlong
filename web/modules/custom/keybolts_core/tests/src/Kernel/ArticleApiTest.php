@@ -9,6 +9,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\node\Entity\Node;
 use Drupal\node\Entity\NodeType;
+use Drupal\path_alias\Entity\PathAlias;
 
 /** Tests the dynamic news-card payload. */
 final class ArticleApiTest extends KernelTestBase {
@@ -22,6 +23,7 @@ final class ArticleApiTest extends KernelTestBase {
     parent::setUp();
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
+    $this->installEntitySchema('path_alias');
     $this->installSchema('node', ['node_access']);
     $this->installConfig(['node', 'field']);
     NodeType::create(['type' => 'article', 'name' => 'Article'])->save();
@@ -30,6 +32,7 @@ final class ArticleApiTest extends KernelTestBase {
       'field_article_summary', 'field_article_read_time', 'field_article_image_url',
       'field_article_author', 'field_article_updated', 'field_article_quick_answer',
       'field_article_sections', 'field_article_compare', 'field_article_faqs',
+      'field_article_products',
     ] as $name) {
       $this->field($name, 'string');
     }
@@ -55,6 +58,32 @@ final class ArticleApiTest extends KernelTestBase {
     $this->assertSame('Section', $serializer->one('detail')['sections'][0]['title']);
     $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
     $serializer->one('missing');
+  }
+
+  public function testMentionedProductsResolveAndSkipUnknownSlugs(): void {
+    NodeType::create(['type' => 'product', 'name' => 'Product'])->save();
+    $product = Node::create(['type' => 'product', 'title' => 'Khóa Vân Tay Cửa Gỗ', 'status' => 1]);
+    $product->save();
+    PathAlias::create([
+      'path' => '/node/' . $product->id(),
+      'alias' => '/san-pham/khoa-van-tay-cua-go',
+      'langcode' => 'en',
+    ])->save();
+    // AliasManager only reverse-resolves prefixes present in the router's path
+    // roots, which no kernel test builds. Seed it so /node/N maps to its alias.
+    $this->container->get('state')->set('router.path_roots', ['node']);
+    $this->container->get('path_alias.prefix_list')->clear();
+
+    Node::create([
+      'type' => 'article', 'title' => 'Mentions', 'status' => 1,
+      'field_article_slug' => 'mentions', 'field_sort_order' => 1,
+      'field_article_products' => json_encode(['khoa-van-tay-cua-go', 'khong-ton-tai']),
+    ])->save();
+
+    $products = $this->container->get('keybolts_api.article_serializer')->one('mentions')['products'];
+    $this->assertCount(1, $products);
+    $this->assertSame('Khóa Vân Tay Cửa Gỗ', $products[0]['name']);
+    $this->assertSame('san-pham/khoa-van-tay-cua-go', $products[0]['slug']);
   }
 
   private function field(string $name, string $type): void {
