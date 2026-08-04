@@ -86,3 +86,36 @@ function keybolts_core_menu_links_discovered_alter(&$links): void {
     $links['keybolts_core.dashboard']['weight'] = -100;
   }
 }
+
+/**
+ * Implements hook_preprocess_menu().
+ *
+ * Prunes the admin menu for editors. Drupal already hides what they lack
+ * permission for, but sections like Structure still appear because they hold
+ * one thing an editor needs (menus) alongside a dozen they must not touch.
+ * The dashboard links straight to that one thing, so the section is noise.
+ */
+function keybolts_core_preprocess_menu(array &$variables): void {
+  if (($variables['menu_name'] ?? '') !== 'admin') {
+    return;
+  }
+  if (\Drupal::currentUser()->hasPermission('administer site configuration')) {
+    return;
+  }
+  $hide = [
+    'system.admin_structure',
+    'system.admin_config',
+    'system.themes_page',
+    'system.modules_list',
+    'system.admin_reports',
+    'entity.user.collection',
+    'help.main',
+  ];
+  $variables['items'] = array_filter(
+    $variables['items'],
+    static function (array $item) use ($hide): bool {
+      $url = $item['url'] ?? NULL;
+      return !$url || !$url->isRouted() || !in_array($url->getRouteName(), $hide, TRUE);
+    }
+  );
+}
