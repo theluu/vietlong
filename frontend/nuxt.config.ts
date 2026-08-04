@@ -7,6 +7,17 @@ export default defineNuxtConfig({
   ssr: true,
 
   modules: ['@nuxt/fonts'],
+
+  // Nuxt only auto-links /favicon.ico; the rest have to be declared.
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+      ],
+      meta: [{ name: 'theme-color', content: '#282d30' }],
+    },
+  },
   css: ['~/assets/css/tokens.css'],
   // The dev server is reached through ddev's router, not localhost, so Vite
   // has to be told that host is legitimate or it answers 403 to every route.
