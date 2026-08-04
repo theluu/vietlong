@@ -9,11 +9,16 @@ export default defineNuxtConfig({
   modules: ['@nuxt/fonts'],
 
   // Nuxt only auto-links /favicon.ico; the rest have to be declared.
+  //
+  // The `?v=` is not decoration. Chrome keeps favicons in a database separate
+  // from the HTTP cache, and a hard reload does not evict it — an old icon can
+  // survive for days. Changing the URL is the only reliable way to force a
+  // refetch. Bump the number whenever the artwork changes.
   app: {
     head: {
       link: [
-        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png', sizes: '180x180' },
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico?v=2' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png?v=2', sizes: '180x180' },
       ],
       meta: [{ name: 'theme-color', content: '#282d30' }],
     },
