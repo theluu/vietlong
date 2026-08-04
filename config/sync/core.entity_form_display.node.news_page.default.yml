@@ -17,12 +17,24 @@ third_party_settings:
         - field_subtitle
       label: Hero
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.news_page.default
 targetEntityType: node
 bundle: news_page

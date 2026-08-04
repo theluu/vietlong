@@ -24,34 +24,37 @@ third_party_settings:
         - field_subtitle
       label: Hero
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_quy_n_l_i:
       children:
         - field_benefits
       label: 'Quyền lợi'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 2
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group__i_u_ki_n:
       children:
         - field_criteria
       label: 'Điều kiện'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 3
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_form:
       children:
         - field_form_title
@@ -60,12 +63,27 @@ third_party_settings:
         - field_success_desc
       label: Form
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 4
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+        - group_quy_n_l_i
+        - group__i_u_ki_n
+        - group_form
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.dealers_page.default
 targetEntityType: node
 bundle: dealers_page

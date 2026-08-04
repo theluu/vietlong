@@ -23,12 +23,13 @@ third_party_settings:
         - field_sort_order
       label: 'Thông tin'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_li_n_h_:
       children:
         - field_phone_display
@@ -36,12 +37,25 @@ third_party_settings:
         - field_map_url
       label: 'Liên hệ'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 2
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_th_ng_tin
+        - group_li_n_h_
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.branch.default
 targetEntityType: node
 bundle: branch

@@ -27,23 +27,25 @@ third_party_settings:
         - field_subtitle
       label: Hero
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_k_nh_li_n_h_:
       children:
         - field_channels
       label: 'Kênh liên hệ'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 2
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_c_ng_ty:
       children:
         - field_company_name
@@ -52,12 +54,13 @@ third_party_settings:
         - field_response_body
       label: 'Công ty'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 3
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_form:
       children:
         - field_form_title
@@ -66,12 +69,27 @@ third_party_settings:
         - field_success_desc
       label: Form
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 4
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+        - group_k_nh_li_n_h_
+        - group_c_ng_ty
+        - group_form
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.contact_page.default
 targetEntityType: node
 bundle: contact_page

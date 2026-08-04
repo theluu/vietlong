@@ -21,35 +21,51 @@ third_party_settings:
         - field_subtitle
       label: Hero
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_m_c_ch_nh_s_ch:
       children:
         - field_sections
       label: 'Mục chính sách'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 2
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_h_tr_:
       children:
         - field_support_title
         - field_support_note
       label: 'Hỗ trợ'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 3
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+        - group_m_c_ch_nh_s_ch
+        - group_h_tr_
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.policies_page.default
 targetEntityType: node
 bundle: policies_page

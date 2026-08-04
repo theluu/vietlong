@@ -88,7 +88,13 @@ foreach (KB_PAGE_FORMS as $bundle => $groups) {
   $display->setComponent('title', ['type' => 'string_textfield', 'weight' => 0]);
   $display->setComponent('status', ['type' => 'boolean_checkbox', 'weight' => 90]);
 
+  // Drop grouping from an earlier run so renamed tabs do not linger.
+  foreach (array_keys($display->getThirdPartySettings('field_group')) as $stale) {
+    $display->unsetThirdPartySetting('field_group', $stale);
+  }
+
   $group_weight = 1;
+  $tab_names = [];
   foreach ($groups as $label => $fields) {
     $children = [];
     foreach ($fields as $field => $weight) {
@@ -107,13 +113,29 @@ foreach (KB_PAGE_FORMS as $bundle => $groups) {
       $display->setThirdPartySetting('field_group', $group_name, [
         'children' => $children,
         'label' => $label,
-        'parent_name' => '',
+        'parent_name' => 'group_content_tabs',
         'region' => 'content',
         'weight' => $group_weight++,
         'format_type' => 'tab',
-        'format_settings' => ['formatter' => 'closed', 'description' => ''],
+        'format_settings' => ['formatter' => 'closed', 'description' => '', 'required_fields' => TRUE],
       ]);
+      $tab_names[] = $group_name;
     }
+  }
+
+  // A `tab` group only renders as a tab when it hangs off a `tabs` parent.
+  // Without this wrapper field_group falls back to stacked collapsed details,
+  // which is what these forms were doing.
+  if ($has_group && $tab_names) {
+    $display->setThirdPartySetting('field_group', 'group_content_tabs', [
+      'children' => $tab_names,
+      'label' => 'Nội dung',
+      'parent_name' => '',
+      'region' => 'content',
+      'weight' => 0,
+      'format_type' => 'tabs',
+      'format_settings' => ['direction' => 'horizontal', 'width_breakpoint' => 640],
+    ]);
   }
   $display->save();
   echo "form display: {$bundle}" . ($has_group ? ' (tabs)' : ' (flat — field_group missing)') . "\n";

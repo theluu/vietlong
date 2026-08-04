@@ -38,23 +38,25 @@ third_party_settings:
         - field_cta_secondary
       label: Hero
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 1
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_con_s_:
       children:
         - field_facts
       label: 'Con số'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 2
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_c_u_chuy_n:
       children:
         - field_story_eyebrow
@@ -63,45 +65,65 @@ third_party_settings:
         - field_credentials
       label: 'Câu chuyện'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 3
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_kh_ch_h_ng:
       children:
         - field_segments
       label: 'Khách hàng'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 4
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_quy_tr_nh:
       children:
         - field_steps
       label: 'Quy trình'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 5
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
     group_cam_k_t:
       children:
         - field_values
       label: 'Cam kết'
       region: content
-      parent_name: ''
+      parent_name: group_content_tabs
       weight: 6
       format_type: tab
       format_settings:
         formatter: closed
         description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+        - group_con_s_
+        - group_c_u_chuy_n
+        - group_kh_ch_h_ng
+        - group_quy_tr_nh
+        - group_cam_k_t
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.about_page.default
 targetEntityType: node
 bundle: about_page

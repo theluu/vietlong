@@ -35,10 +35,135 @@ dependencies:
     - image.style.thumbnail
     - node.type.product
   module:
+    - field_group
     - image
     - paragraphs
     - path
     - text
+third_party_settings:
+  field_group:
+    group_c_b_n:
+      children:
+        - field_product_code
+        - field_family
+        - field_short_desc
+        - field_images
+      label: 'Cơ bản'
+      region: content
+      parent_name: group_product_tabs
+      weight: 0
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_ph_n_lo_i:
+      children:
+        - field_brand
+        - field_category
+        - field_finish
+        - field_size_key
+        - field_size_label
+        - field_size_note
+      label: 'Phân loại'
+      region: content
+      parent_name: group_product_tabs
+      weight: 1
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_hi_n_th_kho:
+      children:
+        - field_badge
+        - field_stock_status
+        - field_contact_price
+        - field_featured
+        - field_featured_group
+        - field_is_new
+        - field_sort_order
+      label: 'Hiển thị & kho'
+      region: content
+      parent_name: group_product_tabs
+      weight: 2
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_m_t_chi_ti_t:
+      children:
+        - field_desc_heading
+        - field_description
+        - field_highlights
+      label: 'Mô tả chi tiết'
+      region: content
+      parent_name: group_product_tabs
+      weight: 3
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_th_ng_s:
+      children:
+        - field_specifications
+        - field_door_thickness
+        - field_origin
+        - field_warranty
+        - field_certification
+      label: 'Thông số'
+      region: content
+      parent_name: group_product_tabs
+      weight: 4
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_faq_ch_nh_s_ch:
+      children:
+        - field_faqs
+        - field_policy_cards
+      label: 'FAQ & chính sách'
+      region: content
+      parent_name: group_product_tabs
+      weight: 5
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_s_n_ph_m_li_n_quan:
+      children:
+        - field_related_products
+      label: 'Sản phẩm liên quan'
+      region: content
+      parent_name: group_product_tabs
+      weight: 6
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_product_tabs:
+      children:
+        - group_c_b_n
+        - group_ph_n_lo_i
+        - group_hi_n_th_kho
+        - group_m_t_chi_ti_t
+        - group_th_ng_s
+        - group_faq_ch_nh_s_ch
+        - group_s_n_ph_m_li_n_quan
+      label: 'Nội dung sản phẩm'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
 id: node.product.default
 targetEntityType: node
 bundle: product
@@ -52,13 +177,13 @@ content:
     third_party_settings: {  }
   field_badge:
     type: options_select
-    weight: 20
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
   field_brand:
     type: entity_reference_autocomplete
-    weight: 10
+    weight: 0
     region: content
     settings:
       match_operator: CONTAINS
@@ -68,7 +193,7 @@ content:
     third_party_settings: {  }
   field_category:
     type: entity_reference_autocomplete
-    weight: 11
+    weight: 1
     region: content
     settings:
       match_operator: CONTAINS
@@ -78,7 +203,7 @@ content:
     third_party_settings: {  }
   field_certification:
     type: string_textfield
-    weight: 44
+    weight: 4
     region: content
     settings:
       size: 60
@@ -86,14 +211,14 @@ content:
     third_party_settings: {  }
   field_contact_price:
     type: boolean_checkbox
-    weight: 25
+    weight: 2
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_desc_heading:
     type: string_textfield
-    weight: 41
+    weight: 0
     region: content
     settings:
       size: 60
@@ -101,15 +226,15 @@ content:
     third_party_settings: {  }
   field_description:
     type: text_textarea
-    weight: 42
+    weight: 1
     region: content
     settings:
-      rows: 5
+      rows: 12
       placeholder: ''
     third_party_settings: {  }
   field_door_thickness:
     type: string_textfield
-    weight: 46
+    weight: 1
     region: content
     settings:
       size: 60
@@ -117,7 +242,7 @@ content:
     third_party_settings: {  }
   field_family:
     type: string_textfield
-    weight: 2
+    weight: 1
     region: content
     settings:
       size: 60
@@ -125,16 +250,16 @@ content:
     third_party_settings: {  }
   field_faqs:
     type: paragraphs
-    weight: 51
+    weight: 0
     region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
       closed_mode_threshold: 0
-      add_mode: dropdown
+      add_mode: button
       form_display_mode: default
       default_paragraph_type: ''
       features:
@@ -143,20 +268,20 @@ content:
     third_party_settings: {  }
   field_featured:
     type: boolean_checkbox
-    weight: 22
+    weight: 3
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_featured_group:
     type: options_select
-    weight: 23
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   field_finish:
     type: entity_reference_autocomplete
-    weight: 12
+    weight: 2
     region: content
     settings:
       match_operator: CONTAINS
@@ -166,15 +291,15 @@ content:
     third_party_settings: {  }
   field_highlights:
     type: string_textarea
-    weight: 43
+    weight: 2
     region: content
     settings:
-      rows: 5
+      rows: 4
       placeholder: ''
     third_party_settings: {  }
   field_images:
     type: image_image
-    weight: 30
+    weight: 3
     region: content
     settings:
       progress_indicator: throbber
@@ -182,14 +307,14 @@ content:
     third_party_settings: {  }
   field_is_new:
     type: boolean_checkbox
-    weight: 24
+    weight: 5
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_origin:
     type: string_textfield
-    weight: 47
+    weight: 2
     region: content
     settings:
       size: 60
@@ -197,16 +322,16 @@ content:
     third_party_settings: {  }
   field_policy_cards:
     type: paragraphs
-    weight: 52
+    weight: 1
     region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
       closed_mode_threshold: 0
-      add_mode: dropdown
+      add_mode: button
       form_display_mode: default
       default_paragraph_type: ''
       features:
@@ -215,7 +340,7 @@ content:
     third_party_settings: {  }
   field_product_code:
     type: string_textfield
-    weight: 1
+    weight: 0
     region: content
     settings:
       size: 60
@@ -223,7 +348,7 @@ content:
     third_party_settings: {  }
   field_related_products:
     type: entity_reference_autocomplete
-    weight: 60
+    weight: 0
     region: content
     settings:
       match_operator: CONTAINS
@@ -233,10 +358,10 @@ content:
     third_party_settings: {  }
   field_short_desc:
     type: string_textarea
-    weight: 40
+    weight: 2
     region: content
     settings:
-      rows: 5
+      rows: 3
       placeholder: ''
     third_party_settings: {  }
   field_size_key:
@@ -265,23 +390,23 @@ content:
     third_party_settings: {  }
   field_sort_order:
     type: number
-    weight: 26
+    weight: 6
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_specifications:
     type: paragraphs
-    weight: 50
+    weight: 0
     region: content
     settings:
       title: Paragraph
       title_plural: Paragraphs
-      edit_mode: open
+      edit_mode: closed
       closed_mode: summary
       autocollapse: none
       closed_mode_threshold: 0
-      add_mode: dropdown
+      add_mode: button
       form_display_mode: default
       default_paragraph_type: ''
       features:
@@ -290,13 +415,13 @@ content:
     third_party_settings: {  }
   field_stock_status:
     type: options_select
-    weight: 21
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
   field_warranty:
     type: string_textfield
-    weight: 45
+    weight: 3
     region: content
     settings:
       size: 60
@@ -310,14 +435,14 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 90
+    weight: 100
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 0
+    weight: -5
     region: content
     settings:
       size: 60
