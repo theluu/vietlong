@@ -13,3 +13,9 @@ services:
   keybolts_core.recaptcha:
     class: Drupal\keybolts_core\Service\RecaptchaVerifier
     arguments: ['@http_client', '@settings', '@logger.factory', '@state', '@config.factory']
+  keybolts_core.editor_theme_negotiator:
+    class: Drupal\keybolts_core\Theme\EditorThemeNegotiator
+    arguments: ['@current_user', '@router.admin_context']
+    tags:
+      # Above Drupal's own admin negotiator (100) so the editor's theme wins.
+      - { name: theme_negotiator, priority: 1000 }

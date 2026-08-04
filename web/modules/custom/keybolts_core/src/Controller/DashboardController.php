@@ -41,10 +41,18 @@ final class DashboardController extends ControllerBase {
   ];
 
   public function build(): array {
+    $name = $this->currentUser()->getDisplayName();
     return [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['kb-dash']],
       '#attached' => ['library' => ['keybolts_core/dashboard']],
-      'intro' => [
-        '#markup' => '<p class="kb-dash-intro">Chọn trang muốn sửa. Mỗi trang mở đúng biểu mẫu của nó, chia theo từng khối hiển thị trên website.</p>',
+      'hero' => [
+        '#markup' => '<div class="kb-dash-hero">'
+        . '<span class="kb-dash-eyebrow">Keybolts</span>'
+        . '<h2>Xin chào, ' . htmlspecialchars($name, ENT_QUOTES) . '</h2>'
+        . '<p>Chọn trang bạn muốn sửa. Mỗi biểu mẫu được chia tab theo đúng thứ tự các khối hiển thị trên website, '
+        . 'nên bạn sửa ở đâu là biết nó nằm chỗ nào ngoài trang. Lưu xong nội dung lên ngay, không cần thao tác gì thêm.</p>'
+        . '</div>',
       ],
       'pages' => $this->section('Nội dung từng trang', $this->pageCards()),
       'collections' => $this->section('Danh mục nội dung', $this->collectionCards()),
@@ -98,6 +106,7 @@ final class DashboardController extends ControllerBase {
         Url::fromRoute('system.admin_content', [], ['query' => ['type' => $bundle]]),
         $path,
         Url::fromRoute('node.add', ['node_type' => $bundle]),
+        (string) $count,
       );
     }
     return $cards;
@@ -114,8 +123,11 @@ final class DashboardController extends ControllerBase {
     return [
       $this->card(
         'Yêu cầu liên hệ',
-        "{$total} yêu cầu · {$week} trong 7 ngày qua",
+        "{$week} yêu cầu mới trong 7 ngày qua",
         Url::fromRoute('system.admin_content', [], ['query' => ['type' => 'lead']]),
+        NULL,
+        NULL,
+        (string) $total,
       ),
     ];
   }
@@ -133,7 +145,7 @@ final class DashboardController extends ControllerBase {
     return $cards;
   }
 
-  private function card(string $title, string $desc, Url $edit, ?string $view = NULL, ?Url $add = NULL): array {
+  private function card(string $title, string $desc, Url $edit, ?string $view = NULL, ?Url $add = NULL, ?string $count = NULL): array {
     $links = [];
     $links[] = ['#type' => 'link', '#title' => 'Chỉnh sửa', '#url' => $edit, '#attributes' => ['class' => ['kb-dash-btn', 'kb-dash-btn--primary']]];
     if ($add) {
@@ -149,6 +161,7 @@ final class DashboardController extends ControllerBase {
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['kb-dash-card']],
+      'count' => $count === NULL ? [] : ['#markup' => '<span class="kb-dash-count">' . $count . '</span>'],
       'title' => ['#markup' => '<h3>' . $title . '</h3>'],
       'desc' => ['#markup' => '<p>' . $desc . '</p>'],
       'links' => $actions,

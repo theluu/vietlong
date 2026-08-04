@@ -41,3 +41,48 @@ function keybolts_core_entity_presave(EntityInterface $entity): void {
   $normalizer = \Drupal::service('keybolts_core.text_normalizer');
   $entity->set('field_search_text', $normalizer->normalize(implode(' ', $parts)));
 }
+
+/**
+ * Implements hook_user_login().
+ *
+ * Editors land on the dashboard rather than their user profile, which is the
+ * Drupal default and tells them nothing. Administrators keep the default so
+ * their own workflow is untouched.
+ */
+function keybolts_core_user_login(\Drupal\user\UserInterface $account): void {
+  if (!in_array('bien_tap_vien', $account->getRoles(), TRUE)) {
+    return;
+  }
+  $request = \Drupal::request();
+  if (!$request->query->has('destination')) {
+    $request->query->set('destination', '/admin/keybolts');
+  }
+}
+
+/**
+ * Implements hook_toolbar_alter().
+ *
+ * Trims an editor's toolbar to what they can actually use. The administration
+ * tray itself stays — Drupal already filters it by permission, and removing it
+ * outright leaves them with no way back to the dashboard from a form.
+ */
+function keybolts_core_toolbar_alter(&$items): void {
+  if (\Drupal::currentUser()->hasPermission('administer site configuration')) {
+    return;
+  }
+  foreach (['shortcuts', 'tour', 'devel', 'contextual'] as $tab) {
+    unset($items[$tab]);
+  }
+}
+
+/**
+ * Implements hook_menu_links_discovered_alter().
+ *
+ * Points the admin root at the dashboard for everyone. /admin is a list of
+ * Drupal's own subsystems; the dashboard is a list of the client's pages.
+ */
+function keybolts_core_menu_links_discovered_alter(&$links): void {
+  if (isset($links['keybolts_core.dashboard'])) {
+    $links['keybolts_core.dashboard']['weight'] = -100;
+  }
+}

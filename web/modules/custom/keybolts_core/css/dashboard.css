@@ -1,41 +1,174 @@
-/* The dashboard is the first screen an editor sees, so it earns real layout
-   rather than Drupal's default stack of links. */
-.kb-dash-intro { max-width: 60ch; color: #545560; margin-bottom: 2rem; }
-.kb-dash-section { margin-bottom: 2.5rem; }
-.kb-dash-heading {
-  font-size: 1.15rem;
-  margin: 0 0 1rem;
-  padding-bottom: .5rem;
-  border-bottom: 1px solid #d3d4d9;
+/*
+ * The dashboard is the first screen an editor sees, and the one a client is
+ * shown. It borrows Gin's tokens so it reads as part of the admin theme rather
+ * than a bolted-on page, and the brand's charcoal and gold so it reads as
+ * Keybolts rather than as generic Drupal.
+ */
+
+.kb-dash {
+  --kb-brand: #282d30;
+  --kb-gold: #f7e499;
+  --kb-brass: #ad7c2f;
+  --kb-line: var(--gin-border-color, #dedfe4);
+  --kb-bg: var(--gin-bg-layer, #fff);
+  --kb-muted: var(--gin-color-text-light, #5a5c67);
+  max-width: 1180px;
 }
+
+/* Masthead ---------------------------------------------------------------- */
+
+.kb-dash-hero {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  padding: 2rem 2.25rem;
+  border-radius: var(--gin-border-radius, 8px);
+  background: linear-gradient(105deg, #282d30 0%, #33383c 55%, #45372a 100%);
+  color: #fff;
+}
+
+.kb-dash-hero::after {
+  position: absolute;
+  top: -40%;
+  right: -8%;
+  width: 42%;
+  height: 180%;
+  background: radial-gradient(circle at 50% 50%, rgba(247, 228, 153, .22), transparent 62%);
+  content: '';
+  pointer-events: none;
+}
+
+.kb-dash-hero h2 {
+  margin: 0 0 .5rem;
+  color: #fff;
+  font-size: 1.55rem;
+  letter-spacing: -.02em;
+}
+
+.kb-dash-hero p {
+  max-width: 62ch;
+  margin: 0;
+  color: rgba(255, 255, 255, .78);
+  font-size: .9375rem;
+  line-height: 1.65;
+}
+
+.kb-dash-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .7rem;
+  color: var(--kb-gold);
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.kb-dash-eyebrow::before {
+  width: 28px;
+  height: 2px;
+  background: var(--kb-gold);
+  content: '';
+}
+
+/* Sections ---------------------------------------------------------------- */
+
+.kb-dash-section { margin-bottom: 2.25rem; }
+
+.kb-dash-heading {
+  margin: 0 0 1rem;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid var(--kb-line);
+  font-size: 1.0625rem;
+}
+
 .kb-dash-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 1rem;
 }
+
+/* Cards ------------------------------------------------------------------- */
+
 .kb-dash-card {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
-  padding: 1.25rem;
-  background: #fff;
-  border: 1px solid #d3d4d9;
-  border-radius: 4px;
-  transition: border-color .15s, box-shadow .15s;
+  gap: .4rem;
+  padding: 1.15rem 1.25rem 1rem;
+  border: 1px solid var(--kb-line);
+  border-radius: var(--gin-border-radius, 8px);
+  background: var(--kb-bg);
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
-.kb-dash-card:hover { border-color: #003cc5; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
-.kb-dash-card h3 { margin: 0; font-size: 1rem; }
-.kb-dash-card p { margin: 0; font-size: .875rem; color: #545560; line-height: 1.5; }
-.kb-dash-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; padding-top: .75rem; }
+
+.kb-dash-card:hover {
+  border-color: var(--kb-brass);
+  box-shadow: 0 6px 20px rgba(40, 45, 48, .1);
+  transform: translateY(-2px);
+}
+
+.kb-dash-card h3 {
+  margin: 0;
+  font-size: .9375rem;
+  font-weight: 700;
+}
+
+.kb-dash-card p {
+  margin: 0;
+  color: var(--kb-muted);
+  font-size: .8125rem;
+  line-height: 1.55;
+}
+
+.kb-dash-count {
+  display: block;
+  margin-bottom: .1rem;
+  color: var(--kb-brass);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.03em;
+}
+
+.kb-dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: auto;
+  padding-top: .9rem;
+}
+
 .kb-dash-btn {
   display: inline-block;
-  padding: .35rem .85rem;
+  padding: .32rem .8rem;
+  border: 1px solid var(--kb-line);
+  border-radius: 4px;
+  color: var(--gin-color-text, #26282c);
   font-size: .8125rem;
-  border: 1px solid #003cc5;
-  border-radius: 3px;
-  color: #003cc5;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.kb-dash-btn:hover {
+  border-color: var(--kb-brass);
+  background: rgba(173, 124, 47, .08);
+  color: var(--kb-brass);
   text-decoration: none;
 }
-.kb-dash-btn:hover { background: #f0f4ff; }
-.kb-dash-btn--primary { background: #003cc5; color: #fff; }
-.kb-dash-btn--primary:hover { background: #002a8c; color: #fff; }
+
+.kb-dash-btn--primary {
+  border-color: var(--kb-brand);
+  background: var(--kb-brand);
+  color: var(--kb-gold);
+}
+
+.kb-dash-btn--primary:hover {
+  border-color: #000;
+  background: #000;
+  color: var(--kb-gold);
+}
+
+@media (prefers-color-scheme: dark) {
+  .kb-dash-card { background: var(--gin-bg-layer2, #2a2a2d); }
+}
