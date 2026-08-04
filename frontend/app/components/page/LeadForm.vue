@@ -11,7 +11,10 @@ const props = withDefaults(defineProps<{
   submitLabel?: string
 }>(), { submitLabel: 'Gửi yêu cầu' })
 
-const { execute } = useRecaptcha()
+const { execute, preload } = useRecaptcha()
+
+// Loads api.js so Google's badge is on screen before the visitor submits.
+onMounted(preload)
 
 const state = reactive({ name: '', phone: '', message: '' })
 const website = ref('')          // honeypot

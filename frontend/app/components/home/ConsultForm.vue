@@ -2,7 +2,10 @@
 import { submitLead } from '~/services/pages'
 import { normalisePhone, RECAPTCHA_ACTIONS, validateLead } from '~/utils/leadForm'
 
-const { execute } = useRecaptcha()
+const { execute, preload } = useRecaptcha()
+
+// Loads api.js so Google's badge is on screen before the visitor submits.
+onMounted(preload)
 
 const name = ref('')
 const phone = ref('')
