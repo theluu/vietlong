@@ -9,6 +9,7 @@ dependencies:
     - node.type.branch
     - node.type.contact_page
     - node.type.dealers_page
+    - node.type.home_page
     - node.type.lead
     - node.type.news_page
     - node.type.policies_page
@@ -48,6 +49,7 @@ permissions:
   - 'edit any branch content'
   - 'edit any contact_page content'
   - 'edit any dealers_page content'
+  - 'edit any home_page content'
   - 'edit any lead content'
   - 'edit any news_page content'
   - 'edit any policies_page content'

@@ -27,7 +27,7 @@ const KB_FULL_TYPES = ['product', 'article', 'project', 'branch'];
  * one or delete the only one — either would blank a page on the live site.
  */
 const KB_SINGLETONS = [
-  'site_settings', 'about_page', 'dealers_page', 'contact_page',
+  'home_page', 'site_settings', 'about_page', 'dealers_page', 'contact_page',
   'policies_page', 'news_page', 'projects_page',
 ];
 
@@ -41,11 +41,6 @@ $permissions = [
   'access files overview',
   'administer menu',
   'access site in maintenance mode',
-  // Lets an editor publish a change and see it immediately.
-  'flush caches',
-  // Media and rich text.
-  'create files',
-  'access media overview',
   'use text format basic_html',
 ];
 
