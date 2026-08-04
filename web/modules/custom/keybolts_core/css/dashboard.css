@@ -303,14 +303,16 @@
 }
 
 /*
- * Gin's own breadcrumb reads "Back to site | Administration" in English and
- * duplicates the back bar above. Hidden for editors, who get the Vietnamese
- * button instead; administrators never load this stylesheet.
+ * Gin's secondary toolbar holds only the breadcrumb, which reads "Back to site
+ * | Administration" in English and duplicates the back bar. Hiding the
+ * breadcrumb alone left the 52px strip behind as dead space above the page
+ * title, so the whole band goes. Administrators never load this stylesheet.
  */
+.gin-secondary-toolbar,
 .gin-breadcrumb-wrapper,
 .region-breadcrumb,
 nav.breadcrumb {
-  display: none;
+  display: none !important;
 }
 
 /* Form actions ------------------------------------------------------------ */
