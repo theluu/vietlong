@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { fetchArticles, fetchNews } from '~/services/pages'
+import { fetchArticle, fetchArticles, fetchNews } from '~/services/pages'
+
+/**
+ * The flagship guide carries `field_sort_order = 99`, which the serializer
+ * filters out of the listing — so it has no route in from the UI unless the
+ * page fetches it by slug. If an editor renames it the block disappears
+ * rather than breaking the page.
+ */
+const FEATURED_SLUG = 'nen-chon-khoa-van-tay-nao-cho-cua-go'
 
 const { data } = await useAsyncData('page:news', () => fetchNews())
 const { data: articleData } = await useAsyncData('articles', () => fetchArticles())
+const { data: featuredData } = await useAsyncData(
+  `article:${FEATURED_SLUG}`,
+  () => fetchArticle(FEATURED_SLUG).catch(() => null),
+)
+
 const page = computed(() => data.value?.data)
 const articles = computed(() => articleData.value?.data ?? [])
+const featured = computed(() => featuredData.value?.data ?? null)
 
 if (!page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Không tìm thấy trang', fatal: true })
@@ -44,49 +58,36 @@ useHead({ link: [{ rel: 'canonical', href: 'https://keybolts.com.vn/tin-tuc' }] 
 
 <template>
   <div v-if="page">
-    <PageHero
-      :eyebrow="page.eyebrow"
-      :title="page.title"
-      :subtitle="page.subtitle"
-      :breadcrumb="[
-        { label: 'Trang chủ', url: '/' },
-        { label: 'Tin tức', url: '/tin-tuc' },
-      ]"
-    />
+    <PageCenteredHero :eyebrow="page.eyebrow" :title="page.title" :subtitle="page.subtitle" />
 
-    <main class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)] py-12">
-      <div class="mb-10 flex flex-wrap gap-2 border-b border-border pb-5">
-        <button
-          v-for="filter in filters"
-          :key="filter.key"
-          type="button"
-          class="text-body cursor-pointer rounded-sm border px-5 py-2.5 font-bold transition"
-          :class="filter.key === active
-            ? 'border-charcoal-900 bg-charcoal-900 text-gold-200'
-            : 'border-border bg-background text-text hover:border-brass-500'"
-          @click="setFilter(filter.key)"
-        >{{ filter.label }}</button>
-      </div>
+    <section class="bg-background py-[clamp(40px,4.5vw,64px)]">
+      <div class="mx-auto max-w-[var(--container-max)] px-[clamp(20px,4vw,48px)]">
+        <PageFeaturedArticle v-if="featured" :article="featured" />
 
-      <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <PageNewsCard v-for="article in visible" :key="article.id" :article="article" />
-      </div>
-
-      <div class="mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <span class="text-caption text-text-muted">{{ rangeLabel }}</span>
-        <nav v-if="pageCount > 1" aria-label="Phân trang" class="flex gap-2">
+        <div class="mb-[32px] flex flex-wrap gap-[10px]">
           <button
-            v-for="number in pageCount"
-            :key="number"
+            v-for="filter in filters"
+            :key="filter.key"
             type="button"
-            class="text-body h-10 w-10 cursor-pointer border font-bold"
-            :class="number === currentPage
+            class="text-caption cursor-pointer rounded-sm border px-[22px] py-[12px] font-bold tracking-[0.08em] uppercase transition duration-200 ease-in-out"
+            :class="filter.key === active
               ? 'border-charcoal-900 bg-charcoal-900 text-gold-200'
-              : 'border-border bg-background text-text'"
-            @click="currentPage = number"
-          >{{ number }}</button>
-        </nav>
+              : 'border-border bg-background text-charcoal-900 hover:border-brass-500'"
+            @click="setFilter(filter.key)"
+          >{{ filter.label }}</button>
+        </div>
+
+        <div class="kb-article-related-grid gap-[clamp(16px,1.8vw,26px)]">
+          <PageNewsCard v-for="article in visible" :key="article.id" :article="article" />
+        </div>
+
+        <PagePager
+          :page="currentPage"
+          :page-count="pageCount"
+          :range-label="rangeLabel"
+          @update:page="currentPage = $event"
+        />
       </div>
-    </main>
+    </section>
   </div>
 </template>

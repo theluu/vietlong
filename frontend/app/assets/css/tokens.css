@@ -212,6 +212,13 @@
   /* Đại lý & liên hệ — auto-fit grids copied from the prototypes. */
   .kb-benefit-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .kb-branch-grid  { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+  /*
+   * The hairline variant paints its gaps with the border colour, so a partly
+   * filled last row shows as a grey slab rather than empty space. 230px lets
+   * all five branches sit on one row at desktop, which is the intent.
+   */
+  .kb-branch-grid--hairline { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
   .kb-channel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
   .kb-form-panel   { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
 
@@ -233,7 +240,33 @@
 
   .kb-segment-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  /*
+   * Body copy that arrives as HTML from Drupal's text format. The CSS reset
+   * zeroes paragraph margins, so without this every <p> in the story block
+   * runs into the next one.
+   */
+  .kb-prose p { margin: 0; }
+  .kb-prose p + p { margin-top: 18px; }
+  .kb-prose ul,
+  .kb-prose ol { margin: 18px 0; padding-left: 20px; }
+  .kb-prose li + li { margin-top: 8px; }
+  .kb-prose a { text-decoration: underline; }
+  .kb-prose strong { font-weight: var(--weight-bold); }
+
+  /* Giới thiệu — auto-fit grids copied from the prototype. */
+  .kb-about-hero  { display: grid; grid-template-columns: 1fr; }
+  .kb-story-grid  { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .kb-credentials { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  .kb-process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+  .kb-value-grid  { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .kb-cta-panel   { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .kb-featured-article { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+
+  @media (width >= 900px) {
+    .kb-about-hero { grid-template-columns: 1.15fr 0.85fr; }
   }
 
 
