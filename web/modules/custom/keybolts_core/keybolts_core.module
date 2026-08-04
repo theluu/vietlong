@@ -70,7 +70,10 @@ function keybolts_core_toolbar_alter(&$items): void {
   if (\Drupal::currentUser()->hasPermission('administer site configuration')) {
     return;
   }
-  foreach (['shortcuts', 'tour', 'devel', 'contextual', 'home'] as $tab) {
+  // The dashboard lists every page and collection, and the back bar sits on
+  // every other admin screen, so the tray only repeats what is already one
+  // click away. The account tab stays: it confirms who is signed in.
+  foreach (['shortcuts', 'tour', 'devel', 'contextual', 'home', 'administration'] as $tab) {
     unset($items[$tab]);
   }
 }
