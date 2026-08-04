@@ -12,4 +12,4 @@ services:
     arguments: ['@entity_type.manager']
   keybolts_core.recaptcha:
     class: Drupal\keybolts_core\Service\RecaptchaVerifier
-    arguments: ['@http_client', '@settings', '@logger.factory']
+    arguments: ['@http_client', '@settings', '@logger.factory', '@state', '@config.factory']

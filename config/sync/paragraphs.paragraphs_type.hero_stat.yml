@@ -1,0 +1,10 @@
+uuid: cfab67f9-3ab4-47fb-b4db-822dd4e82f4a
+langcode: en
+status: true
+dependencies: {  }
+id: hero_stat
+label: 'Số liệu hero'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

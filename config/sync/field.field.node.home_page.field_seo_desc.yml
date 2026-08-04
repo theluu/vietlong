@@ -1,0 +1,19 @@
+uuid: 71ddf4fe-01ba-48e2-811b-7a31eb9f9a32
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_seo_desc
+    - node.type.home_page
+id: node.home_page.field_seo_desc
+field_name: field_seo_desc
+entity_type: node
+bundle: home_page
+label: 'SEO — mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

@@ -11,6 +11,16 @@
  */
 
 const KB_PAGE_FORMS = [
+  'home_page' => [
+    'Hero' => ['field_hero_eyebrow' => 1, 'field_hero_title' => 2, 'field_hero_subtitle' => 3, 'field_hero_cta1' => 4, 'field_hero_cta2' => 5, 'field_hero_stats' => 6],
+    'Dải tin cậy' => ['field_usps' => 1],
+    'Danh mục' => ['field_cat_eyebrow' => 1, 'field_cat_title' => 2],
+    'Sản phẩm nổi bật' => ['field_feat_eyebrow' => 1, 'field_feat_title' => 2, 'field_feat_tabs' => 3],
+    'Giải pháp' => ['field_sol_eyebrow' => 1, 'field_sol_title' => 2, 'field_solutions' => 3],
+    'Công nghệ' => ['field_tech_eyebrow' => 1, 'field_tech_title' => 2, 'field_tech_desc' => 3, 'field_tech_features' => 4, 'field_tech_image' => 5, 'field_tech_cta' => 6],
+    'Form tư vấn' => ['field_consult_eyebrow' => 1, 'field_consult_title' => 2, 'field_consult_desc' => 3],
+    'SEO' => ['field_seo_title' => 1, 'field_seo_desc' => 2],
+  ],
   'site_settings' => [
     'Liên hệ' => ['field_hotline' => 1, 'field_hotline_tel' => 2, 'field_email' => 3, 'field_address' => 4, 'field_working_hours' => 5],
     'Công ty' => ['field_company_name' => 1, 'field_company_short' => 2, 'field_copyright' => 3],
@@ -156,6 +166,10 @@ echo "\nDone.\n";
  * empty, the same trap the product paragraphs hit.
  */
 $paragraph_forms = [
+  'hero_stat' => ['field_stat_value' => 1, 'field_stat_label' => 2],
+  'usp' => ['field_usp_title' => 1, 'field_usp_desc' => 2],
+  'solution' => ['field_sol_title' => 1, 'field_sol_desc' => 2, 'field_sol_image' => 3, 'field_sol_tags' => 4, 'field_sol_link' => 5],
+  'featured_tab' => ['field_tab_key' => 1, 'field_tab_label' => 2],
   'social_link' => ['field_social_label' => 1, 'field_social_icon' => 2, 'field_social_url' => 3],
   'footer_link' => ['field_flink_label' => 1, 'field_flink_url' => 2],
   'footer_column' => ['field_fcol_title' => 1, 'field_fcol_links' => 2],

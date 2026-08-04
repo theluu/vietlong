@@ -1,0 +1,41 @@
+/* The dashboard is the first screen an editor sees, so it earns real layout
+   rather than Drupal's default stack of links. */
+.kb-dash-intro { max-width: 60ch; color: #545560; margin-bottom: 2rem; }
+.kb-dash-section { margin-bottom: 2.5rem; }
+.kb-dash-heading {
+  font-size: 1.15rem;
+  margin: 0 0 1rem;
+  padding-bottom: .5rem;
+  border-bottom: 1px solid #d3d4d9;
+}
+.kb-dash-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.kb-dash-card {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid #d3d4d9;
+  border-radius: 4px;
+  transition: border-color .15s, box-shadow .15s;
+}
+.kb-dash-card:hover { border-color: #003cc5; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.kb-dash-card h3 { margin: 0; font-size: 1rem; }
+.kb-dash-card p { margin: 0; font-size: .875rem; color: #545560; line-height: 1.5; }
+.kb-dash-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; padding-top: .75rem; }
+.kb-dash-btn {
+  display: inline-block;
+  padding: .35rem .85rem;
+  font-size: .8125rem;
+  border: 1px solid #003cc5;
+  border-radius: 3px;
+  color: #003cc5;
+  text-decoration: none;
+}
+.kb-dash-btn:hover { background: #f0f4ff; }
+.kb-dash-btn--primary { background: #003cc5; color: #fff; }
+.kb-dash-btn--primary:hover { background: #002a8c; color: #fff; }

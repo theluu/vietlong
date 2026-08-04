@@ -1,0 +1,19 @@
+uuid: c24ca297-a392-4081-abb8-123830883df8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sol_title
+    - node.type.home_page
+id: node.home_page.field_sol_title
+field_name: field_sol_title
+entity_type: node
+bundle: home_page
+label: 'Giải pháp — tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { TECH_FEATURES } from '~/utils/homeContent'
+const home = useHome()
+const tech = computed(() => home.value.tech)
 </script>
 
 <template>
@@ -19,7 +20,7 @@ import { TECH_FEATURES } from '~/utils/homeContent'
         </p>
       <ul class="m-0 mt-[8px] flex list-none flex-col p-0">
         <li
-          v-for="feat in TECH_FEATURES"
+          v-for="feat in tech.features"
           :key="feat"
           class="text-body flex items-center gap-[18px] border-b border-white/12 py-[18px] leading-[1.6] text-white/90"
         >

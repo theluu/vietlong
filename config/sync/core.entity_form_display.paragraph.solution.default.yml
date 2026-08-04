@@ -1,0 +1,63 @@
+uuid: 405e4ff9-9ed3-470b-a211-3b105e754d60
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.solution.field_sol_desc
+    - field.field.paragraph.solution.field_sol_image
+    - field.field.paragraph.solution.field_sol_link
+    - field.field.paragraph.solution.field_sol_tags
+    - field.field.paragraph.solution.field_sol_title
+    - image.style.thumbnail
+    - paragraphs.paragraphs_type.solution
+  module:
+    - image
+    - link
+id: paragraph.solution.default
+targetEntityType: paragraph
+bundle: solution
+mode: default
+content:
+  field_sol_desc:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_sol_image:
+    type: image_image
+    weight: 3
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_sol_link:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_sol_tags:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_sol_title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

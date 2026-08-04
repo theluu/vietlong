@@ -1,0 +1,27 @@
+uuid: e53b1f8c-86ca-4794-8c9e-cb1e527312c2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hero_stats
+    - node.type.home_page
+    - paragraphs.paragraphs_type.hero_stat
+  module:
+    - entity_reference_revisions
+id: node.home_page.field_hero_stats
+field_name: field_hero_stats
+entity_type: node
+bundle: home_page
+label: 'Hero — số liệu'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      hero_stat: hero_stat
+    negate: 0
+field_type: entity_reference_revisions

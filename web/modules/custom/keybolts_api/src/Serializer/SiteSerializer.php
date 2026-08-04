@@ -7,6 +7,7 @@ namespace Drupal\keybolts_api\Serializer;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\keybolts_core\Service\RecaptchaVerifier;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
@@ -23,6 +24,7 @@ final class SiteSerializer {
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly MenuLinkTreeInterface $menuTree,
+    private readonly RecaptchaVerifier $recaptcha,
   ) {}
 
   public function all(): array {
@@ -56,6 +58,12 @@ final class SiteSerializer {
         'title' => $this->str($node, 'field_seo_title'),
         'description' => $this->str($node, 'field_seo_desc'),
       ],
+      // The site key is public. Serving it here rather than baking it into the
+      // bundle is what lets an administrator rotate keys without a rebuild.
+      'recaptcha' => [
+        'enabled' => $this->recaptcha->isEnabled(),
+        'siteKey' => $this->recaptcha->siteKey(),
+      ],
     ];
   }
 
@@ -63,7 +71,7 @@ final class SiteSerializer {
    * Cache tags so an edit invalidates the frontend's copy immediately.
    */
   public function cacheTags(): array {
-    return ['node_list:site_settings', 'config:system.menu.main'];
+    return ['node_list:site_settings', 'config:system.menu.main', 'config:keybolts_core.recaptcha'];
   }
 
   private function settingsNode(): ?NodeInterface {

@@ -26,4 +26,5 @@ export interface SiteSettings {
   }
   social: { label: string; icon: string; url: string }[]
   seo: { title: string; description: string }
+  recaptcha: { enabled: boolean; siteKey: string }
 }

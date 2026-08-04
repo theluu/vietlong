@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import type { ProductCard } from '~/types/product'
-import { FEATURED_TABS } from '~/utils/homeContent'
-
 const props = defineProps<{ featured: Record<string, ProductCard[]> }>()
 
+const home = useHome()
+const section = computed(() => home.value.featuredSection)
+
 // Every group ships in the one /homepage response, so switching is instant.
-const tabs = computed(() => FEATURED_TABS.filter(t => (props.featured[t.key]?.length ?? 0) > 0))
-const active = ref(tabs.value[0]?.key ?? 'dong')
+// An editor can add a tab whose group is empty; hide it rather than show a
+// tab that opens onto nothing.
+const tabs = computed(() =>
+  section.value.tabs.filter(t => (props.featured[t.key]?.length ?? 0) > 0))
+const active = ref('')
+watchEffect(() => {
+  if (!tabs.value.some(t => t.key === active.value)) {
+    active.value = tabs.value[0]?.key ?? ''
+  }
+})
 const items = computed(() => props.featured[active.value] ?? [])
 const track = ref<HTMLElement | null>(null)
 const scroll = (direction: number) => {

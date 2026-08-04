@@ -17,7 +17,46 @@ export interface HomeBrand {
   cta: string
 }
 
-export interface HomepagePayload {
+export interface HomeLink { label: string; url: string }
+
+export interface HomeSection { eyebrow: string; title: string }
+
+/** The editorial half of the payload; the rest is the live catalogue. */
+export interface HomeContent {
+  hero: {
+    eyebrow: string
+    /** Newlines are line breaks; *word* is painted with the gold gradient. */
+    title: string
+    subtitle: string
+    ctaPrimary: HomeLink | null
+    ctaSecondary: HomeLink | null
+    stats: { value: string; label: string }[]
+  }
+  usps: { title: string; desc: string }[]
+  categorySection: HomeSection
+  featuredSection: HomeSection & { tabs: { key: string; label: string }[] }
+  solutionSection: HomeSection & {
+    items: {
+      title: string
+      desc: string
+      tags: string[]
+      image: string | null
+      link: HomeLink | null
+    }[]
+  }
+  tech: {
+    eyebrow: string
+    title: string
+    desc: string
+    features: string[]
+    image: string | null
+    cta: HomeLink | null
+  }
+  consult: { eyebrow: string; title: string; desc: string }
+  seo: { title: string; description: string }
+}
+
+export interface HomepagePayload extends HomeContent {
   categories: HomeCategory[]
   brands: HomeBrand[]
   featured: Record<string, ProductCard[]>

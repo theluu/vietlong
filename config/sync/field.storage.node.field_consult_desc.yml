@@ -1,0 +1,19 @@
+uuid: d448d0c2-5363-4971-9fb0-2e9f8f31ca04
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_consult_desc
+field_name: field_consult_desc
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

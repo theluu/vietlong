@@ -6,7 +6,9 @@
  * neither. Rendered only when a site key is configured — with none, no
  * reCAPTCHA call is ever made and the claim would be false.
  */
-const configured = computed(() => !!useRuntimeConfig().public.recaptchaSiteKey)
+const { recaptcha } = useSite()
+const configured = computed(() =>
+  recaptcha.value.enabled && !!(recaptcha.value.siteKey || useRuntimeConfig().public.recaptchaSiteKey))
 </script>
 
 <template>

@@ -1,0 +1,19 @@
+uuid: f383ecee-4033-40aa-b8c2-f4b927063f30
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_sol_title
+    - paragraphs.paragraphs_type.solution
+id: paragraph.solution.field_sol_title
+field_name: field_sol_title
+entity_type: paragraph
+bundle: solution
+label: 'Tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

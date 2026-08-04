@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { SOLUTIONS } from '~/utils/homeContent'
+const home = useHome()
+const section = computed(() => home.value.solutionSection)
 
 const track = ref<HTMLElement | null>(null)
 const scroll = (direction: number) => {
@@ -22,8 +23,8 @@ const scroll = (direction: number) => {
 
     <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
       <NuxtLink
-        v-for="sol in SOLUTIONS"
-        :key="sol.key"
+        v-for="sol in section.items"
+        :key="sol.title"
         to="/san-pham"
         class="kb-home-solution-card group flex min-w-0 snap-start flex-col overflow-hidden border border-border bg-background text-inherit no-underline transition hover:-translate-y-[6px] hover:shadow-floating"
       >

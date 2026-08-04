@@ -1,0 +1,471 @@
+uuid: ffebf904-a73d-40ed-a1e8-875e69ef6211
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.home_page.field_cat_eyebrow
+    - field.field.node.home_page.field_cat_title
+    - field.field.node.home_page.field_consult_desc
+    - field.field.node.home_page.field_consult_eyebrow
+    - field.field.node.home_page.field_consult_title
+    - field.field.node.home_page.field_feat_eyebrow
+    - field.field.node.home_page.field_feat_tabs
+    - field.field.node.home_page.field_feat_title
+    - field.field.node.home_page.field_hero_cta1
+    - field.field.node.home_page.field_hero_cta2
+    - field.field.node.home_page.field_hero_eyebrow
+    - field.field.node.home_page.field_hero_stats
+    - field.field.node.home_page.field_hero_subtitle
+    - field.field.node.home_page.field_hero_title
+    - field.field.node.home_page.field_seo_desc
+    - field.field.node.home_page.field_seo_title
+    - field.field.node.home_page.field_sol_eyebrow
+    - field.field.node.home_page.field_sol_title
+    - field.field.node.home_page.field_solutions
+    - field.field.node.home_page.field_tech_cta
+    - field.field.node.home_page.field_tech_desc
+    - field.field.node.home_page.field_tech_eyebrow
+    - field.field.node.home_page.field_tech_features
+    - field.field.node.home_page.field_tech_image
+    - field.field.node.home_page.field_tech_title
+    - field.field.node.home_page.field_usps
+    - image.style.thumbnail
+    - node.type.home_page
+  module:
+    - field_group
+    - image
+    - link
+    - paragraphs
+    - path
+third_party_settings:
+  field_group:
+    group_hero:
+      children:
+        - field_hero_eyebrow
+        - field_hero_title
+        - field_hero_subtitle
+        - field_hero_cta1
+        - field_hero_cta2
+        - field_hero_stats
+      label: Hero
+      region: content
+      parent_name: group_content_tabs
+      weight: 1
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_d_i_tin_c_y:
+      children:
+        - field_usps
+      label: 'Dải tin cậy'
+      region: content
+      parent_name: group_content_tabs
+      weight: 2
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_danh_m_c:
+      children:
+        - field_cat_eyebrow
+        - field_cat_title
+      label: 'Danh mục'
+      region: content
+      parent_name: group_content_tabs
+      weight: 3
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_s_n_ph_m_n_i_b_t:
+      children:
+        - field_feat_eyebrow
+        - field_feat_title
+        - field_feat_tabs
+      label: 'Sản phẩm nổi bật'
+      region: content
+      parent_name: group_content_tabs
+      weight: 4
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_gi_i_ph_p:
+      children:
+        - field_sol_eyebrow
+        - field_sol_title
+        - field_solutions
+      label: 'Giải pháp'
+      region: content
+      parent_name: group_content_tabs
+      weight: 5
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_c_ng_ngh_:
+      children:
+        - field_tech_eyebrow
+        - field_tech_title
+        - field_tech_desc
+        - field_tech_features
+        - field_tech_image
+        - field_tech_cta
+      label: 'Công nghệ'
+      region: content
+      parent_name: group_content_tabs
+      weight: 6
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_form_t_v_n:
+      children:
+        - field_consult_eyebrow
+        - field_consult_title
+        - field_consult_desc
+      label: 'Form tư vấn'
+      region: content
+      parent_name: group_content_tabs
+      weight: 7
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_seo:
+      children:
+        - field_seo_title
+        - field_seo_desc
+      label: SEO
+      region: content
+      parent_name: group_content_tabs
+      weight: 8
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_content_tabs:
+      children:
+        - group_hero
+        - group_d_i_tin_c_y
+        - group_danh_m_c
+        - group_s_n_ph_m_n_i_b_t
+        - group_gi_i_ph_p
+        - group_c_ng_ngh_
+        - group_form_t_v_n
+        - group_seo
+      label: 'Nội dung'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        direction: horizontal
+        width_breakpoint: 640
+id: node.home_page.default
+targetEntityType: node
+bundle: home_page
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_cat_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_cat_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_consult_desc:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_consult_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_consult_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_feat_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_feat_tabs:
+    type: paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_feat_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_hero_cta1:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_hero_cta2:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_hero_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_hero_stats:
+    type: paragraphs
+    weight: 6
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_hero_subtitle:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_hero_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_seo_desc:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_seo_title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_sol_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_sol_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_solutions:
+    type: paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_tech_cta:
+    type: link_default
+    weight: 6
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_tech_desc:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_tech_eyebrow:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tech_features:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_tech_image:
+    type: image_image
+    weight: 5
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_tech_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_usps:
+    type: paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 90
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true

@@ -1,0 +1,19 @@
+uuid: 89eb59ec-28c6-4997-b2ed-25b9db01ee00
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_cat_eyebrow
+    - node.type.home_page
+id: node.home_page.field_cat_eyebrow
+field_name: field_cat_eyebrow
+entity_type: node
+bundle: home_page
+label: 'Danh mục — eyebrow'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

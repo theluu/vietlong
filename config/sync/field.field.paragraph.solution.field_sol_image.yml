@@ -1,0 +1,38 @@
+uuid: ae77d0d9-17e9-41c0-8b3a-f7130194461c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_sol_image
+    - paragraphs.paragraphs_type.solution
+  module:
+    - image
+id: paragraph.solution.field_sol_image
+field_name: field_sol_image
+entity_type: paragraph
+bundle: solution
+label: Ảnh
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

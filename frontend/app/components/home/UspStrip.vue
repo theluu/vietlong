@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { USPS } from '~/utils/homeContent'
+const home = useHome()
+const usps = computed(() => home.value.usps)
 </script>
 
 <template>
@@ -8,13 +9,13 @@ import { USPS } from '~/utils/homeContent'
       class="mx-auto grid max-w-[var(--container-max)] grid-cols-1 px-[clamp(20px,4vw,48px)] sm:grid-cols-2 lg:grid-cols-4"
     >
       <div
-        v-for="(u, i) in USPS"
+        v-for="(u, i) in usps"
         :key="u.title"
         class="flex items-center gap-4 border-b border-border py-[26px] sm:px-[26px] lg:border-b-0"
         :class="[
-          i < USPS.length - 1 ? 'lg:border-r lg:border-border' : '',
+          i < usps.length - 1 ? 'lg:border-r lg:border-border' : '',
           i === 0 ? 'sm:pl-0' : '',
-          i === USPS.length - 1 ? 'sm:pr-0' : '',
+          i === usps.length - 1 ? 'sm:pr-0' : '',
         ]"
       >
         <svg v-if="i === 0" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="flex-none text-brass-500" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>

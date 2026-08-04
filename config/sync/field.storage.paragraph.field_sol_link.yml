@@ -1,0 +1,19 @@
+uuid: db2d7b1e-cfdc-4226-9928-a75b9a24977b
+langcode: en
+status: true
+dependencies:
+  module:
+    - link
+    - paragraphs
+id: paragraph.field_sol_link
+field_name: field_sol_link
+entity_type: paragraph
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

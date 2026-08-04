@@ -1,0 +1,19 @@
+uuid: f1f519b1-7972-4a04-b483-3cc8efd96a8f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_usp_title
+    - paragraphs.paragraphs_type.usp
+id: paragraph.usp.field_usp_title
+field_name: field_usp_title
+entity_type: paragraph
+bundle: usp
+label: 'Tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

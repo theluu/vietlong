@@ -6,6 +6,7 @@ namespace Drupal\keybolts_api\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\keybolts_api\ApiEnvelope;
+use Drupal\keybolts_api\Serializer\HomeSerializer;
 use Drupal\keybolts_api\Serializer\ProductSerializer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -18,10 +19,14 @@ class HomepageController extends ControllerBase {
 
   public function __construct(
     private readonly ProductSerializer $serializer,
+    private readonly HomeSerializer $home,
   ) {}
 
   public static function create(ContainerInterface $container): static {
-    return new static($container->get('keybolts_api.product_serializer'));
+    return new static(
+      $container->get('keybolts_api.product_serializer'),
+      $container->get('keybolts_api.home_serializer'),
+    );
   }
 
   /**
@@ -33,10 +38,10 @@ class HomepageController extends ControllerBase {
         'categories' => $this->categories(),
         'brands' => $this->brands(),
         'featured' => $this->featured(),
-      ],
+      ] + $this->home->all(),
       [],
       [],
-      ['node_list:product', 'taxonomy_term_list'],
+      ['node_list:product', 'node_list:home_page', 'taxonomy_term_list'],
     );
   }
 

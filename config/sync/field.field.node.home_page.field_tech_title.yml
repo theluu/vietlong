@@ -1,0 +1,19 @@
+uuid: 335c5168-942b-42c6-8467-66fe7bf4b556
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tech_title
+    - node.type.home_page
+id: node.home_page.field_tech_title
+field_name: field_tech_title
+entity_type: node
+bundle: home_page
+label: 'Công nghệ — tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

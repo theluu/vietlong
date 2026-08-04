@@ -1,0 +1,19 @@
+uuid: 41b2968e-7c8d-41ad-9145-a256ca4f713e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_usp_desc
+    - paragraphs.paragraphs_type.usp
+id: paragraph.usp.field_usp_desc
+field_name: field_usp_desc
+entity_type: paragraph
+bundle: usp
+label: 'Mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

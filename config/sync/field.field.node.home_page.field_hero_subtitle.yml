@@ -1,0 +1,19 @@
+uuid: fdb84f14-308c-4940-badb-488187454492
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hero_subtitle
+    - node.type.home_page
+id: node.home_page.field_hero_subtitle
+field_name: field_hero_subtitle
+entity_type: node
+bundle: home_page
+label: 'Hero — mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

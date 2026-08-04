@@ -1,0 +1,6 @@
+keybolts_core.dashboard:
+  title: 'Quản trị website'
+  description: 'Sửa nội dung từng trang, danh mục sản phẩm và cấu hình chung'
+  route_name: keybolts_core.dashboard
+  parent: system.admin
+  weight: -50

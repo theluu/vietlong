@@ -1,0 +1,23 @@
+uuid: 0f3aa5d1-77f6-4123-b2c3-924fc20fe404
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tech_cta
+    - node.type.home_page
+  module:
+    - link
+id: node.home_page.field_tech_cta
+field_name: field_tech_cta
+entity_type: node
+bundle: home_page
+label: 'Công nghệ — nút'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

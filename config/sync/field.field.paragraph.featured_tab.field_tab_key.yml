@@ -1,0 +1,19 @@
+uuid: c2299c78-58ed-43c7-87fd-e139fa7f6f2b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_tab_key
+    - paragraphs.paragraphs_type.featured_tab
+id: paragraph.featured_tab.field_tab_key
+field_name: field_tab_key
+entity_type: paragraph
+bundle: featured_tab
+label: 'Mã nhóm'
+description: 'Phải khớp giá trị "Nhóm nổi bật" trên sản phẩm: dong, cremone, hotel, phukien'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

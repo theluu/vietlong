@@ -1,0 +1,15 @@
+keybolts_core.dashboard:
+  path: '/admin/keybolts'
+  defaults:
+    _controller: '\Drupal\keybolts_core\Controller\DashboardController::build'
+    _title: 'Quản trị website Keybolts'
+  requirements:
+    _permission: 'access content overview'
+
+keybolts_core.recaptcha_settings:
+  path: '/admin/keybolts/recaptcha'
+  defaults:
+    _form: '\Drupal\keybolts_core\Form\RecaptchaSettingsForm'
+    _title: 'reCAPTCHA v3'
+  requirements:
+    _permission: 'administer site configuration'

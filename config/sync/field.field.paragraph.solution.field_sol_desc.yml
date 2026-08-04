@@ -1,0 +1,19 @@
+uuid: f0bf9c5a-3cb4-40ad-b494-29652a977726
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_sol_desc
+    - paragraphs.paragraphs_type.solution
+id: paragraph.solution.field_sol_desc
+field_name: field_sol_desc
+entity_type: paragraph
+bundle: solution
+label: 'Mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

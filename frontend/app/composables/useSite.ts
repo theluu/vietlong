@@ -24,6 +24,7 @@ export function useSite() {
     header: computed(() => site.value.header),
     hotline: computed(() => site.value.contact.hotline),
     hotlineTel: computed(() => `tel:${site.value.contact.hotlineTel}`),
+    recaptcha: computed(() => site.value.recaptcha),
   }
 }
 
@@ -52,4 +53,5 @@ const FALLBACK: SiteSettings = {
   footer: { description: '', copyright: '', columns: [] },
   social: [],
   seo: { title: '', description: '' },
+  recaptcha: { enabled: false, siteKey: '' },
 }

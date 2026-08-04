@@ -1,0 +1,21 @@
+uuid: 0e04dd54-d440-4c19-ae19-11f98a107398
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_consult_eyebrow
+field_name: field_consult_eyebrow
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

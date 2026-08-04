@@ -1,0 +1,19 @@
+uuid: 1ae06012-7af1-431b-8fee-b6449375ba27
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_stat_value
+    - paragraphs.paragraphs_type.hero_stat
+id: paragraph.hero_stat.field_stat_value
+field_name: field_stat_value
+entity_type: paragraph
+bundle: hero_stat
+label: 'Con số'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

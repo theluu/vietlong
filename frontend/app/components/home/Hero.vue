@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { HERO_STATS } from '~/utils/homeContent'
-
 defineProps<{ image?: string | null }>()
+
+const home = useHome()
+const hero = computed(() => home.value.hero)
+const titleLines = computed(() => heroTitleParts(hero.value.title))
 </script>
 
 <template>
@@ -18,23 +20,23 @@ defineProps<{ image?: string | null }>()
       >
         <div class="flex items-center gap-4">
           <span class="h-[2px] w-12 bg-gold-200" />
-          <span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">
-            Keybolts Collection
-          </span>
+          <span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">{{ hero.eyebrow }}</span>
         </div>
 
         <h1
           class="m-0 text-[clamp(40px,5.4vw,72px)] leading-[1.02] font-bold tracking-[-0.035em] text-balance"
         >
-          Khóa cửa<br>
-          <span class="kb-hero-gradient">đẳng cấp</span> cho<br>
-          từng công trình
+          <template v-for="(line, li) in titleLines" :key="li">
+            <template v-for="(part, pi) in line" :key="pi">
+              <span v-if="part.gradient" class="kb-hero-gradient">{{ part.text }}</span>
+              <template v-else>{{ part.text }}</template>
+            </template>
+            <br v-if="li < titleLines.length - 1">
+          </template>
         </h1>
 
         <p class="text-heading m-0 max-w-[430px] leading-[1.75] font-light text-white/75">
-          Khóa đồng, khóa vân tay, khóa thẻ từ khách sạn và phụ kiện cửa nhập khẩu —
-          tuyển chọn theo từng loại cửa, bảo hành 5–10 năm.
-        </p>
+{{ hero.subtitle }}</p>
 
         <div class="mt-1 flex flex-wrap gap-4">
           <NuxtLink
@@ -66,10 +68,10 @@ defineProps<{ image?: string | null }>()
           class="absolute right-0 bottom-0 flex border-t border-l border-gold-200/30 bg-charcoal-900/86 backdrop-blur-sm"
         >
           <div
-            v-for="(s, i) in HERO_STATS"
+            v-for="(s, i) in hero.stats"
             :key="s.label"
             class="flex flex-col gap-1 px-7 py-[22px]"
-            :class="i < HERO_STATS.length - 1 ? 'border-r border-white/14' : ''"
+            :class="i < hero.stats.length - 1 ? 'border-r border-white/14' : ''"
           >
             <span class="text-display text-gold-200 leading-none font-bold tracking-[-0.03em]">
               {{ s.value }}

@@ -1,0 +1,19 @@
+uuid: 1b940d01-e8b5-4f50-bbc3-5fb027750c7b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_feat_eyebrow
+    - node.type.home_page
+id: node.home_page.field_feat_eyebrow
+field_name: field_feat_eyebrow
+entity_type: node
+bundle: home_page
+label: 'Sản phẩm nổi bật — eyebrow'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

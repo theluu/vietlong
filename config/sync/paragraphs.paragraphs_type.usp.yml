@@ -1,0 +1,10 @@
+uuid: 998b3b27-dd03-43af-9adc-8a758ec2cb47
+langcode: en
+status: true
+dependencies: {  }
+id: usp
+label: 'Điểm tin cậy'
+icon_uuid: null
+icon_default: null
+description: null
+behavior_plugins: {  }

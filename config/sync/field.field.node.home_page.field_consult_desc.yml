@@ -1,0 +1,19 @@
+uuid: 4bcf5a5d-7874-46b5-9359-f5c1ec21bea7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_consult_desc
+    - node.type.home_page
+id: node.home_page.field_consult_desc
+field_name: field_consult_desc
+entity_type: node
+bundle: home_page
+label: 'Tư vấn — mô tả'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
