@@ -80,6 +80,23 @@ function kbp_paragraph(string $id, string $label): void {
   }
 }
 
+// Leads from the three site forms. A plain content type so they sit in
+// /admin/content with everything else — no bespoke entity, no bespoke
+// permission. Saved unpublished so they never surface on the front end.
+kbp_node_type('lead', 'Yêu cầu liên hệ');
+kbp_field('node', 'lead', 'field_lead_phone', 'string', 'Số điện thoại');
+kbp_field('node', 'lead', 'field_lead_email', 'string', 'Email');
+kbp_field('node', 'lead', 'field_lead_message', 'string_long', 'Nội dung');
+kbp_field('node', 'lead', 'field_lead_source', 'list_string', 'Nguồn', 1, [
+  'allowed_values' => [
+    'contact' => 'Liên hệ',
+    'dealer' => 'Đăng ký đại lý',
+    'consult' => 'Tư vấn trang chủ',
+  ],
+]);
+kbp_field('node', 'lead', 'field_lead_ip', 'string', 'IP');
+kbp_field('node', 'lead', 'field_lead_recaptcha', 'decimal', 'Điểm reCAPTCHA');
+
 kbp_node_type('branch', 'Cơ sở / Showroom');
 
 kbp_field('node', 'branch', 'field_tag', 'string', 'Nhãn (Bán buôn, Cơ sở 1…)');

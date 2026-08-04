@@ -1,0 +1,21 @@
+uuid: 1747b9d5-3ae4-475f-9616-7b2b987b3359
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_source
+    - node.type.lead
+  module:
+    - options
+id: node.lead.field_lead_source
+field_name: field_lead_source
+entity_type: node
+bundle: lead
+label: Nguồn
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

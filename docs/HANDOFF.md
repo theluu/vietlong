@@ -33,7 +33,7 @@ The snapshot below is the tracked copy. Reconcile it with `git log` on the
 | 1. `branch` content type + seed 5 showrooms | complete (`6559b45..9d6aba7`) |
 | 2. `GET /api/v1/branches` | complete (`9d6aba7..91502bd`) |
 | 3. Homepage reads branches from API | complete (`91502bd..2f27d49`) |
-| 4. `contact_submission` entity | implemented (`14b8050`); one review finding open — see below |
+| 4. Lead capture | implemented; leads are `lead` nodes in /admin/content |
 | 5–15 | not started |
 
 **Task 4's open finding.** The entity's `admin_permission` is
@@ -141,8 +141,15 @@ Behaviour with keys configured: a score below the threshold is rejected with
 the lead is **accepted** with an empty score and a warning is logged — losing a
 real customer's enquiry is worse than storing one unscored lead.
 
-Leads land in `/admin/keybolts/submissions` (entity `contact_submission`, not a
-node — they are operational records, not published content).
+Leads land in **/admin/content** as `lead` nodes, filterable by type. They are
+saved unpublished so they are never reachable as a page. The title is the
+customer's name; phone, email, message, source, IP and reCAPTCHA score are
+fields.
+
+They were briefly a bespoke `contact_submission` entity. That kept them out of
+/admin/content at the cost of a custom list builder, a custom permission and a
+second place to look — not worth it. `scripts/setup/migrate_leads_to_nodes.php`
+moved the existing rows across and removed the entity type.
 
 **The contact endpoint needs `reverse_proxy` configured or its rate limit
 collapses into one shared bucket.** Requests reach Drupal through ddev's

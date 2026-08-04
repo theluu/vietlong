@@ -1,0 +1,141 @@
+uuid: 38ce98d7-bd2e-4a83-8935-dd312b7cf458
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.lead.field_lead_email
+    - field.field.node.lead.field_lead_ip
+    - field.field.node.lead.field_lead_message
+    - field.field.node.lead.field_lead_phone
+    - field.field.node.lead.field_lead_recaptcha
+    - field.field.node.lead.field_lead_source
+    - node.type.lead
+  module:
+    - field_group
+    - path
+third_party_settings:
+  field_group:
+    group_kh_ch_h_ng:
+      children:
+        - field_lead_phone
+        - field_lead_email
+        - field_lead_message
+      label: 'Khách hàng'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+    group_ngu_n:
+      children:
+        - field_lead_source
+        - field_lead_recaptcha
+        - field_lead_ip
+      label: Nguồn
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tab
+      format_settings:
+        formatter: closed
+        description: ''
+id: node.lead.default
+targetEntityType: node
+bundle: lead
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_lead_email:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_lead_ip:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_lead_message:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_lead_phone:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_lead_recaptcha:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_lead_source:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 90
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  promote: true
+  sticky: true

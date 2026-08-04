@@ -1,0 +1,23 @@
+uuid: 220863d7-587f-4740-9b74-c9a0a22ced2f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_recaptcha
+    - node.type.lead
+id: node.lead.field_lead_recaptcha
+field_name: field_lead_recaptcha
+entity_type: node
+bundle: lead
+label: 'Điểm reCAPTCHA'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

@@ -1,0 +1,19 @@
+uuid: 8f2fd914-b358-4558-b3f1-f414c75c30c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_phone
+    - node.type.lead
+id: node.lead.field_lead_phone
+field_name: field_lead_phone
+entity_type: node
+bundle: lead
+label: 'Số điện thoại'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -11,6 +11,10 @@
  */
 
 const KB_PAGE_FORMS = [
+  'lead' => [
+    'Khách hàng' => ['field_lead_phone' => 1, 'field_lead_email' => 2, 'field_lead_message' => 3],
+    'Nguồn' => ['field_lead_source' => 1, 'field_lead_recaptcha' => 2, 'field_lead_ip' => 3],
+  ],
   'branch' => [
     'Thông tin' => ['field_tag' => 1, 'field_address' => 2, 'field_sort_order' => 3],
     'Liên hệ' => ['field_phone_display' => 1, 'field_phone_tel' => 2, 'field_map_url' => 3],

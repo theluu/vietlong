@@ -1,0 +1,20 @@
+uuid: e238bdd8-fe2a-41e6-9df8-0bfbc97b1eee
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_lead_recaptcha
+field_name: field_lead_recaptcha
+entity_type: node
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

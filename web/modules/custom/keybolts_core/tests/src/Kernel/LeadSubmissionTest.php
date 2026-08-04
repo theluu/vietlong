@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\keybolts_core\Kernel;
 
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\node\NodeInterface;
+use Drupal\node\Entity\NodeType;
 use Drupal\keybolts_api\Controller\ContactController;
-use Drupal\keybolts_core\Entity\ContactSubmission;
 use Drupal\keybolts_core\Service\RecaptchaVerifier;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  * The lead form is the site's only write endpoint, so its guards matter.
  */
 #[RunTestsInSeparateProcesses]
-class ContactSubmissionTest extends KernelTestBase {
+class LeadSubmissionTest extends KernelTestBase {
 
   protected static $modules = [
     'system', 'user', 'field', 'text', 'node', 'path_alias', 'options',
@@ -25,8 +28,22 @@ class ContactSubmissionTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('user');
-    $this->installEntitySchema('contact_submission');
+    $this->installEntitySchema('node');
+    $this->installSchema('node', ['node_access']);
     $this->installSchema('system', ['sequences']);
+    $this->installConfig(['node', 'field']);
+    NodeType::create(['type' => 'lead', 'name' => 'Lead'])->save();
+    foreach ([
+      'field_lead_phone' => 'string',
+      'field_lead_email' => 'string',
+      'field_lead_message' => 'string_long',
+      'field_lead_source' => 'string',
+      'field_lead_ip' => 'string',
+      'field_lead_recaptcha' => 'decimal',
+    ] as $name => $type) {
+      FieldStorageConfig::create(['field_name' => $name, 'entity_type' => 'node', 'type' => $type])->save();
+      FieldConfig::create(['field_name' => $name, 'entity_type' => 'node', 'bundle' => 'lead', 'label' => $name])->save();
+    }
   }
 
   private function post(array $body): array {
@@ -38,8 +55,8 @@ class ContactSubmissionTest extends KernelTestBase {
 
   private function countSubmissions(): int {
     return (int) $this->container->get('entity_type.manager')
-      ->getStorage('contact_submission')
-      ->getQuery()->accessCheck(FALSE)->count()->execute();
+      ->getStorage('node')
+      ->getQuery()->accessCheck(FALSE)->condition('type', 'lead')->count()->execute();
   }
 
   public function testValidSubmissionIsStored(): void {
@@ -76,7 +93,7 @@ class ContactSubmissionTest extends KernelTestBase {
 
   public function testUnknownSourceFallsBackToContact(): void {
     $this->post(['name' => 'A', 'phone' => '1', 'source' => 'nonsense']);
-    $this->assertSame('contact', $this->latest()->get('source')->value);
+    $this->assertSame('contact', $this->latest()->get('field_lead_source')->value);
   }
 
   public function testLowRecaptchaScoreIsRejectedAndStoresNothing(): void {
@@ -95,7 +112,7 @@ class ContactSubmissionTest extends KernelTestBase {
       'name' => 'A', 'phone' => '0900000000', 'recaptchaToken' => 'tok',
     ]);
     $this->assertSame(201, $status);
-    $this->assertSame('0.90', $this->latest()->get('recaptcha_score')->value);
+    $this->assertSame('0.90', $this->latest()->get('field_lead_recaptcha')->value);
   }
 
   /**
@@ -108,14 +125,14 @@ class ContactSubmissionTest extends KernelTestBase {
       'name' => 'A', 'phone' => '0900000000', 'recaptchaToken' => 'tok',
     ]);
     $this->assertSame(201, $status);
-    $this->assertNull($this->latest()->get('recaptcha_score')->value);
+    $this->assertNull($this->latest()->get('field_lead_recaptcha')->value);
   }
 
   public function testEmailIsStoredWhenSupplied(): void {
     $this->post([
       'name' => 'A', 'phone' => '0900000000', 'email' => 'a@example.com',
     ]);
-    $this->assertSame('a@example.com', $this->latest()->get('email')->value);
+    $this->assertSame('a@example.com', $this->latest()->get('field_lead_email')->value);
   }
 
   /** Swaps in a verifier that answers with a fixed score. */
@@ -154,9 +171,10 @@ class ContactSubmissionTest extends KernelTestBase {
     $this->assertSame(15, $this->countSubmissions());
   }
 
-  private function latest(): ContactSubmission {
-    $storage = $this->container->get('entity_type.manager')->getStorage('contact_submission');
-    $ids = $storage->getQuery()->accessCheck(FALSE)->sort('id', 'DESC')->range(0, 1)->execute();
+  private function latest(): NodeInterface {
+    $storage = $this->container->get('entity_type.manager')->getStorage('node');
+    $ids = $storage->getQuery()->accessCheck(FALSE)
+      ->condition('type', 'lead')->sort('nid', 'DESC')->range(0, 1)->execute();
     return $storage->load(reset($ids));
   }
 

@@ -1,4 +1,0 @@
-keybolts_core.submissions:
-  title: 'Yêu cầu liên hệ'
-  route_name: entity.contact_submission.collection
-  parent: system.admin_content

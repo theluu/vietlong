@@ -85,14 +85,18 @@ class ContactController extends ControllerBase {
       return $this->noStore(['errors' => ['recaptcha']], 422);
     }
 
-    $this->entityTypeManager()->getStorage('contact_submission')->create([
-      'name' => mb_substr($name, 0, 255),
-      'phone' => mb_substr($phone, 0, 60),
-      'email' => mb_substr(trim((string) ($data['email'] ?? '')), 0, 254),
-      'message' => mb_substr(trim((string) ($data['message'] ?? '')), 0, 4000),
-      'source' => $source,
-      'recaptcha_score' => $score,
-      'ip' => $ip,
+    // Unpublished: a lead is an internal record and must never be reachable
+    // as a page, even though it is an ordinary node.
+    $this->entityTypeManager()->getStorage('node')->create([
+      'type' => 'lead',
+      'title' => mb_substr($name, 0, 255),
+      'status' => 0,
+      'field_lead_phone' => mb_substr($phone, 0, 60),
+      'field_lead_email' => mb_substr(trim((string) ($data['email'] ?? '')), 0, 254),
+      'field_lead_message' => mb_substr(trim((string) ($data['message'] ?? '')), 0, 4000),
+      'field_lead_source' => $source,
+      'field_lead_recaptcha' => $score,
+      'field_lead_ip' => $ip,
     ])->save();
 
     $this->flood->register(self::FLOOD_EVENT, self::FLOOD_WINDOW, $ip);

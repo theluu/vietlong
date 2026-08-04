@@ -1,0 +1,30 @@
+uuid: d8cab32f-89ab-43e7-8572-0f7c9fe2d72e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - options
+id: node.field_lead_source
+field_name: field_lead_source
+entity_type: node
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: contact
+      label: 'Liên hệ'
+    -
+      value: dealer
+      label: 'Đăng ký đại lý'
+    -
+      value: consult
+      label: 'Tư vấn trang chủ'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

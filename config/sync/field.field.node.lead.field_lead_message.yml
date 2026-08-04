@@ -1,0 +1,19 @@
+uuid: e5ab8528-2139-4457-87ae-7ed4052032cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_message
+    - node.type.lead
+id: node.lead.field_lead_message
+field_name: field_lead_message
+entity_type: node
+bundle: lead
+label: 'Nội dung'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
