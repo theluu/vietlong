@@ -43,6 +43,8 @@ final class DashboardController extends ControllerBase {
 
   public function build(): array {
     $name = $this->currentUser()->getDisplayName();
+    // Logout needs the CSRF token Drupal puts on the route.
+    $logout = Url::fromRoute('user.logout')->toString();
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['kb-dash']],
@@ -53,6 +55,16 @@ final class DashboardController extends ControllerBase {
         . '<h2>Xin chào, ' . htmlspecialchars($name, ENT_QUOTES) . '</h2>'
         . '<p>Chọn trang bạn muốn sửa. Mỗi biểu mẫu được chia tab theo đúng thứ tự các khối hiển thị trên website, '
         . 'nên bạn sửa ở đâu là biết nó nằm chỗ nào ngoài trang. Lưu xong nội dung lên ngay, không cần thao tác gì thêm.</p>'
+        . '<div class="kb-dash-heroactions">'
+        . '<a class="kb-dash-herobtn" href="/" target="_blank" rel="noopener">'
+        . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+        . 'stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/>'
+        . '<path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>Xem website</a>'
+        . '<a class="kb-dash-herobtn kb-dash-herobtn--out" href="' . $logout . '">'
+        . '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+        . 'stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>'
+        . '<path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>Đăng xuất</a>'
+        . '</div>'
         . '</div>'),
       ],
       'pages' => $this->section('Nội dung từng trang', $this->pageCards()),

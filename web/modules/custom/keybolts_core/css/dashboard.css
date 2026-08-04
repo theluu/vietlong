@@ -350,3 +350,47 @@ input[type="submit"].button--primary:hover {
   border-radius: 8px;
   font-weight: 600;
 }
+
+/* Hero actions ------------------------------------------------------------ */
+
+.kb-dash-heroactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin-top: 1.4rem;
+}
+
+.kb-dash-herobtn {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1.15rem;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  color: #fff;
+  font-size: .9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.kb-dash-herobtn:hover {
+  border-color: #f7e499;
+  background: rgba(247, 228, 153, .14);
+  color: #f7e499;
+  text-decoration: none;
+}
+
+.kb-dash-herobtn svg { width: 17px; height: 17px; }
+
+/* Logging out is destructive enough to read differently from the rest. */
+.kb-dash-herobtn--out {
+  border-color: rgba(255, 255, 255, .18);
+  color: rgba(255, 255, 255, .72);
+}
+
+.kb-dash-herobtn--out:hover {
+  border-color: #ff8a8a;
+  background: rgba(255, 138, 138, .14);
+  color: #ff8a8a;
+}

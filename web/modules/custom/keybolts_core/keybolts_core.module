@@ -199,4 +199,22 @@ function keybolts_core_form_alter(array &$form, \Drupal\Core\Form\FormStateInter
   }
   $form['actions']['#attributes']['class'][] = 'kb-formactions';
   $form['#attached']['library'][] = 'keybolts_core/dashboard';
+
+  // Saving drops an editor on the node's own page, which is a bare render of
+  // fields on a headless site and tells them nothing. Send them back to the
+  // dashboard they started from.
+  if (isset($form['actions']['submit']['#submit'])) {
+    $form['actions']['submit']['#submit'][] = 'keybolts_core_return_to_dashboard';
+  }
+}
+
+/**
+ * Submit handler: returns an editor to the dashboard after saving.
+ */
+function keybolts_core_return_to_dashboard(array &$form, \Drupal\Core\Form\FormStateInterface $form_state): void {
+  // A destination in the URL is an explicit instruction from elsewhere in the
+  // admin — respect it rather than overriding.
+  if (!\Drupal::request()->query->has('destination')) {
+    $form_state->setRedirect('keybolts_core.dashboard');
+  }
 }
