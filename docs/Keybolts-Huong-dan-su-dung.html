@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Keybolts — Bàn giao & Hướng dẫn sử dụng</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 15mm 15mm; }
+  @page :first { margin: 0; }
+
+  :root{
+    --ink:#101418; --ink-2:#2A3138; --muted:#6B7480;
+    --line:#E3E0D9; --line-2:#EFEDE8; --sand:#F7F5F1;
+    --brass:#B08D57; --brass-d:#8C6E40; --dark:#12161B;
+    --ok:#3F7A45;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  body{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:var(--ink); font-size:9.6pt; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Trang bìa ---------- */
+  .cover{
+    background:var(--dark); color:#fff; margin:0;
+    padding:36mm 20mm 22mm; height:297mm; page-break-after:always;
+    display:flex; flex-direction:column; justify-content:flex-start;
+  }
+  .cover .mark{ display:flex; align-items:center; gap:10px; letter-spacing:.3em;
+    font-size:8pt; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  .cover .mark::before{ content:""; width:26px; height:1.5px; background:var(--brass); }
+  .cover h1{ font-size:36pt; line-height:1.1; font-weight:700; letter-spacing:-0.025em;
+    margin-top:8mm; color:#fff; }
+  .cover h1 em{ font-style:normal; color:var(--brass); }
+  .cover .rule{ height:2px; margin-top:9mm;
+    background:linear-gradient(90deg,var(--brass) 0%,rgba(176,141,87,0) 88%); }
+  .cover .sub{ font-size:12pt; color:#A8B1BB; margin-top:8mm; max-width:120mm; line-height:1.7; }
+  .cover .meta{ margin-top:auto; display:grid; grid-template-columns:repeat(2,1fr); gap:7mm 10mm; }
+  .cover .meta div{ border-top:1px solid rgba(255,255,255,.16); padding-top:3.5mm; }
+  .cover .meta .k{ font-size:7.6pt; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  .cover .meta .v{ font-size:10.5pt; color:#fff; margin-top:1.5mm; line-height:1.5; }
+  .cover .meta .v small{ display:block; color:#8D96A1; font-size:8.6pt; margin-top:.8mm; }
+  .cover .sig{ margin-top:12mm; border-top:1px solid rgba(255,255,255,.16); padding-top:5mm;
+    display:flex; justify-content:space-between; align-items:flex-end; font-size:8.4pt; color:#6E7883; }
+  .cover .sig b{ display:block; color:#fff; font-size:11pt; font-weight:700; margin-bottom:1mm; }
+
+  /* ---------- Tiêu đề ---------- */
+  h1.part{ font-size:17pt; font-weight:700; letter-spacing:-0.02em; line-height:1.2;
+      margin:0 0 5mm; padding-bottom:3mm; border-bottom:2px solid var(--ink);
+      page-break-before:always; page-break-after:avoid; }
+  h1.part span{ display:block; font-size:8pt; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--brass-d); margin-bottom:2mm; }
+  h2{ font-size:12.5pt; font-weight:700; letter-spacing:-0.015em; margin:6mm 0 2.5mm;
+      page-break-after:avoid; }
+  h2::before{ content:""; display:inline-block; width:2mm; height:2mm;
+      background:var(--brass); margin-right:2.5mm; vertical-align:middle; }
+  h3{ font-size:9.6pt; font-weight:700; margin:4mm 0 2mm; page-break-after:avoid; }
+  p{ margin:0 0 2.6mm; }
+  a{ color:var(--brass-d); text-decoration:none; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.4pt;
+    background:var(--sand); border:1px solid var(--line-2); padding:.3mm 1.2mm; }
+
+  /* ---------- Khối 5 bước ---------- */
+  .flow{ border:1px solid var(--line); margin:0 0 4mm; page-break-inside:avoid; }
+  .flow > .hd{ background:var(--dark); color:#fff; padding:2.3mm 5mm; font-size:10.5pt; font-weight:700; }
+  .flow > .hd span{ color:var(--brass); font-size:8pt; letter-spacing:.18em;
+    text-transform:uppercase; display:block; margin-bottom:.8mm; font-weight:700; }
+  .row{ display:flex; gap:5mm; padding:2.2mm 5mm; border-top:1px solid var(--line-2); }
+  .row:first-of-type{ border-top:none; }
+  .row .k{ flex:0 0 32mm; font-size:7.4pt; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--brass-d); padding-top:.6mm; }
+  .row .v{ flex:1; line-height:1.5; }
+  .row.pain{ background:#FCF9F6; }
+  .row.now{ background:#F6FAF6; }
+  .row.now .k{ color:var(--ok); }
+  .row .v b{ font-weight:700; }
+  .tick{ color:var(--ok); font-weight:700; }
+
+  /* ---------- Bảng ---------- */
+  table{ width:100%; border-collapse:collapse; margin:2.5mm 0 4mm; font-size:8.8pt; }
+  thead{ display:table-header-group; }
+  tr{ page-break-inside:avoid; }
+  th{ text-align:left; font-size:7.4pt; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); font-weight:700; padding:0 3mm 2mm 0;
+    border-bottom:1.4px solid var(--ink); vertical-align:bottom; }
+  th:last-child{ padding-right:0; }
+  td{ padding:1.9mm 3mm 1.9mm 0; border-bottom:1px solid var(--line-2);
+    vertical-align:top; line-height:1.45; }
+  td:last-child{ padding-right:0; }
+  td strong{ color:var(--ink); }
+  tbody tr:nth-child(even){ background:#FBFAF8; }
+
+  /* ---------- Hộp tài khoản ---------- */
+  .acct{ border:1.5px solid var(--brass); background:var(--sand); padding:4mm 5mm; margin:0 0 5mm;
+    page-break-inside:avoid; }
+  .acct .t{ font-size:7.6pt; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--brass-d); font-weight:700; margin-bottom:2.5mm; }
+  .acct table{ margin:0; }
+  .acct td{ border:none; padding:1.2mm 3mm 1.2mm 0; }
+  .acct td:first-child{ width:30mm; color:var(--muted); font-size:8.6pt; }
+  .acct .val{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:10pt; font-weight:700; }
+
+  /* ---------- Các bước ---------- */
+  ol.steps{ list-style:none; counter-reset:s; margin:0 0 4mm; }
+  ol.steps > li{ position:relative; padding-left:8mm; margin-bottom:2.4mm; line-height:1.5; }
+  ol.steps > li::before{ counter-increment:s; content:counter(s);
+    position:absolute; left:0; top:0; width:5mm; height:5mm; background:var(--dark);
+    color:var(--brass); font-size:7.6pt; font-weight:700; text-align:center; line-height:5mm; }
+  ul.plain{ list-style:none; margin:0 0 3mm; }
+  ul.plain li{ position:relative; padding-left:5mm; margin-bottom:1.4mm; line-height:1.5; }
+  ul.plain li::before{ content:""; position:absolute; left:.6mm; top:1.9mm;
+    width:1.8mm; height:1.8mm; border:1.1px solid var(--brass); border-radius:50%; }
+
+  .note{ background:var(--sand); border-left:3px solid var(--brass);
+    padding:2.6mm 5mm; margin:3mm 0; font-size:9pt; line-height:1.5; page-break-inside:avoid; }
+  .warn{ background:#FDF6F4; border-left:3px solid #B4553F; }
+
+  .docfoot{ margin-top:10mm; padding-top:3mm; border-top:1px solid var(--line);
+    font-size:7.6pt; color:#A9AFB7; text-align:center; font-style:italic; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="mark">Bàn giao website · Bản 1.0</div>
+  <h1>Website mới<br>đã <em>sẵn sàng</em>.</h1>
+  <div class="rule"></div>
+  <p class="sub">
+    Toàn bộ dữ liệu đã chuyển sang nền tảng mới, giao diện dựng lại từ đầu,
+    tốc độ nhanh hơn gấp đôi, chuẩn SEO và bảo mật. Tài liệu này gồm phần
+    nghiệm thu, hướng dẫn sử dụng và công nghệ đã dùng.
+  </p>
+
+  <div class="meta">
+    <div><div class="k">Dự án</div><div class="v">Khóa cửa Việt Long — Keybolts<small>keybolts.com.vn</small></div></div>
+    <div><div class="k">Nền tảng</div><div class="v">Drupal 11 · Nuxt 4 / Vue 3<small>Kiến trúc Headless, SSR</small></div></div>
+    <div><div class="k">Dữ liệu đã chuyển</div><div class="v">186 sản phẩm · 751 ảnh<small>13 bài viết · 12 dự án · 5 showroom</small></div></div>
+    <div><div class="k">Ngày bàn giao</div><div class="v">05 / 08 / 2026<small>Phiên bản tài liệu 1.0</small></div></div>
+  </div>
+
+  <div class="sig">
+    <div><b>Lưu Xuân Thế</b>0932.355.207 · thexuanluu@gmail.com</div>
+    <div style="text-align:right">© 2026 Lưu Xuân Thế<br>Bảo lưu mọi quyền</div>
+  </div>
+</section>
+
+<!-- ============ PHẦN 1 ============ -->
+<h1 class="part"><span>Phần 1</span>Đã hoàn thành những gì</h1>
+
+<p>Năm hạng mục đã cam kết, trình bày theo mạch: <strong>vấn đề gặp phải → cách khắc phục →
+kết quả hiện có → công nghệ mới → hướng mở rộng về sau</strong>.</p>
+
+<div class="flow">
+  <div class="hd"><span>Hạng mục 01</span>Dữ liệu &amp; nội dung</div>
+  <div class="row pain"><div class="k">Vấn đề</div><div class="v">Dữ liệu sản phẩm nằm rải rác trên site cũ, nhiều mã thiếu ảnh và thiếu mô tả. Sửa một sản phẩm phải sửa ở nhiều chỗ, dễ sai lệch.</div></div>
+  <div class="row"><div class="k">Khắc phục</div><div class="v">Bóc toàn bộ dữ liệu từ site cũ, chuẩn hoá lại và nạp sang cấu trúc mới. Mỗi sản phẩm là một bản ghi duy nhất — sửa một nơi, hiện đúng ở mọi trang.</div></div>
+  <div class="row now"><div class="k">Hiện có <span class="tick">✓</span></div><div class="v"><b>186 sản phẩm · 751 ảnh · 13 bài viết · 12 dự án · 5 showroom</b>, kèm 21 danh mục, 10 màu hoàn thiện và 2 thương hiệu. Thông số kỹ thuật, chứng nhận, bảo hành, xuất xứ đều đã vào đúng ô.</div></div>
+  <div class="row"><div class="k">Công nghệ mới</div><div class="v">Mỗi mã khóa có một đường dẫn riêng để Google lập chỉ mục độc lập — thay vì gộp chung một trang cho cả dòng sản phẩm.</div></div>
+  <div class="row"><div class="k">Mở rộng</div><div class="v">Thêm sản phẩm không giới hạn. Khi cần nhập số lượng lớn, có thể nạp hàng loạt từ file Excel/CSV thay vì gõ tay.</div></div>
+</div>
+
+<div class="flow">
+  <div class="hd"><span>Hạng mục 02</span>Giao diện &amp; trải nghiệm</div>
+  <div class="row pain"><div class="k">Vấn đề</div><div class="v">Giao diện cũ đã lỗi thời, hiển thị trên điện thoại chưa tốt, khách khó tìm đúng loại khóa cần mua.</div></div>
+  <div class="row"><div class="k">Khắc phục</div><div class="v">Thiết kế lại toàn bộ theo hướng sang trọng, đúng chất hàng nhập khẩu cao cấp; ưu tiên điện thoại trước, máy tính sau.</div></div>
+  <div class="row now"><div class="k">Hiện có <span class="tick">✓</span></div><div class="v">Đầy đủ các trang: <b>trang chủ, danh mục, chi tiết sản phẩm, tin tức, dự án, giới thiệu, đại lý, liên hệ, chính sách</b> và <b>trang tìm kiếm</b>. Lọc theo thương hiệu / danh mục / màu hoàn thiện; bộ chọn size và màu ngay trên trang sản phẩm.</div></div>
+  <div class="row"><div class="k">Công nghệ mới</div><div class="v">Dựng bằng Vue 3 + Tailwind 4 — cùng thế hệ công nghệ mà các website thương mại lớn đang dùng.</div></div>
+  <div class="row"><div class="k">Mở rộng</div><div class="v">Bố cục chia theo khối, thêm mục mới hoặc đổi thứ tự khối trên trang chủ mà không phải làm lại giao diện.</div></div>
+</div>
+
+<div class="flow">
+  <div class="hd"><span>Hạng mục 03</span>Tốc độ tải trang</div>
+  <div class="row pain"><div class="k">Vấn đề</div><div class="v">Web chậm khiến khách thoát trang trước khi xem được sản phẩm, đồng thời bị Google đánh giá thấp.</div></div>
+  <div class="row"><div class="k">Khắc phục</div><div class="v">Tách hẳn phần hiển thị khỏi phần quản trị (kiến trúc Headless), dựng sẵn HTML ở máy chủ, nén ảnh sang định dạng thế hệ mới.</div></div>
+  <div class="row now"><div class="k">Hiện có <span class="tick">✓</span></div><div class="v">Đo thực tế trên cùng một trang sản phẩm, cùng thời điểm — xem bảng bên dưới.</div></div>
+  <div class="row"><div class="k">Công nghệ mới</div><div class="v">Ảnh tự động xuất ra <b>WebP và AVIF</b> ở 4 kích thước; máy nào, màn hình nào tải đúng cỡ ảnh của máy đó.</div></div>
+  <div class="row"><div class="k">Mở rộng</div><div class="v">Khi lượng truy cập tăng, gắn thêm CDN để phục vụ khách ở xa mà không phải sửa code.</div></div>
+</div>
+
+<table>
+  <thead><tr><th>Phép đo</th><th>Website cũ</th><th>Website mới</th><th>Chênh lệch</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Lần tải đầu</strong><br><span style="color:#6B7480">chưa có bộ nhớ đệm</span></td><td>1,13 giây</td><td><strong>0,50 giây</strong></td><td><strong>Nhanh hơn 2,3 lần</strong></td></tr>
+    <tr><td><strong>Các lần sau</strong><br><span style="color:#6B7480">đã có bộ nhớ đệm</span></td><td>0,16 – 0,18 giây</td><td><strong>0,09 – 0,10 giây</strong></td><td><strong>Nhanh hơn ~1,8 lần</strong></td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <strong>Cách đo:</strong> cùng một trang sản phẩm, đo 3 lần liên tiếp trên cả hai website vào ngày 05/08/2026,
+  lấy thời gian máy chủ phản hồi. Đây là số đo thật, không phải ước lượng.
+</div>
+
+<div class="flow" style="page-break-before:always">
+  <div class="hd"><span>Hạng mục 04</span>Chuẩn SEO</div>
+  <div class="row pain"><div class="k">Vấn đề</div><div class="v">Làm web mới thường mất sạch thứ hạng đang có, vì đường dẫn cũ bị đổi và Google phải index lại từ đầu.</div></div>
+  <div class="row"><div class="k">Khắc phục</div><div class="v">Giữ nguyên đường dẫn của site cũ cho toàn bộ sản phẩm, và trả HTML hoàn chỉnh từ máy chủ để Google đọc được ngay.</div></div>
+  <div class="row now"><div class="k">Hiện có <span class="tick">✓</span></div><div class="v"><b>Đường dẫn khớp site cũ</b> nên không mất thứ hạng; <b>190 chuyển hướng tự động</b> cho các địa chỉ đã đổi; tiêu đề và mô tả riêng cho từng trang; thẻ canonical chống trùng lặp; dữ liệu có cấu trúc cho sản phẩm và đường dẫn phân cấp.</div></div>
+  <div class="row"><div class="k">Công nghệ mới</div><div class="v">Kết xuất tại máy chủ (SSR) — Google nhìn thấy đầy đủ nội dung ngay lần đầu, khác hẳn web dạng ứng dụng phải chờ trình duyệt dựng xong.</div></div>
+  <div class="row"><div class="k">Mở rộng</div><div class="v">Bổ sung <code>sitemap.xml</code>, gắn Google Analytics 4 và Search Console khi tên miền chính thức chuyển sang.</div></div>
+</div>
+
+<div class="flow">
+  <div class="hd"><span>Hạng mục 05</span>Bảo mật</div>
+  <div class="row pain"><div class="k">Vấn đề</div><div class="v">Form liên hệ bị spam; trang quản trị lộ ra ngoài là nguy cơ bị dò mật khẩu; thông tin khách hàng dễ thất lạc trong hộp thư.</div></div>
+  <div class="row"><div class="k">Khắc phục</div><div class="v">Tách phần quản trị khỏi phần khách xem, chặn spam ngay từ máy chủ và phân quyền theo vai trò.</div></div>
+  <div class="row now"><div class="k">Hiện có <span class="tick">✓</span></div><div class="v"><b>HTTPS</b> toàn site (http tự chuyển sang https); <b>reCAPTCHA v3</b> kiểm tra ở máy chủ, không chỉ ở trình duyệt; <b>phân quyền theo vai trò</b> — tài khoản biên tập chỉ sửa được nội dung, không đụng tới cấu hình hệ thống; mọi yêu cầu liên hệ được <b>lưu vào hệ thống</b> chứ không chỉ gửi mail.</div></div>
+  <div class="row"><div class="k">Công nghệ mới</div><div class="v">Kiến trúc Headless: người dùng ngoài internet không truy cập thẳng vào phần quản trị, thu hẹp tối đa bề mặt tấn công.</div></div>
+  <div class="row"><div class="k">Mở rộng</div><div class="v">Có thể bật thêm xác thực 2 lớp cho tài khoản quản trị và sao lưu tự động định kỳ.</div></div>
+</div>
+
+<!-- ============ PHẦN 2 ============ -->
+<h1 class="part"><span>Phần 2</span>Hướng dẫn sử dụng</h1>
+
+<div class="acct">
+  <div class="t">Tài khoản quản trị nội dung</div>
+  <table>
+    <tr><td>Đường dẫn</td><td class="val">vietlong.themeshub.net/user/login</td></tr>
+    <tr><td>Tài khoản</td><td class="val">quantriwebsite</td></tr>
+    <tr><td>Mật khẩu</td><td class="val">khoavietlong@123</td></tr>
+    <tr><td>Vai trò</td><td>Biên tập viên nội dung</td></tr>
+  </table>
+</div>
+
+<div class="note warn">
+  <strong>Lưu ý bảo mật:</strong> vui lòng đổi mật khẩu ngay sau lần đăng nhập đầu tiên
+  (bấm vào tên tài khoản góc trên → <em>Sửa</em> → nhập mật khẩu mới), và không chuyển tiếp
+  tài liệu này cho người ngoài công ty.
+</div>
+
+<h2>Thêm một sản phẩm mới</h2>
+<p>Chỉ có <strong>6 ô bắt buộc</strong>, các ô còn lại để trống cũng lưu được và bổ sung sau.</p>
+<ol class="steps">
+  <li>Menu trên cùng chọn <strong>Nội dung → Thêm nội dung → Sản phẩm</strong>.</li>
+  <li>Điền 6 ô bắt buộc: <strong>Tên sản phẩm · Mã sản phẩm · Thương hiệu · Danh mục · Mô tả ngắn</strong>.</li>
+  <li>Kéo ảnh vào ô <strong>Ảnh sản phẩm</strong> — ảnh đầu tiên là ảnh đại diện, nên chụp nền trắng.</li>
+  <li>Điền thêm nếu có: Hoàn thiện (màu), Xuất xứ, Bảo hành, Thông số kỹ thuật, Điểm nổi bật.</li>
+  <li>Muốn sản phẩm lên khối “Sản phẩm nổi bật” ở trang chủ: chọn <strong>Nhóm nổi bật</strong>.</li>
+  <li>Bấm <strong>Lưu</strong>. Sản phẩm hiện ra ngay, đường dẫn tự sinh theo tên.</li>
+</ol>
+
+<div class="note">
+  <strong>Mẹo:</strong> các sản phẩm cùng dòng, khác kích thước hoặc khác màu, hãy điền cùng một
+  <strong>Dòng sản phẩm</strong>. Website sẽ tự gom lại thành bộ chọn size/màu trên trang chi tiết.
+</div>
+
+<h2>Viết bài tin tức</h2>
+<ol class="steps">
+  <li><strong>Nội dung → Thêm nội dung → Bài viết</strong>.</li>
+  <li>Điền <strong>Tiêu đề</strong>, <strong>Tóm tắt</strong>, chọn <strong>Chuyên mục</strong>.</li>
+  <li>Viết nội dung, chèn ảnh bằng nút ảnh trên thanh soạn thảo.</li>
+  <li>Bấm <strong>Lưu</strong>. Bài mới nằm đầu trang Tin tức (8 bài mỗi trang).</li>
+</ol>
+
+<h2>Sửa nội dung các trang có sẵn</h2>
+<p>Trang chủ, Giới thiệu, Liên hệ, Đại lý, Dự án, Chính sách đều sửa được:
+vào <strong>Nội dung</strong>, tìm đúng trang, bấm <strong>Sửa</strong>, chỉnh chữ rồi <strong>Lưu</strong>.</p>
+<ul class="plain">
+  <li><strong>Trang chủ</strong> — sửa được tiêu đề lớn, các con số thống kê, tên các tab sản phẩm, khối giải pháp.</li>
+  <li><strong>Cấu hình chung</strong> — số hotline, email, địa chỉ, mạng xã hội hiện ở đầu và cuối mọi trang.</li>
+  <li><strong>Cơ sở / Showroom</strong> — thêm hoặc sửa địa chỉ các showroom.</li>
+</ul>
+
+<h2>Xem yêu cầu liên hệ của khách</h2>
+<p>Khách gửi form trên website sẽ nằm ở <strong>Nội dung</strong>, lọc theo loại
+<strong>Yêu cầu liên hệ</strong>. Mỗi bản ghi có tên, số điện thoại, nhu cầu và thời gian gửi.
+Dữ liệu lưu trong hệ thống nên không lo thất lạc như khi chỉ nhận qua email.</p>
+
+<h2>Ba điều nên nhớ</h2>
+<ul class="plain">
+  <li>Bấm <strong>Lưu</strong> thì thay đổi hiện ra ngay — không cần thao tác gì thêm.</li>
+  <li>Muốn tạm ẩn một sản phẩm hay bài viết: bỏ tích <strong>Đã xuất bản</strong> ở cuối form rồi Lưu.</li>
+  <li>Lỡ sửa sai vẫn khôi phục được: mở nội dung đó, xem tab <strong>Phiên bản</strong> để quay lại bản cũ.</li>
+</ul>
+
+<!-- ============ PHẦN 3 ============ -->
+<h1 class="part"><span>Phần 3</span>Công nghệ sử dụng</h1>
+
+<p>Đúng như cam kết trong đề xuất ban đầu — nền tảng mã nguồn mở, không phí bản quyền,
+không phụ thuộc một nhà cung cấp nào.</p>
+
+<table>
+  <thead><tr><th style="width:34mm">Thành phần</th><th style="width:38mm">Công nghệ</th><th>Vai trò</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Quản trị nội dung</strong></td><td>Drupal 11.4</td><td>Nơi nhập và lưu toàn bộ dữ liệu; phân quyền người dùng</td></tr>
+    <tr><td><strong>Giao diện website</strong></td><td>Nuxt 4 · Vue 3</td><td>Dựng sẵn HTML tại máy chủ (SSR) cho tốc độ và SEO</td></tr>
+    <tr><td><strong>Thiết kế</strong></td><td>Tailwind CSS 4</td><td>Hệ thống giao diện đồng nhất, chuẩn responsive</td></tr>
+    <tr><td><strong>Ngôn ngữ</strong></td><td>PHP 8.4 · Node.js 22</td><td>Phiên bản mới, còn được hỗ trợ bảo mật dài hạn</td></tr>
+    <tr><td><strong>Cơ sở dữ liệu</strong></td><td>MariaDB</td><td>Lưu trữ nội dung, sản phẩm, yêu cầu liên hệ</td></tr>
+    <tr><td><strong>Máy chủ</strong></td><td>Nginx · systemd</td><td>Phục vụ website, tự khởi động lại nếu có sự cố</td></tr>
+    <tr><td><strong>Bảo mật</strong></td><td>HTTPS · reCAPTCHA v3</td><td>Mã hoá đường truyền, chặn spam tại máy chủ</td></tr>
+    <tr><td><strong>Hình ảnh</strong></td><td>WebP · AVIF</td><td>Tự nén và xuất nhiều kích thước theo thiết bị</td></tr>
+  </tbody>
+</table>
+
+<h2>Vì sao chọn hướng này</h2>
+<ul class="plain">
+  <li><strong>Không phí bản quyền.</strong> Toàn bộ là mã nguồn mở, không tốn phí duy trì nền tảng hằng năm.</li>
+  <li><strong>Không bị khoá vào một nhà cung cấp.</strong> Mã nguồn và dữ liệu thuộc về Việt Long, chuyển máy chủ khác lúc nào cũng được.</li>
+  <li><strong>Tách bạch hai lớp.</strong> Giao diện đổi mới không ảnh hưởng dữ liệu; dữ liệu thêm bớt không phải sửa giao diện.</li>
+  <li><strong>Còn được hỗ trợ lâu dài.</strong> Các phiên bản đang dùng đều là bản mới, còn nhận cập nhật bảo mật nhiều năm tới.</li>
+</ul>
+
+<h2>Bước tiếp theo</h2>
+<ol class="steps">
+  <li>Quý công ty kiểm tra nội dung, phản hồi các điểm cần chỉnh.</li>
+  <li>Đổi mật khẩu tài khoản quản trị.</li>
+  <li>Trỏ tên miền <strong>keybolts.com.vn</strong> sang máy chủ mới.</li>
+  <li>Gắn Google Analytics và Search Console, bổ sung <code>sitemap.xml</code>.</li>
+</ol>
+
+<div class="docfoot">Keybolts — Bàn giao &amp; Hướng dẫn sử dụng · © 2026 Lưu Xuân Thế · 0932.355.207 · thexuanluu@gmail.com</div>
+
+</body>
+</html>
