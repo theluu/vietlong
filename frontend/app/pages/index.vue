@@ -11,12 +11,13 @@ const featured = computed(() => payload.value?.featured ?? {})
 // Reuse the first featured product's photo as the hero image so the LCP
 // element is a real catalogue shot rather than a placeholder.
 const heroImage = computed(() => {
-  const products = Object.values(featured.value).flat()
-  // The approved hero uses the 6y7a5717 catalogue photograph. Keep the image
-  // backend-owned while selecting the exact design asset deterministically.
-  return products.find(p => p.image?.url.includes('6y7a5717'))?.image?.url
-    ?? products.find(p => p.image)?.image?.url
-    ?? null
+  // The whole image object, not its url: UiResponsiveImage needs the srcsets
+  // too, and a bare string reads as truthy while rendering nothing.
+  //
+  // This used to pin the 6y7a5717 photograph by filename. The CSV import
+  // replaced the catalogue, that file is gone, and a hero that depends on one
+  // filename surviving an import is a hero that breaks on the next one.
+  return Object.values(featured.value).flat().find(p => p.image)?.image ?? null
 })
 
 useSeoMeta({

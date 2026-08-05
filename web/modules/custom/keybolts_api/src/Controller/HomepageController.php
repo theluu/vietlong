@@ -50,7 +50,9 @@ class HomepageController extends ControllerBase {
    */
   private function categories(): array {
     $terms = $this->entityTypeManager()->getStorage('taxonomy_term')
-      ->loadTree('product_category', 0, NULL, TRUE);
+      // Depth 1: the CSV import files products under finer child terms, and
+      // the homepage grid is a designed set of eight tiles, not a directory.
+      ->loadTree('product_category', 0, 1, TRUE);
     $out = [];
     foreach ($terms as $term) {
       // The whole card image, not just its url: flattening it here would make

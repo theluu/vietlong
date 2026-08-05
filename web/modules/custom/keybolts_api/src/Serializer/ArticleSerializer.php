@@ -67,7 +67,7 @@ final class ArticleSerializer {
       if (!is_string($slug) || $slug === '') {
         continue;
       }
-      $path = $this->aliasManager->getPathByAlias('/san-pham/' . $slug);
+      $path = $this->aliasManager->getPathByAlias('/' . $slug);
       if (!preg_match('#^/node/(\d+)$#', $path, $m)) {
         continue;
       }

@@ -16,7 +16,7 @@ const scroll = (direction: number) => {
         <div class="flex max-w-[780px] flex-col items-center gap-[14px]">
           <div class="flex items-center gap-[14px]"><span class="h-px w-[34px] bg-brass-500"/><span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Giải pháp</span></div>
           <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Chọn theo loại công trình</h2>
-          <p class="text-heading text-text-muted m-0 font-light leading-[1.7]">Chưa biết model nào phù hợp? Bắt đầu từ loại công trình bạn đang làm.</p>
+          <p class="text-heading text-text m-0 font-semibold leading-[1.7]">Chưa biết model nào phù hợp? Bắt đầu từ loại công trình bạn đang làm.</p>
         </div>
         <div class="flex justify-center gap-[12px]"><button type="button" aria-label="Trước" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-transparent transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" aria-label="Sau" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-transparent transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button></div>
       </div>

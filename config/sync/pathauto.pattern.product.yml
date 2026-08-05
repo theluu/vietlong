@@ -9,7 +9,7 @@ dependencies:
 id: product
 label: Product
 type: 'canonical_entities:node'
-pattern: '/san-pham/[node:title]'
+pattern: '/[node:title]'
 selection_criteria:
   -
     id: 'entity_bundle:node'

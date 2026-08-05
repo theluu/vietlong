@@ -113,7 +113,7 @@ class ProductController extends ControllerBase {
    */
   public function detail(string $slug) {
     $path = \Drupal::service('path_alias.manager')
-      ->getPathByAlias('/san-pham/' . $slug);
+      ->getPathByAlias('/' . $slug);
     if (!preg_match('#^/node/(\d+)$#', $path, $m)) {
       throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
     }

@@ -83,7 +83,7 @@ final class ArticleApiTest extends KernelTestBase {
     $product->save();
     PathAlias::create([
       'path' => '/node/' . $product->id(),
-      'alias' => '/san-pham/khoa-van-tay-cua-go',
+      'alias' => '/khoa-van-tay-cua-go',
       'langcode' => 'en',
     ])->save();
     // AliasManager only reverse-resolves prefixes present in the router's path
@@ -100,7 +100,7 @@ final class ArticleApiTest extends KernelTestBase {
     $products = $this->container->get('keybolts_api.article_serializer')->one('mentions')['products'];
     $this->assertCount(1, $products);
     $this->assertSame('Khóa Vân Tay Cửa Gỗ', $products[0]['name']);
-    $this->assertSame('san-pham/khoa-van-tay-cua-go', $products[0]['slug']);
+    $this->assertSame('khoa-van-tay-cua-go', $products[0]['slug']);
   }
 
   private function field(string $name, string $type): void {

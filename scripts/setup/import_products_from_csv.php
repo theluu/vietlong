@@ -12,8 +12,8 @@
  * đúng thứ vừa mất cả buổi để gỡ: ảnh gốc máy ảnh chưa xử lý, nằm trên một
  * server không ai kiểm soát, và image style không chạm được vào.
  *
- * Danh mục CSV gộp vào 8 danh mục sẵn có của site chứ không tạo thêm — 8 mục
- * đó là kiến trúc thông tin trang chủ và menu đang dựa vào.
+ * Danh mục CSV thành mục con của 8 danh mục sẵn có, sản phẩm trỏ vào mục con.
+ * Thuộc tính (chất liệu, màu, chứng nhận) đổ vào bảng thông số kỹ thuật.
  *
  * Safe to run repeatedly: khoá theo mã sản phẩm, mã nào đã có thì cập nhật.
  *
@@ -23,7 +23,14 @@
 use Drupal\file\Entity\File;
 use Drupal\taxonomy\Entity\Term;
 
-/** Danh mục trong CSV => tên term trong vocabulary product_category. */
+/**
+ * Danh mục CSV => danh mục cha trên site.
+ *
+ * Cả hai đều được giữ: 8 mục cha là lưới trang chủ và menu, thiết kế theo đó;
+ * 15 mục CSV thành con của chúng, và sản phẩm trỏ vào mục con. Gộp thẳng lên
+ * cha sẽ mất phân biệt giữa "khóa tay gạt đại sảnh" và "khóa tay gạt trung",
+ * còn thay cha bằng con sẽ làm lưới trang chủ nở từ 8 lên 15 ô.
+ */
 const KB_CATEGORY_MAP = [
   'BẢN LỀ' => 'Bản lề & tay co',
   'CHỐT CỬA CREMONE ĐỒNG' => 'Chốt Cremone',
@@ -63,6 +70,21 @@ $term = function (string $vocabulary, string $name) use (&$terms, $termStorage):
   if (!$found) {
     $entity->save();
   }
+  return $terms[$key] = (int) $entity->id();
+};
+
+/** Danh mục con dưới một cha, tạo nếu chưa có. */
+$child = function (string $vocabulary, string $name, int $parent) use (&$terms, $termStorage): int {
+  $name = mb_convert_case(trim($name), MB_CASE_TITLE, 'UTF-8');
+  $key = "$vocabulary:$parent:$name";
+  if (isset($terms[$key])) {
+    return $terms[$key];
+  }
+  foreach ($termStorage->loadByProperties(['vid' => $vocabulary, 'name' => $name]) as $found) {
+    return $terms[$key] = (int) $found->id();
+  }
+  $entity = Term::create(['vid' => $vocabulary, 'name' => $name, 'parent' => [$parent]]);
+  $entity->save();
   return $terms[$key] = (int) $entity->id();
 };
 
@@ -108,6 +130,16 @@ $image = function (string $url) use (&$downloaded, $fileSystem, $etm): ?int {
   return $downloaded[$url] = (int) $file->id();
 };
 
+// Mô tả và ảnh cào từ site cũ, khoá theo product_url. CSV không có mô tả nào
+// và thiếu ảnh ở 153/192 dòng; file này lấp cả hai.
+$scrapedPath = dirname(__DIR__, 2) . '/docs/product-descriptions.json';
+$scraped = file_exists($scrapedPath)
+  ? json_decode((string) file_get_contents($scrapedPath), TRUE)
+  : [];
+if (!$scraped) {
+  echo "  ! chưa có product-descriptions.json — chạy fetch_product_descriptions.py trước, sản phẩm sẽ không có mô tả.\n";
+}
+
 $path = dirname(__DIR__, 2) . '/docs/products.csv';
 $handle = fopen($path, 'r');
 $header = fgetcsv($handle);
@@ -145,14 +177,57 @@ while (($row = fgetcsv($handle)) !== FALSE) {
   $node->set('field_short_desc', trim($r['meta_description_seo']));
   $node->set('field_certification', trim($r['chung_nhan_chat_luong']));
   if ($category) {
-    $node->set('field_category', $term('product_category', $category));
+    $parent = $term('product_category', $category);
+    $node->set('field_category', $child('product_category', trim($r['danh_muc']), $parent));
   }
   if ($finish = $term('finish', $r['mau_sac'])) {
     $node->set('field_finish', $finish);
   }
 
+  // Thông số kỹ thuật: các cột thuộc tính của CSV, thứ duy nhất nó có để lấp
+  // trang chi tiết. Xoá cái cũ trước để chạy lại không nhân đôi hàng.
+  foreach ($node->get('field_specifications')->referencedEntities() as $old) {
+    $old->delete();
+  }
+  $specs = [];
+  foreach ([
+    'Chất liệu' => $r['chat_lieu'],
+    'Màu sắc' => $r['mau_sac'],
+    'Chứng nhận' => $r['chung_nhan_chat_luong'],
+    'Mã sản phẩm' => $code,
+  ] as $label => $value) {
+    $value = trim((string) $value);
+    if ($value === '') {
+      continue;
+    }
+    $paragraph = \Drupal\paragraphs\Entity\Paragraph::create([
+      'type' => 'spec_item',
+      'field_spec_key' => $label,
+      'field_spec_value' => $value,
+    ]);
+    $paragraph->save();
+    $specs[] = ['target_id' => $paragraph->id(), 'target_revision_id' => $paragraph->getRevisionId()];
+  }
+  $node->set('field_specifications', $specs);
+
+  $extra = $scraped[trim($r['product_url'])] ?? [];
+  if (!empty($extra['body'])) {
+    $node->set('field_description', ['value' => $extra['body'], 'format' => 'basic_html']);
+  }
+
+  // Ảnh CSV trước, rồi ảnh cào được — CSV chọn ảnh đại diện có chủ ý, còn
+  // trang cũ trả cả slider nên thứ tự của nó không mang ý nghĩa gì.
+  $urls = array_merge(
+    explode(',', $r['image_urls']),
+    $extra['images'] ?? [],
+  );
+
   $images = [];
-  foreach (explode(',', $r['image_urls']) as $url) {
+  foreach (array_unique(array_map('trim', $urls)) as $url) {
+    if (count($images) >= 12) {
+      // field_images có cardinality 12; thừa ra thì Drupal cắt im lặng.
+      break;
+    }
     if ($fid = $image($url)) {
       $images[] = ['target_id' => $fid, 'alt' => $title];
     }

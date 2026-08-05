@@ -20,7 +20,7 @@ const scroll = (direction: number) => {
             <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Danh mục</span>
           </div>
           <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Khám phá sản phẩm</h2>
-          <p class="text-heading text-text-muted m-0 font-light leading-[1.7]">
+          <p class="text-heading text-text m-0 font-semibold leading-[1.7]">
             Chọn theo loại cửa và nhu cầu sử dụng — mỗi dòng sản phẩm có nhiều kích thước và màu hoàn thiện.
           </p>
         </div>
