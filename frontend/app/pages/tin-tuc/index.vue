@@ -33,7 +33,7 @@ const filters = [
 ] as const
 const active = ref<(typeof filters)[number]['key']>('all')
 const currentPage = ref(1)
-const perPage = 6
+const perPage = 8
 const filtered = computed(() => active.value === 'all'
   ? articles.value
   : articles.value.filter(article => article.categoryKey === active.value))
