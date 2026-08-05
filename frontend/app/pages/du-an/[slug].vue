@@ -62,7 +62,13 @@ useHead(() => ({
       <div class="mx-auto grid max-w-[var(--container-max)] grid-cols-1 items-start gap-[clamp(32px,4vw,60px)] px-[clamp(20px,4vw,48px)] lg:grid-cols-[minmax(0,1fr)_340px]">
         <article class="flex min-w-0 flex-col gap-[30px]">
           <div class="group border-border relative aspect-video overflow-hidden border bg-white">
-            <img :src="project.image" :alt="project.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]">
+            <UiResponsiveImage
+              :image="project.image"
+              :alt="project.title"
+              sizes="(min-width: 1024px) 760px, 100vw"
+              priority
+              class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+            />
           </div>
 
           <ArticleCallout label="Giải pháp đã triển khai" :text="project.description" />

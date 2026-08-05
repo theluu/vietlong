@@ -7,7 +7,7 @@ const tech = computed(() => home.value.tech)
   <section id="technology" class="kb-tech-radial relative overflow-hidden bg-charcoal-900 py-[clamp(64px,7vw,112px)] text-white">
     <div class="relative mx-auto grid max-w-[var(--container-max)] grid-cols-[repeat(auto-fit,minmax(340px,1fr))] items-center gap-[clamp(44px,5vw,88px)] px-[clamp(20px,4vw,48px)]">
       <div class="relative before:absolute before:-top-[24px] before:-left-[24px] before:size-[150px] before:border-t before:border-l before:border-gold-200/40 after:absolute after:-right-[24px] after:-bottom-[24px] after:size-[150px] after:border-r after:border-b after:border-gold-200/40">
-        <div class="kb-tech-image relative aspect-[4/3.4] overflow-hidden bg-white"><img src="https://keybolts.com.vn/sites/default/files/khoa_thong_minh_t28_0.png" alt="Khóa thông minh Keybolts T28" class="size-full object-contain"></div>
+        <div class="kb-tech-image relative aspect-[4/3.4] overflow-hidden bg-white"><img src="/images/khoa-thong-minh-t28.webp" alt="Khóa thông minh Keybolts T28" width="1600" height="1348" loading="lazy" decoding="async" class="size-full object-contain"></div>
       </div>
       <div class="flex flex-col gap-[24px]">
         <div class="flex items-center gap-[14px]"><span class="h-px w-[34px] bg-gold-200"/><span class="text-eyebrow text-gold-200 font-bold tracking-[0.24em] uppercase">Công nghệ</span></div>

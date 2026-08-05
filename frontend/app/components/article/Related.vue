@@ -29,12 +29,12 @@ defineProps<{
           class="group border-border bg-background flex flex-col border text-inherit no-underline transition duration-200 ease-in-out hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating"
         >
           <div class="relative aspect-[16/10] overflow-hidden bg-white">
-            <img
-              :src="item.image"
+            <UiResponsiveImage
+              :image="item.image"
               :alt="item.title"
+              sizes="(min-width: 1024px) 25vw, 50vw"
               class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-              loading="lazy"
-            >
+            />
             <span class="bg-charcoal-900 text-gold-200 absolute top-0 left-0 px-[13px] py-[7px] text-[9px] font-bold tracking-[0.16em] uppercase">{{ item.badge }}</span>
           </div>
           <div class="flex flex-1 flex-col gap-[9px] p-[20px]">

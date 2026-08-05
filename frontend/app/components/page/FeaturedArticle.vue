@@ -9,12 +9,12 @@ defineProps<{ article: ArticleDetail }>()
     class="group kb-featured-article border-border hover:border-brass-500 hover:shadow-floating mb-[40px] border text-inherit no-underline transition duration-200 ease-in-out"
   >
     <div class="relative aspect-[16/10] overflow-hidden bg-white">
-      <img
-        :src="article.image"
+      <UiResponsiveImage
+        :image="article.image"
         :alt="article.title"
+        sizes="(min-width: 1024px) 50vw, 100vw"
         class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-        fetchpriority="high"
-      >
+      />
       <span class="bg-gold-200 text-charcoal-900 absolute top-0 left-0 px-[16px] py-[9px] text-[9px] font-bold tracking-[0.18em] uppercase">Nổi bật</span>
     </div>
     <div class="flex flex-col justify-center gap-[14px] p-[clamp(26px,3vw,44px)]">

@@ -6,12 +6,12 @@ defineProps<{ article: NewsArticle }>()
 <template>
   <NuxtLink :to="`/tin-tuc/${article.slug}`" class="group flex min-w-0 flex-col overflow-hidden border border-border bg-background text-inherit no-underline transition hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating">
     <div class="aspect-[16/10] overflow-hidden bg-surface">
-      <img
-        :src="article.image"
+      <UiResponsiveImage
+        :image="article.image"
         :alt="article.title"
+        sizes="(min-width: 1024px) 33vw, 100vw"
         class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
-        loading="lazy"
-      >
+      />
     </div>
     <div class="flex flex-1 flex-col gap-3 p-6">
       <span class="text-caption text-brass-700 font-bold tracking-[0.14em] uppercase">{{ article.category }}</span>

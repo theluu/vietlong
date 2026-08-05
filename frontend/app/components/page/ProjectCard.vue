@@ -6,7 +6,12 @@ defineProps<{ project: Project }>()
 <template>
   <NuxtLink :to="`/du-an/${project.slug}`" class="group flex min-w-0 flex-col border border-border text-inherit no-underline transition hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating">
     <div class="relative aspect-[4/3] overflow-hidden bg-white">
-      <img :src="project.image" :alt="project.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" loading="lazy">
+      <UiResponsiveImage
+        :image="project.image"
+        :alt="project.title"
+        sizes="(min-width: 1024px) 33vw, 100vw"
+        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+      />
       <span class="absolute top-0 left-0 bg-charcoal-900 px-3.5 py-2 text-[9px] font-bold tracking-[.18em] text-gold-200 uppercase">{{ project.type }}</span>
     </div>
     <div class="flex flex-1 flex-col gap-2.5 p-5.5">
