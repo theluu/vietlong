@@ -16,9 +16,6 @@
  * Run: ddev drush php:script scripts/setup/install_cover_image_fields.php
  */
 
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\image\Entity\ImageStyle;
 use Symfony\Component\Yaml\Yaml;
 
 $sync = dirname(__DIR__, 2) . '/config/sync';
