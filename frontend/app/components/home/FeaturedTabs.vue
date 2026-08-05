@@ -67,7 +67,7 @@ const scroll = (direction: number) => {
           <div class="flex flex-1 flex-col gap-[9px] border-t border-border px-[20px] py-[22px]">
             <span class="text-eyebrow text-neutral-600 leading-[1.5] tracking-[0.14em] uppercase">{{ p.category?.name }}</span>
             <strong class="text-heading min-h-[2.8em] leading-[1.4] tracking-[-0.015em]">{{ p.name }}</strong>
-            <span class="text-caption text-neutral-600 leading-[1.6]">{{ p.model }}<template v-if="p.finish"> · {{ p.finish.name }}</template></span>
+            <span class="text-caption font-bold text-neutral-700 leading-[1.6]">{{ p.model }}<template v-if="p.finish"> · {{ p.finish.name }}</template></span>
             <a href="#consultation" class="text-caption mt-auto rounded-sm bg-charcoal-900 py-[14px] text-center font-bold tracking-[0.1em] text-white uppercase no-underline transition hover:bg-brass-700">Liên hệ tư vấn</a>
           </div>
         </article>
