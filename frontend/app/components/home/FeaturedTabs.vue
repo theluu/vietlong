@@ -17,11 +17,10 @@ watchEffect(() => {
   }
 })
 const items = computed(() => props.featured[active.value] ?? [])
-const track = ref<HTMLElement | null>(null)
-const scroll = (direction: number) => {
-  const card = track.value?.firstElementChild as HTMLElement | null
-  track.value?.scrollBy({ left: direction * ((card?.offsetWidth ?? 260) + 24) * 2, behavior: 'smooth' })
-}
+const { track, canPrev, canNext, scroll, reset, buttonClass } = useCarousel(260)
+// Switching tabs swaps the cards without resizing the track, so nothing else
+// would tell the arrows their scroll range just changed.
+watch(items, reset)
 </script>
 
 <template>
@@ -36,8 +35,8 @@ const scroll = (direction: number) => {
           <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Sản phẩm nổi bật</h2>
         </div>
         <div class="flex items-center justify-center gap-[12px]">
-          <button type="button" aria-label="Trước" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background text-charcoal-900 transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
-          <button type="button" aria-label="Sau" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-background text-charcoal-900 transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
+          <button type="button" aria-label="Trước" :disabled="!canPrev" :class="[buttonClass, 'bg-background']" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button type="button" aria-label="Sau" :disabled="!canNext" :class="[buttonClass, 'bg-background']" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
       </div>
 

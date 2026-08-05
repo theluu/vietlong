@@ -2,11 +2,7 @@
 const home = useHome()
 const section = computed(() => home.value.solutionSection)
 
-const track = ref<HTMLElement | null>(null)
-const scroll = (direction: number) => {
-  const card = track.value?.firstElementChild as HTMLElement | null
-  track.value?.scrollBy({ left: direction * ((card?.offsetWidth ?? 340) + 24) * 2, behavior: 'smooth' })
-}
+const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(340)
 </script>
 
 <template>
@@ -18,7 +14,7 @@ const scroll = (direction: number) => {
           <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Chọn theo loại công trình</h2>
           <p class="text-heading text-text m-0 font-semibold leading-[1.7]">Chưa biết model nào phù hợp? Bắt đầu từ loại công trình bạn đang làm.</p>
         </div>
-        <div class="flex justify-center gap-[12px]"><button type="button" aria-label="Trước" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-transparent transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" aria-label="Sau" class="grid size-[52px] cursor-pointer place-items-center border border-neutral-300 bg-transparent transition hover:border-charcoal-900 hover:bg-charcoal-900 hover:text-gold-200" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button></div>
+        <div class="flex justify-center gap-[12px]"><button type="button" aria-label="Trước" :disabled="!canPrev" :class="[buttonClass, 'bg-transparent']" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" aria-label="Sau" :disabled="!canNext" :class="[buttonClass, 'bg-transparent']" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button></div>
       </div>
 
     <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
