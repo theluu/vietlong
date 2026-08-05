@@ -27,3 +27,9 @@ export const fetchProduct = (slug: string): Promise<ApiResponse<ProductDetail>> 
 
 export const suggestProducts = (q: string) =>
   apiFetch<ProductCard[]>('/products/suggest', { q })
+
+/** Same matching as the header overlay, but paged for the /tim-kiem page. */
+export const searchProducts = (q: string, page = 1, limit = 12) =>
+  apiFetch<ProductCard[]>('/products/suggest', { q, page, limit }) as Promise<
+    ApiListResponse<ProductCard[]>
+  >

@@ -69,20 +69,39 @@ class ProductController extends ControllerBase {
   }
 
   /**
-   * GET /api/v1/products/suggest?q=
+   * How many suggestions the header overlay shows.
+   */
+  private const SUGGEST_LIMIT = 8;
+
+  /**
+   * The most rows /tim-kiem may ask for in one page.
+   */
+  private const SEARCH_MAX_LIMIT = 24;
+
+  /**
+   * GET /api/v1/products/suggest?q=[&page=&limit=]
    *
    * Matches against the denormalised diacritic-free field so that
    * `khoa van tay` finds `Khóa Vân Tay`.
+   *
+   * Left unpaged this only ever returned the first eight matches, which is
+   * right for the header overlay but makes a search *page* impossible — so
+   * page and limit are honoured, defaulting to the overlay's behaviour.
    */
   public function suggest(Request $request) {
     $raw = trim((string) $request->query->get('q', ''));
     // Cap input length to prevent excess processing.
     $raw = substr($raw, 0, 100);
 
+    $page = max(1, (int) $request->query->get('page', 1));
+    $limit = (int) $request->query->get('limit', self::SUGGEST_LIMIT);
+    // Clamped so a hand-edited URL cannot ask for the whole catalogue.
+    $limit = max(1, min($limit, self::SEARCH_MAX_LIMIT));
+
     // Normalise first, then guard on the normalised needle.
     $needle = $this->textNormalizer->normalize($raw);
     if ($needle === '') {
-      return ApiEnvelope::make([], ['total' => 0, 'page' => 1, 'limit' => 8]);
+      return ApiEnvelope::make([], ['total' => 0, 'page' => 1, 'limit' => $limit]);
     }
 
     $storage = $this->entityTypeManager()->getStorage('node');
@@ -93,16 +112,18 @@ class ProductController extends ControllerBase {
       ->condition('field_search_text', '%' . $needle . '%', 'LIKE');
 
     // Get the true total count.
-    $total = (clone $base_query)->count()->execute();
+    $total = (int) (clone $base_query)->count()->execute();
 
-    // Get paginated results (capped at 8).
-    $ids = $base_query->range(0, 8)->execute();
+    $ids = $base_query
+      ->sort('title', 'ASC')
+      ->range(($page - 1) * $limit, $limit)
+      ->execute();
 
     $nodes = $ids ? $storage->loadMultiple($ids) : [];
 
     return ApiEnvelope::make(
       array_values(array_map(fn($n) => $this->serializer->card($n), $nodes)),
-      ['total' => $total, 'page' => 1, 'limit' => 8],
+      ['total' => $total, 'page' => $page, 'limit' => $limit],
     );
   }
 
