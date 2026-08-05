@@ -2,8 +2,11 @@ import type { ProductCard } from '~/types/product'
 
 /** Ảnh đã qua image style của Drupal, kèm mọi cỡ trình duyệt được chọn. */
 export interface ResponsiveImage {
+  /** WebP — the safe fallback that a plain <img src> or old Safari uses. */
   url: string
   srcset: string
+  /** AVIF, smaller than WebP at the same width; preferred when the browser supports it. */
+  srcsetAvif: string
   width: number
   height: number
   alt: string

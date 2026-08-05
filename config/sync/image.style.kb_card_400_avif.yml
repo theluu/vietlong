@@ -1,0 +1,21 @@
+uuid: 5e31b6d6-4e72-4317-a84c-3e3d3c387de7
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_card_400_avif
+label: 'Keybolts card 400 AVIF'
+effects:
+  86f9310a-1c0f-41b3-9be0-51b98ee40dab:
+    uuid: 86f9310a-1c0f-41b3-9be0-51b98ee40dab
+    id: image_scale
+    weight: 1
+    data:
+      width: 400
+      height: null
+      upscale: false
+  c83505f7-65b9-42cb-b69e-daf4672f7ecd:
+    uuid: c83505f7-65b9-42cb-b69e-daf4672f7ecd
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

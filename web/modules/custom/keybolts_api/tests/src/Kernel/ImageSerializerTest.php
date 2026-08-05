@@ -32,7 +32,12 @@ class ImageSerializerTest extends KernelTestBase {
     $this->installSchema('file', ['file_usage']);
     $this->installConfig(['system', 'node', 'field']);
 
-    foreach (['kb_card_400', 'kb_card_800', 'kb_hero_1200', 'kb_hero_1600'] as $name) {
+    foreach ([
+      'kb_card_400_avif', 'kb_card_400_webp',
+      'kb_card_800_avif', 'kb_card_800_webp',
+      'kb_hero_1200_avif', 'kb_hero_1200_webp',
+      'kb_hero_1600_avif', 'kb_hero_1600_webp',
+    ] as $name) {
       ImageStyle::create(Yaml::parseFile($this->root . "/../config/sync/image.style.$name.yml"))->save();
     }
 
@@ -78,24 +83,43 @@ class ImageSerializerTest extends KernelTestBase {
   public function testSrcsetCarriesEveryStyleThatFitsInsideTheOriginal(): void {
     $out = $this->serialize(2000, 1200);
 
-    $this->assertStringContainsString('400w', $out['srcset']);
-    $this->assertStringContainsString('800w', $out['srcset']);
-    $this->assertStringContainsString('1200w', $out['srcset']);
-    $this->assertStringContainsString('1600w', $out['srcset']);
+    foreach (['400w', '800w', '1200w', '1600w'] as $descriptor) {
+      $this->assertStringContainsString($descriptor, $out['srcset']);
+      $this->assertStringContainsString($descriptor, $out['srcsetAvif']);
+    }
+  }
+
+  /**
+   * AVIF là bản nhỏ nhất nhưng Safari dưới 16.4 không đọc được. Fallback WebP
+   * tồn tại để không ai nhìn thấy ô trắng, nên nó phải luôn có mặt và phải là
+   * thứ `url` trỏ tới — `url` là cái trình duyệt cũ dùng.
+   */
+  public function testEverySizeIsOfferedInBothFormatsAndTheFallbackIsWebp(): void {
+    $out = $this->serialize(2000, 1200);
+
+    foreach (['400w', '800w', '1200w', '1600w'] as $descriptor) {
+      $this->assertStringContainsString($descriptor, $out['srcsetAvif']);
+      $this->assertStringContainsString($descriptor, $out['srcset']);
+    }
+    $this->assertStringContainsString('kb_card_800_webp', $out['url']);
+    $this->assertStringNotContainsString('_avif', $out['url']);
   }
 
   /**
    * `upscale: false` means a 900px original cannot actually produce a 1600px
    * derivative. Advertising one would make the browser pick a file that is
-   * smaller than its own descriptor claims — the exact bug this avoids.
+   * smaller than its own descriptor claims — the exact bug this avoids. The
+   * rule lives once in the serializer, so it must hold for both formats.
    */
   public function testStylesWiderThanTheOriginalAreNotAdvertised(): void {
     $out = $this->serialize(900, 600);
 
-    $this->assertStringContainsString('400w', $out['srcset']);
-    $this->assertStringContainsString('800w', $out['srcset']);
-    $this->assertStringNotContainsString('1200w', $out['srcset']);
-    $this->assertStringNotContainsString('1600w', $out['srcset']);
+    foreach (['srcset', 'srcsetAvif'] as $key) {
+      $this->assertStringContainsString('400w', $out[$key]);
+      $this->assertStringContainsString('800w', $out[$key]);
+      $this->assertStringNotContainsString('1200w', $out[$key]);
+      $this->assertStringNotContainsString('1600w', $out[$key]);
+    }
   }
 
   /** Even a tiny original must offer something, or <img> has no src at all. */
@@ -103,6 +127,7 @@ class ImageSerializerTest extends KernelTestBase {
     $out = $this->serialize(120, 90);
 
     $this->assertStringContainsString('400w', $out['srcset']);
+    $this->assertStringContainsString('400w', $out['srcsetAvif']);
   }
 
   public function testDimensionsAndAltComeStraightFromTheField(): void {
@@ -117,7 +142,7 @@ class ImageSerializerTest extends KernelTestBase {
     $out = $this->serialize(2000, 1200);
 
     $this->assertStringStartsWith('http', $out['url']);
-    $this->assertStringContainsString('styles/kb_card_800', $out['url']);
+    $this->assertStringContainsString('styles/kb_card_800_webp', $out['url']);
   }
 
   /**
@@ -144,10 +169,10 @@ class ImageSerializerTest extends KernelTestBase {
 
     $out = $this->container->get('keybolts_api.image_serializer')->fromField($node->get('field_article_image'));
 
-    $this->assertStringContainsString('400w', $out['srcset']);
-    $this->assertStringContainsString('800w', $out['srcset']);
-    $this->assertStringContainsString('1200w', $out['srcset']);
-    $this->assertStringContainsString('1600w', $out['srcset']);
+    foreach (['400w', '800w', '1200w', '1600w'] as $descriptor) {
+      $this->assertStringContainsString($descriptor, $out['srcset']);
+      $this->assertStringContainsString($descriptor, $out['srcsetAvif']);
+    }
   }
 
   /**
@@ -188,8 +213,9 @@ class ImageSerializerTest extends KernelTestBase {
     $card = $this->container->get('keybolts_api.product_serializer')->card($node);
 
     $this->assertIsArray($card['image']);
-    $this->assertStringContainsString('styles/kb_card_800', $card['image']['url']);
+    $this->assertStringContainsString('styles/kb_card_800_webp', $card['image']['url']);
     $this->assertStringContainsString('400w', $card['image']['srcset']);
+    $this->assertStringContainsString('400w', $card['image']['srcsetAvif']);
   }
 
 }

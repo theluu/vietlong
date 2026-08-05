@@ -1,0 +1,21 @@
+uuid: 92d9250f-4c68-495f-8db9-676d2a51818b
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_hero_1200_webp
+label: 'Keybolts hero 1200 WebP'
+effects:
+  f72ae647-32ab-4a42-a483-42b5c649c1a0:
+    uuid: f72ae647-32ab-4a42-a483-42b5c649c1a0
+    id: image_scale
+    weight: 1
+    data:
+      width: 1200
+      height: null
+      upscale: false
+  9ab37ee3-9022-42c1-a2cf-c2257979eadf:
+    uuid: 9ab37ee3-9022-42c1-a2cf-c2257979eadf
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp

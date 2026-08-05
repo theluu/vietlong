@@ -39,7 +39,12 @@ $apply = function (string $entityTypeId, string $file) use ($sync): void {
   echo "Updated $file\n";
 };
 
-foreach (['kb_card_400', 'kb_card_800', 'kb_hero_1200', 'kb_hero_1600'] as $style) {
+foreach ([
+  'kb_card_400_avif', 'kb_card_400_webp',
+  'kb_card_800_avif', 'kb_card_800_webp',
+  'kb_hero_1200_avif', 'kb_hero_1200_webp',
+  'kb_hero_1600_avif', 'kb_hero_1600_webp',
+] as $style) {
   $apply('image_style', "image.style.$style.yml");
 }
 

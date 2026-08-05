@@ -1,0 +1,21 @@
+uuid: c96c40c8-6fa2-4d1f-a6f1-0c5469a62286
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_hero_1600_webp
+label: 'Keybolts hero 1600 WebP'
+effects:
+  684da407-e76d-4537-a53f-158427d1e1f4:
+    uuid: 684da407-e76d-4537-a53f-158427d1e1f4
+    id: image_scale
+    weight: 1
+    data:
+      width: 1600
+      height: null
+      upscale: false
+  65b4c9a2-a47b-4056-926e-bd3660aba519:
+    uuid: 65b4c9a2-a47b-4056-926e-bd3660aba519
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp

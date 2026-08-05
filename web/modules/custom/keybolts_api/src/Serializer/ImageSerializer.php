@@ -17,16 +17,16 @@ use Drupal\image\Plugin\Field\FieldType\ImageItem;
  */
 final class ImageSerializer {
 
-  /** Style machine name => the width it scales to. Ordered smallest first. */
+  /** Width => the style name of each format. Smallest first. */
   private const STYLES = [
-    'kb_card_400' => 400,
-    'kb_card_800' => 800,
-    'kb_hero_1200' => 1200,
-    'kb_hero_1600' => 1600,
+    400 => ['avif' => 'kb_card_400_avif', 'webp' => 'kb_card_400_webp'],
+    800 => ['avif' => 'kb_card_800_avif', 'webp' => 'kb_card_800_webp'],
+    1200 => ['avif' => 'kb_hero_1200_avif', 'webp' => 'kb_hero_1200_webp'],
+    1600 => ['avif' => 'kb_hero_1600_avif', 'webp' => 'kb_hero_1600_webp'],
   ];
 
-  /** What a bare `src` falls back to for browsers that ignore srcset. */
-  private const DEFAULT_STYLE = 'kb_card_800';
+  /** Bare `src` for browsers that ignore srcset. WebP, because it runs everywhere. */
+  private const DEFAULT_STYLE = 'kb_card_800_webp';
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
@@ -55,26 +55,36 @@ final class ImageSerializer {
     $usable = array_filter(
       self::STYLES,
       static fn (int $styleWidth): bool => $width === 0 || $styleWidth <= $width,
+      ARRAY_FILTER_USE_KEY,
     );
     if (!$usable) {
       $usable = array_slice(self::STYLES, 0, 1, TRUE);
     }
 
+    // Both formats are built from the same $usable set in one pass, so the
+    // "which sizes fit" rule can't drift between them if someone edits only
+    // one branch later.
     $srcset = [];
-    foreach ($usable as $name => $styleWidth) {
-      $style = $storage->load($name);
-      if ($style) {
-        $srcset[] = $style->buildUrl($uri) . ' ' . $styleWidth . 'w';
+    $srcsetAvif = [];
+    foreach ($usable as $styleWidth => $names) {
+      $webp = $storage->load($names['webp']);
+      if ($webp) {
+        $srcset[] = $webp->buildUrl($uri) . ' ' . $styleWidth . 'w';
+      }
+      $avif = $storage->load($names['avif']);
+      if ($avif) {
+        $srcsetAvif[] = $avif->buildUrl($uri) . ' ' . $styleWidth . 'w';
       }
     }
 
-    $default = $storage->load(self::DEFAULT_STYLE) ?? $storage->load(array_key_first($usable));
+    $default = $storage->load(self::DEFAULT_STYLE) ?? $storage->load(reset($usable)['webp']);
 
     return [
       'url' => $default
         ? $default->buildUrl($uri)
         : $this->fileUrlGenerator->generateAbsoluteString($uri),
       'srcset' => implode(', ', $srcset),
+      'srcsetAvif' => implode(', ', $srcsetAvif),
       'width' => $width,
       'height' => (int) $item->height,
       'alt' => (string) $item->alt,

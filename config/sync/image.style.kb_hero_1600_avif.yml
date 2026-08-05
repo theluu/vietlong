@@ -1,0 +1,21 @@
+uuid: 2e05b1ce-084d-4418-a93e-bb448524a0d3
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_hero_1600_avif
+label: 'Keybolts hero 1600 AVIF'
+effects:
+  3fd4e12c-92a4-4f33-900f-dc74bed4f648:
+    uuid: 3fd4e12c-92a4-4f33-900f-dc74bed4f648
+    id: image_scale
+    weight: 1
+    data:
+      width: 1600
+      height: null
+      upscale: false
+  745a1e2e-06f3-412f-b433-41c61aec0a0f:
+    uuid: 745a1e2e-06f3-412f-b433-41c61aec0a0f
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

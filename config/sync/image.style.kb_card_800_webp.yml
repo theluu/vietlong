@@ -1,0 +1,21 @@
+uuid: 2a077ad3-79e5-4034-902d-54557a3cc82e
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_card_800_webp
+label: 'Keybolts card 800 WebP'
+effects:
+  eb10116d-4507-4c0e-b5e3-e8ba39bca8ae:
+    uuid: eb10116d-4507-4c0e-b5e3-e8ba39bca8ae
+    id: image_scale
+    weight: 1
+    data:
+      width: 800
+      height: null
+      upscale: false
+  7f34bd87-6794-498c-8559-85c6fda7354b:
+    uuid: 7f34bd87-6794-498c-8559-85c6fda7354b
+    id: image_convert
+    weight: 2
+    data:
+      extension: webp
