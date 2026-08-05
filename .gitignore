@@ -31,3 +31,6 @@
 # OS / editor
 .DS_Store
 *.log
+
+# Ảnh chụp DB trước một thay đổi lớn — hữu ích ở máy, không thuộc về repo.
+/db/backup-*.sql
