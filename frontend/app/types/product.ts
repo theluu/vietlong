@@ -2,6 +2,7 @@
  * Mirrors the shapes produced by keybolts_api's ProductSerializer and
  * ProductController. Verified against the live API on 2026-08-01.
  */
+import type { ResponsiveImage } from '~/types/page'
 
 export interface TermRef {
   id: number
@@ -20,7 +21,7 @@ export interface ProductCard {
   brand: TermRef | null
   category: TermRef | null
   finish: TermRef | null
-  image: { url: string; alt: string } | null
+  image: ResponsiveImage | null
   stockStatus: string | null
   contactPrice: boolean
 }
@@ -53,7 +54,7 @@ export interface ProductDetail extends ProductCard {
   origin: string
   sizeLabel: string
   sizeNote: string
-  images: { url: string; alt: string }[]
+  images: ResponsiveImage[]
   specifications: { k: string; v: string }[]
   faqs: { q: string; a: string }[]
   policyCards: { title: string; desc: string }[]

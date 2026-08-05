@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\keybolts_api\Serializer;
 
-use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -16,7 +15,7 @@ use Drupal\node\NodeInterface;
 class PageSerializer {
 
   public function __construct(
-    private readonly FileUrlGeneratorInterface $fileUrlGenerator,
+    private readonly ImageSerializer $imageSerializer,
   ) {}
 
   public function about(NodeInterface $n): array {
@@ -171,11 +170,8 @@ class PageSerializer {
         $row['ctaLabel'] = (string) $p->get($link_field)->title;
         $row['ctaUrl'] = $this->uriToPath((string) $p->get($link_field)->uri);
       }
-      if ($image_field && $p->hasField($image_field) && !$p->get($image_field)->isEmpty()) {
-        $file = $p->get($image_field)->entity;
-        $row['image'] = $file
-          ? $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri())
-          : '';
+      if ($image_field && $p->hasField($image_field)) {
+        $row['image'] = $this->imageSerializer->fromField($p->get($image_field));
       }
       $rows[] = $row;
     }
@@ -199,12 +195,16 @@ class PageSerializer {
     return str_starts_with($uri, 'internal:') ? substr($uri, 9) : $uri;
   }
 
-  private function image(NodeInterface $n, string $field): string {
-    if (!$n->hasField($field) || $n->get($field)->isEmpty()) {
-      return '';
+  /**
+   * NULL rather than '' when there is no image: the frontend renders on
+   * truthiness, and an empty string is the one falsy value that still looks
+   * like a URL to anyone reading the payload.
+   */
+  private function image(NodeInterface $n, string $field): ?array {
+    if (!$n->hasField($field)) {
+      return NULL;
     }
-    $file = $n->get($field)->entity;
-    return $file ? $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri()) : '';
+    return $this->imageSerializer->fromField($n->get($field));
   }
 
   private function str(NodeInterface $n, string $field): string {

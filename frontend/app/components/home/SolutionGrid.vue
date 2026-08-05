@@ -28,7 +28,7 @@ const scroll = (direction: number) => {
         to="/san-pham"
         class="kb-home-solution-card group flex min-w-0 snap-start flex-col overflow-hidden border border-border bg-background text-inherit no-underline transition hover:-translate-y-[6px] hover:shadow-floating"
       >
-        <div class="kb-product-image-frame relative aspect-[16/10] overflow-hidden bg-surface"><img :src="sol.image" :alt="sol.title" class="size-full object-cover transition duration-500 group-hover:scale-105"><div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.9),rgba(40,45,48,.05)_60%)]"/><span class="text-display absolute bottom-[18px] left-[22px] font-bold tracking-[-0.025em] text-white">{{ sol.title }}</span></div>
+        <div class="kb-product-image-frame relative aspect-[16/10] overflow-hidden bg-surface"><UiResponsiveImage :image="sol.image" :alt="sol.title" sizes="(min-width: 1024px) 33vw, 100vw" class="size-full object-cover transition duration-500 group-hover:scale-105" /><div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.9),rgba(40,45,48,.05)_60%)]"/><span class="text-display absolute bottom-[18px] left-[22px] font-bold tracking-[-0.025em] text-white">{{ sol.title }}</span></div>
         <div class="flex flex-1 flex-col gap-[16px] px-[20px] py-[22px]"><span class="text-body text-text-muted flex-1 leading-[1.7]">{{ sol.desc }}</span>
         <span class="flex flex-wrap gap-[8px]">
           <span

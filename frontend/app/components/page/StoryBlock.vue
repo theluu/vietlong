@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import type { ResponsiveImage } from '~/types/page'
+
 withDefaults(defineProps<{
   eyebrow: string
   title: string
   body: string
   credentials: string[]
   /** Two staggered shots beside the copy. Omit and the column is dropped. */
-  images?: string[]
+  images?: ResponsiveImage[]
 }>(), { images: () => [] })
 </script>
 
@@ -34,7 +36,7 @@ withDefaults(defineProps<{
           class="group border-border relative aspect-[3/4] overflow-hidden border bg-white"
           :class="i === 0 ? 'mt-[28px]' : ''"
         >
-          <img :src="src" :alt="title" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" loading="lazy">
+          <UiResponsiveImage :image="src" :alt="title" sizes="(min-width: 1024px) 50vw, 100vw" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" />
         </div>
       </div>
     </div>

@@ -136,7 +136,7 @@ useHead(() => ({
               class="border-border hover:text-brass-700 flex items-center gap-[14px] border-t py-[12px] text-inherit no-underline"
             >
               <div class="border-border h-[56px] w-[56px] shrink-0 border bg-white">
-                <img v-if="product.image" :src="product.image.url" :alt="product.image.alt" class="h-full w-full object-contain p-[6px]" loading="lazy">
+                <UiResponsiveImage :image="product.image" sizes="56px" class="h-full w-full object-contain p-[6px]" />
               </div>
               <div class="flex min-w-0 flex-col gap-[3px]">
                 <span class="text-body leading-[1.3] font-bold">{{ product.name }}</span>

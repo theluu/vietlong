@@ -10,8 +10,9 @@ const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL, contact, footer, social } = u
       <!-- Brand -->
       <div class="flex min-w-[240px] flex-col gap-[20px]">
         <img
-          src="https://keybolts.com.vn/sites/all/themes/khoavietlong/images/logoweb.png"
+          src="/images/logo-keybolts.png"
           alt="Keybolts"
+          width="182" height="84" loading="lazy"
           class="h-[56px] w-auto max-w-full self-start object-contain"
         >
         <p class="text-body m-0 max-w-[340px] leading-[1.8] text-white/62">

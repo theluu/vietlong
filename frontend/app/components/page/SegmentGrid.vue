@@ -16,12 +16,12 @@ defineProps<{ eyebrow: string; title: string; segments: Segment[] }>()
           class="group border-border bg-background hover:border-brass-500 hover:shadow-floating flex flex-col border text-inherit no-underline transition duration-200 ease-in-out hover:-translate-y-1"
         >
           <div v-if="segment.image" class="relative aspect-[4/3] overflow-hidden bg-white">
-            <img
-              :src="segment.image"
+            <UiResponsiveImage
+              :image="segment.image"
               :alt="segment.title"
+              sizes="(min-width: 1024px) 33vw, 100vw"
               class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
-              loading="lazy"
-            >
+            />
           </div>
           <div class="flex flex-1 flex-col gap-[8px] p-[22px]">
             <span class="text-heading font-bold">{{ segment.title }}</span>

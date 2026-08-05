@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { CtaLink, Fact } from '~/types/page'
+import type { CtaLink, Fact, ResponsiveImage } from '~/types/page'
 
 defineProps<{
   eyebrow: string
   title: string
   subtitle: string
-  image?: string
+  image?: ResponsiveImage | null
   caption?: string
   ctaPrimary?: CtaLink
   ctaSecondary?: CtaLink
@@ -49,7 +49,7 @@ const isExternal = (url: string) => /^(https?:|tel:|mailto:)/.test(url)
       </div>
 
       <div v-if="image" class="group border-gold-200/30 relative aspect-[4/5] overflow-hidden border bg-white">
-        <img :src="image" :alt="caption || title" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" fetchpriority="high">
+        <UiResponsiveImage :image="image" :alt="caption || title" sizes="100vw" priority class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" />
         <span
           v-if="caption"
           class="text-caption from-charcoal-900/92 absolute inset-x-0 bottom-0 bg-gradient-to-t to-transparent px-[22px] py-[18px] tracking-[0.06em] text-white"

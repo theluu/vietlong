@@ -15,9 +15,9 @@ defineProps<{ title: string; eyebrow?: string; description?: string; total: numb
         </div>
       </div>
       <div class="relative hidden lg:block">
-        <img src="https://keybolts.com.vn/sites/default/files/kb_1700-xl-pvd.png" alt="Khóa đồng Keybolts" class="absolute top-[18%] left-0 h-[54%] w-[48%] border-[16px] border-white object-cover">
-        <img src="https://keybolts.com.vn/sites/default/files/khoa_thong_minh_t28_0.png" alt="Khóa thông minh Keybolts" class="absolute top-[26%] right-0 h-[40%] w-[47%] border-[14px] border-white object-cover">
-        <img src="https://keybolts.com.vn/sites/default/files/_r3_0183_copy.jpg" alt="Phụ kiện cửa Keybolts" class="absolute right-0 bottom-[-12%] h-[38%] w-[47%] border-[14px] border-white object-cover">
+        <img src="/images/kb-1700-xl-pvd.webp" alt="Khóa đồng Keybolts" width="1448" height="2048" loading="lazy" decoding="async" class="absolute top-[18%] left-0 h-[54%] w-[48%] border-[16px] border-white object-cover">
+        <img src="/images/khoa-thong-minh-t28.webp" alt="Khóa thông minh Keybolts" width="1600" height="1348" loading="lazy" decoding="async" class="absolute top-[26%] right-0 h-[40%] w-[47%] border-[14px] border-white object-cover">
+        <img src="/images/-r3-0183-copy.webp" alt="Phụ kiện cửa Keybolts" width="1600" height="1067" loading="lazy" decoding="async" class="absolute right-0 bottom-[-12%] h-[38%] w-[47%] border-[14px] border-white object-cover">
       </div>
     </div>
   </section>

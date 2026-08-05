@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\keybolts_api\Serializer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\ParagraphInterface;
 
@@ -19,7 +18,7 @@ final class HomeSerializer {
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly FileUrlGeneratorInterface $fileUrlGenerator,
+    private readonly ImageSerializer $imageSerializer,
   ) {}
 
   public function all(): array {
@@ -122,12 +121,11 @@ final class HomeSerializer {
     )));
   }
 
-  private function image(NodeInterface|ParagraphInterface|null $entity, string $field): ?string {
-    if (!$entity || !$entity->hasField($field) || $entity->get($field)->isEmpty()) {
+  private function image(NodeInterface|ParagraphInterface|null $entity, string $field): ?array {
+    if (!$entity || !$entity->hasField($field)) {
       return NULL;
     }
-    $file = $entity->get($field)->entity;
-    return $file ? $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri()) : NULL;
+    return $this->imageSerializer->fromField($entity->get($field));
   }
 
   private function link(NodeInterface|ParagraphInterface|null $entity, string $field): ?array {

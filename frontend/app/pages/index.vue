@@ -21,8 +21,11 @@ const heroImage = computed(() => {
 
 useSeoMeta({
   title: 'Keybolts — Khóa cửa & phụ kiện nhập khẩu chính hãng',
-  description:
-    `Khóa đồng, khóa vân tay, khóa thông minh, khóa thẻ từ khách sạn và phụ kiện cửa nhập khẩu. Đạt chứng nhận CE-CFF, bảo hành 5–10 năm. Hotline ${HOTLINE}.`,
+  // A getter, and `.value`: this runs in <script setup> where a ref is not
+  // unwrapped the way it would be inside the template, and the hotline arrives
+  // from the API after this line first evaluates.
+  description: () =>
+    `Khóa đồng, khóa vân tay, khóa thông minh, khóa thẻ từ khách sạn và phụ kiện cửa nhập khẩu. Đạt chứng nhận CE-CFF, bảo hành 5–10 năm. Hotline ${HOTLINE.value}.`,
 })
 </script>
 

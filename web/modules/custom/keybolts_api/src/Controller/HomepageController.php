@@ -53,7 +53,9 @@ class HomepageController extends ControllerBase {
       ->loadTree('product_category', 0, NULL, TRUE);
     $out = [];
     foreach ($terms as $term) {
-      $image = '';
+      // The whole card image, not just its url: flattening it here would make
+      // this the one grid on the homepage that cannot pick a smaller file.
+      $image = NULL;
       $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
         ->accessCheck(TRUE)
         ->condition('type', 'product')
@@ -62,7 +64,7 @@ class HomepageController extends ControllerBase {
         ->range(0, 1)
         ->execute();
       if ($ids && ($product = $this->entityTypeManager()->getStorage('node')->load(reset($ids)))) {
-        $image = $this->serializer->card($product)['image']['url'] ?? '';
+        $image = $this->serializer->card($product)['image'] ?? NULL;
       }
       $out[] = [
         'id' => (int) $term->id(),

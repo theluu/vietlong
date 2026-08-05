@@ -7,7 +7,7 @@ services:
     arguments: ['@entity_type.manager']
   keybolts_api.page_serializer:
     class: Drupal\keybolts_api\Serializer\PageSerializer
-    arguments: ['@file_url_generator']
+    arguments: ['@keybolts_api.image_serializer']
   keybolts_api.article_serializer:
     class: Drupal\keybolts_api\Serializer\ArticleSerializer
     arguments: ['@entity_type.manager', '@path_alias.manager', '@keybolts_api.product_serializer', '@keybolts_api.image_serializer']
@@ -16,7 +16,7 @@ services:
     arguments: ['@entity_type.manager', '@keybolts_api.image_serializer']
   keybolts_api.home_serializer:
     class: Drupal\keybolts_api\Serializer\HomeSerializer
-    arguments: ['@entity_type.manager', '@file_url_generator']
+    arguments: ['@entity_type.manager', '@keybolts_api.image_serializer']
   keybolts_api.site_serializer:
     class: Drupal\keybolts_api\Serializer\SiteSerializer
     arguments: ['@entity_type.manager', '@menu.link_tree', '@keybolts_core.recaptcha']

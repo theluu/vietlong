@@ -19,8 +19,9 @@ const restNav = computed(() => menu.value.slice(1))
     >
       <NuxtLink to="/" class="flex min-w-0 items-center gap-4 no-underline">
         <img
-          src="https://keybolts.com.vn/sites/all/themes/khoavietlong/images/logoweb.png"
+          src="/images/logo-keybolts.png"
           alt="Keybolts"
+          width="182" height="84" fetchpriority="high"
           class="h-[46px] w-auto flex-shrink-0 object-contain md:h-[58px]"
         >
         <span

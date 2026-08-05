@@ -18,13 +18,12 @@ const brandChip = computed(() => {
     class="group flex flex-col border border-border bg-background text-inherit no-underline transition hover:-translate-y-1 hover:border-brass-500 hover:shadow-floating"
   >
     <div class="relative aspect-square overflow-hidden border-b border-border bg-white">
-      <img
-        v-if="product.image"
-        :src="product.image.url"
-        :alt="product.image.alt || product.name"
+      <UiResponsiveImage
+        :image="product.image"
+        :alt="product.image?.alt || product.name"
+        sizes="(min-width: 1024px) 300px, 50vw"
         class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-        loading="lazy"
-      >
+      />
       <span
         v-if="product.badge"
         class="absolute top-3 left-3 bg-charcoal-900 px-[11px] py-[5px] text-[10px] font-bold tracking-[0.14em] text-gold-200 uppercase"

@@ -21,16 +21,17 @@ const current = computed(() => props.images[active.value] ?? null)
         class="h-20 w-20 flex-none cursor-pointer border bg-white p-1"
         :class="i === active ? 'border-brass-500' : 'border-border hover:border-brass-500'"
         :aria-label="`Ảnh ${i + 1}`" :aria-pressed="i === active" @click="active = i"
-      ><img :src="img.url" :alt="img.alt || name" class="h-full w-full object-contain"></button>
+      ><UiResponsiveImage :image="img" :alt="img.alt || name" sizes="(min-width: 1024px) 96px, 20vw" class="h-full w-full object-contain" /></button>
     </div>
     <div class="order-1 sm:order-2">
     <div class="relative aspect-square border border-border bg-white p-5">
-      <img
-        v-if="current"
-        :src="current.url"
-        :alt="current.alt || name"
+      <UiResponsiveImage
+        :image="current"
+        :alt="current?.alt || name"
+        sizes="(min-width: 1024px) 600px, 100vw"
+        priority
         class="h-full w-full object-contain p-5"
-      >
+      />
       <span
         class="text-caption absolute top-4 left-4 bg-charcoal-900 px-3 py-[5px] font-bold tracking-[0.14em] text-gold-200 uppercase"
       >Chứng nhận CE-CFF</span>

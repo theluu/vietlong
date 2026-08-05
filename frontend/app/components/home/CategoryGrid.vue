@@ -38,7 +38,7 @@ const scroll = (direction: number) => {
         class="kb-home-category-card group block min-w-0 snap-start overflow-hidden bg-charcoal-900 text-inherit no-underline"
       >
         <span class="kb-hero-frame relative block aspect-[3/3.6] w-full overflow-hidden">
-          <img v-if="cat.image" :src="cat.image" :alt="cat.name" class="absolute inset-0 h-full w-full bg-[var(--color-surface)] object-cover transition duration-500 group-hover:scale-105">
+          <UiResponsiveImage :image="cat.image" :alt="cat.name" sizes="(min-width: 1024px) 25vw, 50vw" class="absolute inset-0 h-full w-full bg-[var(--color-surface)] object-cover transition duration-500 group-hover:scale-105" />
           <span class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.94)_0%,rgba(40,45,48,.42)_42%,rgba(40,45,48,.05)_72%)]" />
           <span class="text-caption text-gold-200 absolute top-[20px] left-[22px] font-bold tracking-[0.2em]">{{ cat.number }}</span>
           <span class="absolute right-0 bottom-0 left-0 flex flex-col gap-[7px] px-[22px] py-[24px]">

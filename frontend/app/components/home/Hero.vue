@@ -52,13 +52,13 @@ const titleLines = computed(() => heroTitleParts(hero.value.title))
 
       <div class="relative min-h-[clamp(360px,46vw,620px)]">
         <div class="kb-hero-frame absolute inset-0 overflow-hidden bg-neutral-700">
-          <img
-            v-if="image"
-            :src="image"
+          <UiResponsiveImage
+            :image="image"
             alt="Khóa cửa cao cấp Keybolts"
+            sizes="100vw"
+            priority
             class="h-full w-full object-cover"
-            fetchpriority="high"
-          >
+          />
         </div>
         <div
           class="pointer-events-none absolute inset-0"

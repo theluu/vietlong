@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import type { ResponsiveImage } from '~/types/page'
+
 defineProps<{
   eyebrow: string
   title: string
   body: string
   phone: string
-  image?: string
+  image?: ResponsiveImage | null
 }>()
 </script>
 
@@ -31,7 +33,7 @@ defineProps<{
           </div>
         </div>
         <div v-if="image" class="group border-border relative min-h-[280px] overflow-hidden border-l bg-white">
-          <img :src="image" :alt="title" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" loading="lazy">
+          <UiResponsiveImage :image="image" :alt="title" sizes="100vw" class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]" />
         </div>
       </div>
     </div>

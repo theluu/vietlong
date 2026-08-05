@@ -62,7 +62,7 @@ const scroll = (direction: number) => {
       <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
         <article v-for="p in items" :key="p.id" class="kb-home-product-card group flex min-w-0 snap-start flex-col border border-border bg-background text-inherit transition hover:-translate-y-[6px] hover:border-neutral-300 hover:shadow-floating">
           <NuxtLink :to="`/${p.slug}`" class="kb-product-image-frame aspect-square overflow-hidden bg-white text-inherit no-underline">
-            <img v-if="p.image" :src="p.image.url" :alt="p.image.alt" class="size-full object-contain transition duration-500 group-hover:scale-105">
+            <UiResponsiveImage :image="p.image" sizes="(min-width: 1024px) 300px, 70vw" class="size-full object-contain transition duration-500 group-hover:scale-105" />
           </NuxtLink>
           <div class="flex flex-1 flex-col gap-[9px] border-t border-border px-[20px] py-[22px]">
             <span class="text-eyebrow text-neutral-600 leading-[1.5] tracking-[0.14em] uppercase">{{ p.category?.name }}</span>
