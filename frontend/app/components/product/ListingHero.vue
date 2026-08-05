@@ -17,7 +17,11 @@ defineProps<{ title: string; eyebrow?: string; description?: string; total: numb
       <div class="relative hidden lg:block">
         <img src="/images/kb-1700-xl-pvd.webp" alt="Khóa đồng Keybolts" width="1448" height="2048" loading="lazy" decoding="async" class="absolute top-[18%] left-0 h-[54%] w-[48%] border-[16px] border-white object-cover">
         <img src="/images/khoa-thong-minh-t28.webp" alt="Khóa thông minh Keybolts" width="1600" height="1348" loading="lazy" decoding="async" class="absolute top-[26%] right-0 h-[40%] w-[47%] border-[14px] border-white object-cover">
-        <img src="/images/-r3-0183-copy.webp" alt="Phụ kiện cửa Keybolts" width="1600" height="1067" loading="lazy" decoding="async" class="absolute right-0 bottom-[-12%] h-[38%] w-[47%] border-[14px] border-white object-cover">
+        <!-- Filenames here must not start with "-": nuxt dev serves public/
+             straight from disk, but the build's copy step reads a leading
+             dash as a glob negation and drops the file, so it 404s only
+             once deployed. -->
+        <img src="/images/phu-kien-cua-r3-0183.webp" alt="Phụ kiện cửa Keybolts" width="1600" height="1067" loading="lazy" decoding="async" class="absolute right-0 bottom-[-12%] h-[38%] w-[47%] border-[14px] border-white object-cover">
       </div>
     </div>
   </section>
