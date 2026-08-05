@@ -1,5 +1,14 @@
 import type { ProductCard } from '~/types/product'
 
+/** Ảnh đã qua image style của Drupal, kèm mọi cỡ trình duyệt được chọn. */
+export interface ResponsiveImage {
+  url: string
+  srcset: string
+  width: number
+  height: number
+  alt: string
+}
+
 export interface Branch {
   id: number
   name: string
@@ -13,7 +22,7 @@ export interface Branch {
 export interface CtaLink { label: string; url: string }
 export interface Fact { number: string; label: string }
 export interface NumberedItem { number: string; title: string; desc: string }
-export interface Segment { title: string; desc: string; ctaLabel?: string; ctaUrl?: string; image?: string }
+export interface Segment { title: string; desc: string; ctaLabel?: string; ctaUrl?: string; image?: ResponsiveImage | null }
 export interface ValueItem { title: string; desc: string }
 
 export interface AboutPage {
@@ -102,7 +111,7 @@ export interface NewsArticle {
   title: string
   summary: string
   readTime: string
-  image: string
+  image: ResponsiveImage | null
 }
 
 export interface ArticleSection {
@@ -129,7 +138,7 @@ export interface ArticleDetail extends NewsArticle {
 export interface RelatedItem {
   key: string | number
   to: string
-  image: string
+  image: ResponsiveImage | null
   badge: string
   title: string
   summary: string
@@ -145,5 +154,5 @@ export interface Project {
   title: string
   description: string
   products: string
-  image: string
+  image: ResponsiveImage | null
 }
