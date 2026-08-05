@@ -15,7 +15,7 @@ use Drupal\path_alias\Entity\PathAlias;
 final class ArticleApiTest extends KernelTestBase {
 
   protected static $modules = [
-    'system', 'user', 'field', 'text', 'file', 'image', 'node', 'path_alias', 'options',
+    'system', 'user', 'field', 'text', 'filter', 'file', 'image', 'node', 'path_alias', 'options',
     'keybolts_core', 'keybolts_api',
   ];
 
@@ -27,17 +27,24 @@ final class ArticleApiTest extends KernelTestBase {
     $this->installEntitySchema('path_alias');
     $this->installSchema('node', ['node_access']);
     $this->installSchema('file', ['file_usage']);
-    $this->installConfig(['node', 'field']);
+    $this->installConfig(['node', 'field', 'filter']);
+    // basic_html lives in site config, not the filter module's, so a kernel
+    // test has to make one or check_markup() returns an empty string.
+    \Drupal\filter\Entity\FilterFormat::create([
+      'format' => 'basic_html',
+      'name' => 'Basic HTML',
+    ])->save();
     NodeType::create(['type' => 'article', 'name' => 'Article'])->save();
     foreach ([
       'field_article_slug', 'field_article_category_key', 'field_article_category',
       'field_article_summary', 'field_article_read_time', 'field_article_image_url',
       'field_article_author', 'field_article_updated', 'field_article_quick_answer',
-      'field_article_sections', 'field_article_compare', 'field_article_faqs',
+      'field_article_compare', 'field_article_faqs',
       'field_article_products',
     ] as $name) {
       $this->field($name, 'string');
     }
+    $this->field('field_article_body', 'text_long');
     // ArticleSerializer reads field_article_image directly (Task 3); this suite
     // doesn't exercise image rendering itself (ImageSerializerTest owns that),
     // it just needs the field to exist so ->get() doesn't blow up.
@@ -58,10 +65,14 @@ final class ArticleApiTest extends KernelTestBase {
     Node::create([
       'type' => 'article', 'title' => 'Detail', 'status' => 1,
       'field_article_slug' => 'detail', 'field_sort_order' => 1,
-      'field_article_sections' => json_encode([['title' => 'Section']]),
+      'field_article_body' => [
+        'value' => '<h2 id="phan-mot">Phần một</h2><p>Nội dung.</p>',
+        'format' => 'basic_html',
+      ],
     ])->save();
     $serializer = $this->container->get('keybolts_api.article_serializer');
-    $this->assertSame('Section', $serializer->one('detail')['sections'][0]['title']);
+    // check_markup() ran, so the heading survives and nothing raw leaks.
+    $this->assertStringContainsString('<h2 id="phan-mot">Phần một</h2>', $serializer->one('detail')['body']);
     $this->expectException(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
     $serializer->one('missing');
   }

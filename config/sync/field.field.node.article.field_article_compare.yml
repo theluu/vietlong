@@ -10,7 +10,7 @@ field_name: field_article_compare
 entity_type: node
 bundle: article
 label: 'Bảng so sánh (JSON)'
-description: ''
+description: 'Mỗi dòng một hàng của bảng. Bốn cột ngăn bởi dấu | theo thứ tự: Loại cửa | Độ dày | Loại khóa | Phương án dự phòng. Ví dụ:<br>Gỗ tự nhiên | 45–55 mm | Thân dài | Chìa cơ'
 required: false
 translatable: true
 default_value: {  }

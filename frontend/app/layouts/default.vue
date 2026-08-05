@@ -18,7 +18,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen overflow-x-hidden bg-background text-text">
+  <!-- `clip` not `hidden`: overflow-x:hidden makes this a scroll container in
+       both axes, which silently kills the header's position:sticky. `clip`
+       stops the sideways scroll without creating one. -->
+  <div class="min-h-screen overflow-x-clip bg-background text-text">
     <LayoutTopBar />
     <LayoutMainBar />
 

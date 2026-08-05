@@ -4,4 +4,6 @@ description: 'REST endpoints consumed by the Nuxt frontend.'
 package: Keybolts
 core_version_requirement: ^11
 dependencies:
+  # check_markup() filters editor-written bodies before they leave the API.
+  - drupal:filter
   - keybolts_core:keybolts_core

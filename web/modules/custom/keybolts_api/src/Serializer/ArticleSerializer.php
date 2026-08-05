@@ -44,9 +44,8 @@ final class ArticleSerializer {
       'updated' => (string) $node->get('field_article_updated')->value,
       'quickAnswer' => (string) $node->get('field_article_quick_answer')->value,
       'body' => $this->body($node, 'field_article_body'),
-      'sections' => $this->json($node, 'field_article_sections'),
-      'compareRows' => $this->json($node, 'field_article_compare'),
-      'faqs' => $this->json($node, 'field_article_faqs'),
+      'compareRows' => $this->rows($node, 'field_article_compare', ['door', 'thickness', 'lock', 'backup']),
+      'faqs' => $this->rows($node, 'field_article_faqs', ['question', 'answer']),
       'products' => $this->products($node),
     ];
   }
@@ -64,7 +63,7 @@ final class ArticleSerializer {
     }
     $storage = $this->entityTypeManager->getStorage('node');
     $cards = [];
-    foreach ($this->json($node, 'field_article_products') as $slug) {
+    foreach ($this->lines($node, 'field_article_products') as $slug) {
       if (!is_string($slug) || $slug === '') {
         continue;
       }
@@ -112,9 +111,56 @@ final class ArticleSerializer {
     );
   }
 
-  private function json(NodeInterface $node, string $field): array {
-    $value = (string) $node->get($field)->value;
-    $decoded = json_decode($value, TRUE);
-    return is_array($decoded) ? $decoded : [];
+  /**
+   * Rows typed one per line, columns separated by `|`.
+   *
+   * This replaced hand-written JSON. An editor asked to type
+   * `[{"door":"Gỗ tự nhiên",...}]` will eventually miss a brace and lose the
+   * whole block to a silent parse failure; a line either splits or it does
+   * not. Old JSON values are still read so a half-migrated site keeps working.
+   *
+   * @param string[] $columns
+   *   Output keys, in the order the columns are typed.
+   */
+  private function rows(NodeInterface $node, string $field, array $columns): array {
+    $value = trim((string) $node->get($field)->value);
+    if ($value === '') {
+      return [];
+    }
+    if (str_starts_with($value, '[')) {
+      $decoded = json_decode($value, TRUE);
+      return is_array($decoded) ? $decoded : [];
+    }
+
+    $out = [];
+    foreach (preg_split('/\r\n|\r|\n/', $value) as $line) {
+      $line = trim($line);
+      if ($line === '') {
+        continue;
+      }
+      $cells = array_map('trim', explode('|', $line));
+      // Short lines pad rather than drop: a missing trailing column is a
+      // half-finished row the editor can still see and finish, not a reason
+      // to make their work vanish.
+      $row = [];
+      foreach (array_values($columns) as $i => $key) {
+        $row[$key] = $cells[$i] ?? '';
+      }
+      $out[] = $row;
+    }
+    return $out;
+  }
+
+  /** One value per line — product slugs, and nothing else so far. */
+  private function lines(NodeInterface $node, string $field): array {
+    $value = trim((string) $node->get($field)->value);
+    if ($value === '') {
+      return [];
+    }
+    if (str_starts_with($value, '[')) {
+      $decoded = json_decode($value, TRUE);
+      return is_array($decoded) ? $decoded : [];
+    }
+    return array_values(array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $value))));
   }
 }

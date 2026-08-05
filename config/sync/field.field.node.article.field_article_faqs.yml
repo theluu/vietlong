@@ -10,7 +10,7 @@ field_name: field_article_faqs
 entity_type: node
 bundle: article
 label: 'Câu hỏi thường gặp (JSON)'
-description: ''
+description: 'Mỗi dòng một câu hỏi. Câu hỏi và câu trả lời ngăn bởi dấu |. Ví dụ:<br>Khóa hết pin thì mở thế nào? | Dùng sạc dự phòng qua cổng USB dưới thân khóa.'
 required: false
 translatable: true
 default_value: {  }

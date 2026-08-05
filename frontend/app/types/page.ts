@@ -117,13 +117,6 @@ export interface NewsArticle {
   image: ResponsiveImage | null
 }
 
-export interface ArticleSection {
-  id: string
-  title: string
-  paragraphs: string[]
-  list?: string[]
-  note?: string
-}
 export interface ArticleCompareRow { door: string; thickness: string; lock: string; backup: string }
 export interface ArticleFaq { question: string; answer: string }
 export interface ArticleDetail extends NewsArticle {
@@ -132,7 +125,6 @@ export interface ArticleDetail extends NewsArticle {
   quickAnswer: string
   /** HTML written in the editor, already filtered server-side. */
   body: string
-  sections: ArticleSection[]
   compareRows: ArticleCompareRow[]
   faqs: ArticleFaq[]
   /** Editor-picked products, resolved server-side from their aliases. */
