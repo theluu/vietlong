@@ -121,9 +121,10 @@ class ImageSerializerTest extends KernelTestBase {
   }
 
   /**
-   * A file saved without dimension metadata leaves `$item->width` at NULL,
-   * which the filter reads as 0. That is deliberately treated as "unknown, so
-   * offer everything" rather than "0px, so offer nothing" — this pins that
+   * `$item->width` is only ever NULL before `ImageItem::preSave()` has had a
+   * chance to read it off disk — which is why the node here is deliberately
+   * never saved. The filter reads that NULL as 0 and treats it as "unknown, so
+   * offer everything" rather than "0px, so offer nothing". This pins that
    * branch so a future refactor can't quietly turn a missing width into an
    * empty srcset.
    */
@@ -134,10 +135,14 @@ class ImageSerializerTest extends KernelTestBase {
       'title' => 'Bài',
       'field_article_image' => ['target_id' => $file->id(), 'alt' => 'Ảnh bìa'],
     ]);
-    $node->save();
 
-    $out = $this->container->get('keybolts_api.image_serializer')
-      ->fromField($node->get('field_article_image'));
+    // Precondition: the branch under test only exists for an item with no
+    // stored width. Saving the node would let preSave() backfill it from the
+    // file on disk and this test would silently stop testing anything.
+    $item = $node->get('field_article_image')->first();
+    $this->assertEmpty($item->width, 'Precondition: the branch under test only exists for an item with no stored width.');
+
+    $out = $this->container->get('keybolts_api.image_serializer')->fromField($node->get('field_article_image'));
 
     $this->assertStringContainsString('400w', $out['srcset']);
     $this->assertStringContainsString('800w', $out['srcset']);
