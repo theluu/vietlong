@@ -1136,3 +1136,252 @@ ssh root@45.118.145.203 'cd /var/www/vietlong.themeshub.net/frontend && npm run 
 ```
 
 Rồi đo lại dung lượng trang chủ production bằng đúng lệnh ở Task 6 Step 1, đổi host thành `https://vietlong.themeshub.net/`.
+
+---
+
+## Bổ sung sau khi đo thực tế
+
+Task 5 đạt 33,8 MB → 2,0 MB (94,2%), nhưng phơi ra hai lỗi trong kế hoạch gốc:
+
+1. `image_convert_avif` là plugin **luôn ép AVIF**; `extension: webp` với nó vô nghĩa. Toàn bộ derivative đang là `.avif`, và AVIF không hiển thị trên Safari/iOS dưới 16.4. Plugin cho webp tên là `image_convert`.
+2. Kế hoạch chỉ bao 3 serializer có ảnh. `PageSerializer` và `HomeSerializer` vẫn trả URL chuỗi, trong khi `Segment.image` đã bị đổi kiểu thành `ResponsiveImage` — kiểu đang nói dối về dữ liệu thật.
+
+Người dùng đã chọn: phát AVIF kèm fallback WebP, và làm nốt phần còn lại.
+
+---
+
+### Task 8: AVIF kèm fallback WebP
+
+**Files:**
+- Create: `config/sync/image.style.kb_{card_400,card_800,hero_1200,hero_1600}_{avif,webp}.yml` (8 file)
+- Delete: `config/sync/image.style.kb_{card_400,card_800,hero_1200,hero_1600}.yml` (4 file cũ, tên không nói rõ định dạng)
+- Modify: `web/modules/custom/keybolts_api/src/Serializer/ImageSerializer.php`
+- Modify: `web/modules/custom/keybolts_api/tests/src/Kernel/ImageSerializerTest.php`
+- Modify: `frontend/app/components/ui/ResponsiveImage.vue`, `frontend/app/types/page.ts`
+- Modify: `frontend/test/responsive-image.spec.ts`
+- Modify: `scripts/setup/install_cover_image_fields.php` (danh sách style)
+
+**Interfaces:**
+- Produces: object ảnh có thêm khóa `srcsetAvif`. Hình dạng đầy đủ:
+  `['url'=>string, 'srcset'=>string, 'srcsetAvif'=>string, 'width'=>int, 'height'=>int, 'alt'=>string]`.
+  `url` và `srcset` là **WebP** — chúng là đường lùi an toàn. `srcsetAvif` là bản ưu tiên.
+
+- [ ] **Step 1: Tạo 8 image style**
+
+Mỗi cỡ có hai bản. Khác nhau duy nhất ở effect thứ hai:
+
+- Bản AVIF: `id: image_convert_avif`, `data: { extension: webp }` — giữ nguyên như file `kb_card_400.yml` hiện có (giá trị `extension` bị plugin bỏ qua, nhưng schema đòi nó).
+- Bản WebP: `id: image_convert`, `data: { extension: webp }` — đây mới là plugin sinh ra webp thật.
+
+Tên và nhãn:
+
+| File | `name` | `label` | `width` | effect thứ hai |
+|---|---|---|---|---|
+| `image.style.kb_card_400_avif.yml` | `kb_card_400_avif` | `Keybolts card 400 AVIF` | 400 | `image_convert_avif` |
+| `image.style.kb_card_400_webp.yml` | `kb_card_400_webp` | `Keybolts card 400 WebP` | 400 | `image_convert` |
+| `image.style.kb_card_800_avif.yml` | `kb_card_800_avif` | `Keybolts card 800 AVIF` | 800 | `image_convert_avif` |
+| `image.style.kb_card_800_webp.yml` | `kb_card_800_webp` | `Keybolts card 800 WebP` | 800 | `image_convert` |
+| `image.style.kb_hero_1200_avif.yml` | `kb_hero_1200_avif` | `Keybolts hero 1200 AVIF` | 1200 | `image_convert_avif` |
+| `image.style.kb_hero_1200_webp.yml` | `kb_hero_1200_webp` | `Keybolts hero 1200 WebP` | 1200 | `image_convert` |
+| `image.style.kb_hero_1600_avif.yml` | `kb_hero_1600_avif` | `Keybolts hero 1600 AVIF` | 1600 | `image_convert_avif` |
+| `image.style.kb_hero_1600_webp.yml` | `kb_hero_1600_webp` | `Keybolts hero 1600 WebP` | 1600 | `image_convert` |
+
+Phần còn lại của mỗi file giống hệt `kb_card_400.yml` hiện tại: `image_scale` với `upscale: false`, `height: null`. **UUID phải sinh mới cho cả 24 khóa `uuid:`** (8 file × 3).
+
+Xóa 4 file cũ, và xóa các style cũ khỏi site: `ddev drush php:eval 'foreach (["kb_card_400","kb_card_800","kb_hero_1200","kb_hero_1600"] as $n) { $s = \Drupal\image\Entity\ImageStyle::load($n); if ($s) { $s->delete(); echo "deleted $n\n"; } }'`
+
+Cập nhật mảng tên style trong `scripts/setup/install_cover_image_fields.php` thành 8 tên mới.
+
+- [ ] **Step 2: Sửa test ImageSerializer trước khi sửa code**
+
+Trong `ImageSerializerTest::setUp()`, nạp 8 style thay vì 4. Rồi đổi các assertion hiện có sang kiểm `srcsetAvif` và `srcset` riêng, và thêm test mới:
+
+```php
+  /**
+   * AVIF là bản nhỏ nhất nhưng Safari dưới 16.4 không đọc được. Fallback WebP
+   * tồn tại để không ai nhìn thấy ô trắng, nên nó phải luôn có mặt và phải là
+   * thứ `url` trỏ tới — `url` là cái trình duyệt cũ dùng.
+   */
+  public function testEverySizeIsOfferedInBothFormatsAndTheFallbackIsWebp(): void {
+    $out = $this->serialize(2000, 1200);
+
+    foreach (['400w', '800w', '1200w', '1600w'] as $descriptor) {
+      $this->assertStringContainsString($descriptor, $out['srcsetAvif']);
+      $this->assertStringContainsString($descriptor, $out['srcset']);
+    }
+    $this->assertStringContainsString('kb_card_800_webp', $out['url']);
+    $this->assertStringNotContainsString('_avif', $out['url']);
+  }
+```
+
+Giữ nguyên mọi test cũ về lọc theo chiều rộng gốc, nhưng chúng phải kiểm cả hai srcset — quy tắc `upscale: false` áp cho cả hai định dạng.
+
+- [ ] **Step 3: Sửa ImageSerializer**
+
+Thay hằng số và phần dựng srcset:
+
+```php
+  /** Chiều rộng => tên style của từng định dạng. Nhỏ trước. */
+  private const STYLES = [
+    400 => ['avif' => 'kb_card_400_avif', 'webp' => 'kb_card_400_webp'],
+    800 => ['avif' => 'kb_card_800_avif', 'webp' => 'kb_card_800_webp'],
+    1200 => ['avif' => 'kb_hero_1200_avif', 'webp' => 'kb_hero_1200_webp'],
+    1600 => ['avif' => 'kb_hero_1600_avif', 'webp' => 'kb_hero_1600_webp'],
+  ];
+
+  /** `src` trần cho trình duyệt bỏ qua srcset. WebP vì nó chạy ở mọi nơi. */
+  private const DEFAULT_STYLE = 'kb_card_800_webp';
+```
+
+`fromItem()` giữ nguyên logic lọc theo `$width`, nhưng dựng hai srcset trong cùng một vòng lặp và trả thêm khóa `srcsetAvif`. Đừng viết hai vòng lặp — quy tắc "cỡ nào vừa ảnh gốc" phải chỉ tồn tại ở một chỗ, nếu không hai định dạng sẽ lệch nhau khi ai đó sửa một bên.
+
+- [ ] **Step 4: Chạy kernel test**
+
+```bash
+SIMPLETEST_DB="sqlite://localhost/sites/default/files/test.sqlite" \
+  vendor/bin/phpunit -c web/core/phpunit.xml.dist \
+  web/modules/custom/keybolts_api --no-coverage
+```
+
+- [ ] **Step 5: Sửa kiểu ở frontend**
+
+Thêm `srcsetAvif: string` vào interface `ResponsiveImage` trong `frontend/app/types/page.ts`.
+
+- [ ] **Step 6: Đổi component sang `<picture>`**
+
+```vue
+<script setup lang="ts">
+import { computed } from 'vue'
+import type { ResponsiveImage } from '~/types/page'
+
+// Gốc của template là <picture>, nhưng class mà nơi gọi truyền vào là để tạo
+// dáng cho chính tấm ảnh — `object-cover`, `size-full` đặt nhầm lên <picture>
+// sẽ không có tác dụng gì. Nên tắt kế thừa tự động và tự gắn $attrs vào <img>.
+defineOptions({ inheritAttrs: false })
+
+const props = withDefaults(defineProps<{
+  image: ResponsiveImage | null | undefined
+  sizes: string
+  priority?: boolean
+  alt?: string
+}>(), { priority: false })
+
+const altText = computed(() => props.alt ?? props.image?.alt ?? '')
+</script>
+
+<template>
+  <picture v-if="image">
+    <source :srcset="image.srcsetAvif" :sizes="sizes" type="image/avif">
+    <img
+      v-bind="$attrs"
+      :src="image.url"
+      :srcset="image.srcset"
+      :sizes="sizes"
+      :width="image.width"
+      :height="image.height"
+      :alt="altText"
+      :loading="priority ? 'eager' : 'lazy'"
+      :fetchpriority="priority ? 'high' : undefined"
+      decoding="async"
+    >
+  </picture>
+</template>
+```
+
+- [ ] **Step 7: Sửa spec frontend**
+
+Mọi fixture thêm `srcsetAvif`. Thêm hai case mới:
+
+```ts
+  it('phát source AVIF trước, và img fallback vẫn là webp', () => {
+    const html = await render({ image, sizes: '100vw' })
+    expect(html).toContain('type="image/avif"')
+    expect(html).toContain(`srcset="${image.srcsetAvif}"`)
+    expect(html).toContain(`src="${image.url}"`)
+  })
+
+  it('class của nơi gọi rơi vào img chứ không phải picture', () => {
+    const html = await render({ image, sizes: '100vw' }, { class: 'size-full object-cover' })
+    expect(html).toMatch(/<img[^>]*class="size-full object-cover"/)
+    expect(html).not.toMatch(/<picture[^>]*class=/)
+  })
+```
+
+Case thứ hai là quan trọng nhất trong task này: nếu `inheritAttrs` sai thì mọi ảnh trên site mất định dạng cùng lúc, và đó là kiểu hỏng mà test hình dạng HTML bắt được còn mắt thường lướt qua thì không.
+
+- [ ] **Step 8: Chạy test frontend và xem bằng mắt**
+
+```bash
+cd frontend && npm test
+```
+
+Rồi mở `https://vietlong.ddev.site/tin-tuc` và một trang chi tiết, kiểm tra ảnh vẫn đúng khung và đúng tỉ lệ như trước.
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add -A config/sync web/modules/custom/keybolts_api scripts/setup frontend
+git commit -m "feat: serve avif with a webp fallback instead of avif alone"
+```
+
+---
+
+### Task 9: Phủ nốt các serializer và thẻ img còn lại
+
+**Files:**
+- Modify: `web/modules/custom/keybolts_api/src/Serializer/PageSerializer.php:202`, `HomeSerializer.php:125`
+- Modify: `frontend/app/types/product.ts:23,56`
+- Modify: `frontend/app/components/product/ListingHero.vue:18-20`, `Gallery.vue`, `ProductCard.vue`
+- Modify: `frontend/app/components/home/Hero.vue`, `CategoryGrid.vue`, `SolutionGrid.vue`, `FeaturedTabs.vue`
+- Modify: `frontend/app/components/page/SegmentGrid.vue`, `StoryBlock.vue`, `Hero.vue`, `AboutHero.vue`, `ClosingCta.vue`
+
+- [ ] **Step 1: Hai serializer còn lại dùng ImageSerializer**
+
+`PageSerializer::image()` và `HomeSerializer::image()` đều là hàm private trả chuỗi URL tuyệt đối. Đổi cả hai thành uỷ quyền cho `ImageSerializer::fromField()` và trả `?array`. Tiêm `keybolts_api.image_serializer` vào constructor của cả hai và thêm đối số vào `keybolts_api.services.yml` — nhớ thứ tự đối số ở file đó là theo vị trí.
+
+`PageSerializer::image()` hiện trả `''` khi rỗng còn `HomeSerializer::image()` trả `NULL`. Thống nhất cả hai về `NULL`: component chỉ cần một quy ước, và chuỗi rỗng là giá trị truthy-nhìn-như-falsy đã gây nhầm ở nơi khác.
+
+Nếu bỏ được `FileUrlGeneratorInterface` khỏi constructor sau khi sửa thì bỏ, kèm đối số trong services.yml.
+
+- [ ] **Step 2: Sửa kiểu sản phẩm**
+
+`frontend/app/types/product.ts` dòng 23 và 56: `{ url: string; alt: string }` → `ResponsiveImage | null` và `ResponsiveImage[]`. Import `ResponsiveImage` từ `~/types/page`.
+
+- [ ] **Step 3: Chuyển các thẻ img còn lại**
+
+Dùng bảng `sizes` ở Task 5 Step 1 cho từng file. Ba thẻ trong `ListingHero.vue` là ảnh trang trí hardcode, không đến từ API — xử lý như `TechBlock.vue` đã làm: copy bản local vào `frontend/public/images/` và trỏ đường dẫn tương đối, kèm `width`/`height` thật, `loading="lazy"`, `decoding="async"`.
+
+Ba ảnh đó và bản local tương ứng:
+
+| Đang hotlink | Bản local |
+|---|---|
+| `kb_1700-xl-pvd.png` | `web/sites/default/files/products/kb-1700-xl-pvd.webp` |
+| `khoa_thong_minh_t28_0.png` | `web/sites/default/files/products/khoa-thong-minh-t28-0.webp` |
+| `_r3_0183_copy.jpg` | `web/sites/default/files/products/-r3-0183-copy.webp` |
+
+- [ ] **Step 4: Không còn hotlink nào**
+
+```bash
+grep -rn "keybolts.com.vn" frontend/app --include="*.vue" --include="*.ts"
+```
+
+Kỳ vọng: chỉ còn các URL `canonical` trong `useHead` (chúng trỏ tới site thật, đúng như vậy), không còn thẻ ảnh nào.
+
+- [ ] **Step 5: Kiểm tra kiểu và test**
+
+```bash
+cd frontend && npm run build && npm test
+```
+
+Build phải sạch — không còn kiểu nào nói dối.
+
+- [ ] **Step 6: Xem bằng mắt mọi trang có ảnh**
+
+`/`, `/gioi-thieu`, `/san-pham`, một trang chi tiết sản phẩm, `/tin-tuc`, `/du-an`, `/dai-ly`, `/lien-he`. Ghi lại trang nào có ảnh hỏng.
+
+- [ ] **Step 7: Commit**
+
+```bash
+git add -A
+git commit -m "feat: put every remaining image through image styles"
+```
