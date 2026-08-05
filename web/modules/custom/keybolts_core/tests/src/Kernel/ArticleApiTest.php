@@ -15,7 +15,7 @@ use Drupal\path_alias\Entity\PathAlias;
 final class ArticleApiTest extends KernelTestBase {
 
   protected static $modules = [
-    'system', 'user', 'field', 'text', 'node', 'path_alias', 'options',
+    'system', 'user', 'field', 'text', 'file', 'image', 'node', 'path_alias', 'options',
     'keybolts_core', 'keybolts_api',
   ];
 
@@ -23,8 +23,10 @@ final class ArticleApiTest extends KernelTestBase {
     parent::setUp();
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
+    $this->installEntitySchema('file');
     $this->installEntitySchema('path_alias');
     $this->installSchema('node', ['node_access']);
+    $this->installSchema('file', ['file_usage']);
     $this->installConfig(['node', 'field']);
     NodeType::create(['type' => 'article', 'name' => 'Article'])->save();
     foreach ([
@@ -36,6 +38,10 @@ final class ArticleApiTest extends KernelTestBase {
     ] as $name) {
       $this->field($name, 'string');
     }
+    // ArticleSerializer reads field_article_image directly (Task 3); this suite
+    // doesn't exercise image rendering itself (ImageSerializerTest owns that),
+    // it just needs the field to exist so ->get() doesn't blow up.
+    $this->field('field_article_image', 'image');
     $this->field('field_sort_order', 'integer');
   }
 

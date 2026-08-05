@@ -165,4 +165,31 @@ class ImageSerializerTest extends KernelTestBase {
     );
   }
 
+  /**
+   * Ảnh sản phẩm trước nay trả URL file gốc, không qua image style. Đây là
+   * nguồn 2 MB còn lại trên trang chủ sau khi đã gỡ ảnh hotlink.
+   */
+  public function testProductImagesGoThroughImageStylesToo(): void {
+    $file = $this->file(2000, 1200);
+    NodeType::create(['type' => 'product', 'name' => 'Product'])->save();
+    FieldStorageConfig::create([
+      'field_name' => 'field_images', 'entity_type' => 'node', 'type' => 'image', 'cardinality' => 12,
+    ])->save();
+    FieldConfig::create([
+      'field_name' => 'field_images', 'entity_type' => 'node', 'bundle' => 'product', 'label' => 'Ảnh',
+    ])->save();
+    $node = Node::create([
+      'type' => 'product',
+      'title' => 'Khóa KB-9008',
+      'field_images' => [['target_id' => $file->id(), 'alt' => 'Khóa', 'width' => 2000, 'height' => 1200]],
+    ]);
+    $node->save();
+
+    $card = $this->container->get('keybolts_api.product_serializer')->card($node);
+
+    $this->assertIsArray($card['image']);
+    $this->assertStringContainsString('styles/kb_card_800', $card['image']['url']);
+    $this->assertStringContainsString('400w', $card['image']['srcset']);
+  }
+
 }

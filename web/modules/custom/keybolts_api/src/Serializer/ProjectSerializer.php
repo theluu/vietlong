@@ -11,7 +11,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /** Serializes published projects in editor-controlled order. */
 final class ProjectSerializer {
 
-  public function __construct(private readonly EntityTypeManagerInterface $entityTypeManager) {}
+  public function __construct(
+    private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly ImageSerializer $imageSerializer,
+  ) {}
 
   public function all(): array {
     $storage = $this->entityTypeManager->getStorage('node');
@@ -41,7 +44,7 @@ final class ProjectSerializer {
       'title' => $node->label(),
       'description' => (string) $node->get('field_project_desc')->value,
       'products' => (string) $node->get('field_project_products')->value,
-      'image' => (string) $node->get('field_project_image_url')->value,
+      'image' => $this->imageSerializer->fromField($node->get('field_project_image')),
     ];
   }
 }

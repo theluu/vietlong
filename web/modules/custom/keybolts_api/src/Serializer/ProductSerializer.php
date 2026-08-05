@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\keybolts_api\Serializer;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileUrlGeneratorInterface;
 use Drupal\path_alias\AliasManagerInterface;
 use Drupal\node\NodeInterface;
 
@@ -16,8 +15,8 @@ class ProductSerializer {
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
-    private readonly FileUrlGeneratorInterface $fileUrlGenerator,
     private readonly AliasManagerInterface $aliasManager,
+    private readonly ImageSerializer $imageSerializer,
   ) {}
 
   /**
@@ -152,14 +151,10 @@ class ProductSerializer {
     }
     $out = [];
     foreach ($node->get('field_images') as $item) {
-      $file = $item->entity;
-      if (!$file) {
-        continue;
+      $one = $this->imageSerializer->fromItem($item);
+      if ($one) {
+        $out[] = $one;
       }
-      $out[] = [
-        'url' => $this->fileUrlGenerator->generateAbsoluteString($file->getFileUri()),
-        'alt' => (string) $item->alt,
-      ];
     }
     return $out;
   }

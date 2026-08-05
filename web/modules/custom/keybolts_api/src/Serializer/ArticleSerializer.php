@@ -15,6 +15,7 @@ final class ArticleSerializer {
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly AliasManagerInterface $aliasManager,
     private readonly ProductSerializer $productSerializer,
+    private readonly ImageSerializer $imageSerializer,
   ) {}
 
   public function all(): array {
@@ -87,7 +88,7 @@ final class ArticleSerializer {
       'title' => $node->label(),
       'summary' => (string) $node->get('field_article_summary')->value,
       'readTime' => (string) $node->get('field_article_read_time')->value,
-      'image' => (string) $node->get('field_article_image_url')->value,
+      'image' => $this->imageSerializer->fromField($node->get('field_article_image')),
     ];
   }
 

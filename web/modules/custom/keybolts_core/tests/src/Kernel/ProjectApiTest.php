@@ -14,18 +14,24 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /** Tests project collection and detail serialization. */
 final class ProjectApiTest extends KernelTestBase {
 
-  protected static $modules = ['system', 'user', 'field', 'node', 'path_alias', 'options', 'keybolts_core', 'keybolts_api'];
+  protected static $modules = ['system', 'user', 'field', 'file', 'image', 'node', 'path_alias', 'options', 'keybolts_core', 'keybolts_api'];
 
   protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('node');
     $this->installEntitySchema('user');
+    $this->installEntitySchema('file');
     $this->installSchema('node', ['node_access']);
+    $this->installSchema('file', ['file_usage']);
     $this->installConfig(['node', 'field']);
     NodeType::create(['type' => 'project', 'name' => 'Project'])->save();
     foreach (['field_project_slug', 'field_project_type_key', 'field_project_type', 'field_project_desc', 'field_project_products', 'field_project_image_url'] as $name) {
       $this->field($name, 'string');
     }
+    // ProjectSerializer reads field_project_image directly (Task 3); this suite
+    // doesn't exercise image rendering itself (ImageSerializerTest owns that),
+    // it just needs the field to exist so ->get() doesn't blow up.
+    $this->field('field_project_image', 'image');
     $this->field('field_sort_order', 'integer');
   }
 

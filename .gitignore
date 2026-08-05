@@ -25,6 +25,9 @@
 /.superpowers/
 /.playwright-mcp/
 
+# PHPUnit scratch (kernel/functional test run artifacts, e.g. browser_output/)
+/sites/simpletest/
+
 # OS / editor
 .DS_Store
 *.log

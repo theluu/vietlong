@@ -1,7 +1,7 @@
 services:
   keybolts_api.product_serializer:
     class: Drupal\keybolts_api\Serializer\ProductSerializer
-    arguments: ['@entity_type.manager', '@file_url_generator', '@path_alias.manager']
+    arguments: ['@entity_type.manager', '@path_alias.manager', '@keybolts_api.image_serializer']
   keybolts_api.branch_serializer:
     class: Drupal\keybolts_api\Serializer\BranchSerializer
     arguments: ['@entity_type.manager']
@@ -10,10 +10,10 @@ services:
     arguments: ['@file_url_generator']
   keybolts_api.article_serializer:
     class: Drupal\keybolts_api\Serializer\ArticleSerializer
-    arguments: ['@entity_type.manager', '@path_alias.manager', '@keybolts_api.product_serializer']
+    arguments: ['@entity_type.manager', '@path_alias.manager', '@keybolts_api.product_serializer', '@keybolts_api.image_serializer']
   keybolts_api.project_serializer:
     class: Drupal\keybolts_api\Serializer\ProjectSerializer
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@keybolts_api.image_serializer']
   keybolts_api.home_serializer:
     class: Drupal\keybolts_api\Serializer\HomeSerializer
     arguments: ['@entity_type.manager', '@file_url_generator']
