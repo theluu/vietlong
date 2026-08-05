@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.project.field_project_desc
+    - field.field.node.project.field_project_image
     - field.field.node.project.field_project_image_url
     - field.field.node.project.field_project_products
     - field.field.node.project.field_project_slug
@@ -22,9 +23,9 @@ third_party_settings:
         - field_project_type_key
         - field_project_desc
         - field_project_products
-        - field_project_image_url
         - field_project_slug
         - field_sort_order
+        - field_project_image
       label: 'Nội dung'
       region: content
       parent_name: group_content_tabs
@@ -64,13 +65,13 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-  field_project_image_url:
-    type: string_textfield
-    weight: 5
+  field_project_image:
+    type: image_image
+    weight: 1
     region: content
     settings:
-      size: 60
-      placeholder: ''
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
   field_project_products:
     type: string_textfield
@@ -148,5 +149,6 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_project_image_url: true
   promote: true
   sticky: true

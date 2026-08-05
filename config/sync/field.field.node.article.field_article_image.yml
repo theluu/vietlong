@@ -1,0 +1,38 @@
+uuid: 6f190e69-5265-4283-a751-66937a576252
+langcode: vi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_image
+    - node.type.article
+  module:
+    - image
+id: node.article.field_article_image
+field_name: field_article_image
+entity_type: node
+bundle: article
+label: 'Ảnh bài viết'
+description: 'Ảnh hiển thị trên thẻ tin tức và đầu trang chi tiết.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

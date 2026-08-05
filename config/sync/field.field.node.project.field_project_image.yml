@@ -1,0 +1,38 @@
+uuid: 18e0198a-fa35-4ee2-8e57-61d3a371d7df
+langcode: vi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_project_image
+    - node.type.project
+  module:
+    - image
+id: node.project.field_project_image
+field_name: field_project_image
+entity_type: node
+bundle: project
+label: 'Ảnh dự án'
+description: 'Ảnh hiển thị trên thẻ tin tức và đầu trang chi tiết.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: null
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image
