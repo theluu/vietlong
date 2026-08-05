@@ -121,6 +121,31 @@ class ImageSerializerTest extends KernelTestBase {
   }
 
   /**
+   * A file saved without dimension metadata leaves `$item->width` at NULL,
+   * which the filter reads as 0. That is deliberately treated as "unknown, so
+   * offer everything" rather than "0px, so offer nothing" — this pins that
+   * branch so a future refactor can't quietly turn a missing width into an
+   * empty srcset.
+   */
+  public function testAnImageWithNoStoredWidthStillOffersEveryStyle(): void {
+    $file = $this->file(2000, 1200);
+    $node = Node::create([
+      'type' => 'article',
+      'title' => 'Bài',
+      'field_article_image' => ['target_id' => $file->id(), 'alt' => 'Ảnh bìa'],
+    ]);
+    $node->save();
+
+    $out = $this->container->get('keybolts_api.image_serializer')
+      ->fromField($node->get('field_article_image'));
+
+    $this->assertStringContainsString('400w', $out['srcset']);
+    $this->assertStringContainsString('800w', $out['srcset']);
+    $this->assertStringContainsString('1200w', $out['srcset']);
+    $this->assertStringContainsString('1600w', $out['srcset']);
+  }
+
+  /**
    * An empty field must collapse to NULL, not to an object with an empty url —
    * the frontend renders `v-if="image"` and a truthy husk would print a broken
    * image icon on every card with no picture.
