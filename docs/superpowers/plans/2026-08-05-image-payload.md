@@ -629,11 +629,40 @@ Kỳ vọng: `Đã gán ảnh cho 0 node, bỏ qua N node đã có ảnh.`
 
 - [ ] **Step 8: Đưa trường mới vào form display**
 
-Mở `/admin/structure/types/manage/article/form-display` và `/admin/structure/types/manage/project/form-display`, kéo trường ảnh mới vào tab "Nội dung chi tiết", đặt trường URL cũ xuống vùng Disabled. Rồi export:
+Sửa thẳng file config, không dùng giao diện web — kết quả kiểm chứng được và chạy lại được.
+
+Trong `config/sync/core.entity_form_display.node.article.default.yml`:
+
+1. Thêm `field.field.node.article.field_article_image` vào `dependencies.config` (giữ thứ tự alphabet như các dòng quanh nó).
+2. Thêm `field_article_image` vào danh sách `children` của group tab "Nội dung chi tiết".
+3. Thêm khối widget dưới `content:`:
+
+```yaml
+  field_article_image:
+    type: image_image
+    weight: 1
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+```
+
+4. Chuyển `field_article_image_url` từ `content:` xuống `hidden:` (dòng `field_article_image_url: true`), và bỏ nó khỏi `children` của group.
+
+Làm y hệt cho `core.entity_form_display.node.project.default.yml` với `field_project_image` / `field_project_image_url`.
+
+Rồi nạp vào site đang chạy và kiểm chứng:
 
 ```bash
-ddev drush cex -y
+ddev drush cim --partial --source=config/sync -y
+ddev drush php:eval '
+$d = \Drupal::service("entity_display.repository")->getFormDisplay("node","article");
+echo "article: ảnh mới " . ($d->getComponent("field_article_image") ? "hiện" : "THIẾU")
+   . ", URL cũ " . ($d->getComponent("field_article_image_url") ? "VẪN HIỆN" : "đã ẩn") . PHP_EOL;'
 ```
+
+Kỳ vọng: `article: ảnh mới hiện, URL cũ đã ẩn`. Lặp lại cho `project`.
 
 - [ ] **Step 9: Commit**
 
