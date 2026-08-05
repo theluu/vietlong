@@ -11,7 +11,11 @@ max_component_length: 100
 transliterate: true
 reduce_ascii: false
 case: true
-ignore_words: 'a, an, as, at, before, but, by, for, from, is, in, into, like, of, off, on, onto, per, since, than, the, this, that, to, up, via, with'
+# Emptied on purpose. This is Drupal's English stop-word list, and it strips
+# those words out of the slug after transliteration — so "Khóa Thẻ Từ Khách
+# Sạn" lost "thẻ" (→ "the") and "Mắt Thần" lost "thần" (→ "than"), giving URLs
+# that no longer match the old site. Vietnamese has no use for it.
+ignore_words: ''
 update_action: 2
 safe_tokens:
   - alias
