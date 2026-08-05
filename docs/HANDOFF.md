@@ -33,15 +33,24 @@ The snapshot below is the tracked copy. Reconcile it with `git log` on the
 | 1. `branch` content type + seed 5 showrooms | complete (`6559b45..9d6aba7`) |
 | 2. `GET /api/v1/branches` | complete (`9d6aba7..91502bd`) |
 | 3. Homepage reads branches from API | complete (`91502bd..2f27d49`) |
-| 4. Lead capture | implemented; leads are `lead` nodes in /admin/content |
+| 4. Lead capture | implemented; leads are `lead` nodes, listed at /admin/content/lead |
 | 5–15 | not started |
 
-**Task 4's open finding.** The entity's `admin_permission` is
-`administer nodes`, which exposes customer PII (name, phone, message) to anyone
-who can manage the product catalogue. It needs a dedicated permission in a new
-`keybolts_core.permissions.yml` with `restrict access: true`. A fix was
-dispatched but may not have landed — check `git log` for a permissions file
-before redoing it.
+**Task 4's PII finding, and where it stands.** The finding was written against
+the bespoke lead entity, which `0c4c453` replaced with the `lead` node type, so
+the `admin_permission` it named no longer exists. Customer name, phone and
+message are now gated by the node permissions on that bundle — in practice
+`edit any lead content`, which only `bien_tap_vien` and administrators hold, and
+which is what `views.view.leads` checks. If leads ever need to be readable by a
+role that must not edit them, that is the point to add a dedicated
+`restrict access: true` permission.
+
+**Why leads are not on /admin/content.** Leads are stored unpublished and owned
+by the anonymous visitor who submitted them. The content view's `status_extra`
+filter admits an unpublished row only for its owner or for someone with
+`bypass node access`, so that page is permanently empty for an editor. The
+replacement is `views.view.leads` at /admin/content/lead — install it on an
+existing site with `scripts/setup/install_leads_view.php`.
 
 **A reviewer finding that was wrong, so you don't redo it.** A review claimed
 the `created` base field will not auto-populate. That is false: Drupal's
@@ -178,7 +187,7 @@ ddev drush php:eval '\Drupal::database()->delete("flood")->condition("event","ke
 ## Commands
 
 ```bash
-# Kernel tests (22 currently pass)
+# Kernel tests (49 currently pass)
 ddev exec "cd /var/www/html && SIMPLETEST_DB=mysql://db:db@db/db vendor/bin/phpunit -c web/core/phpunit.xml.dist web/modules/custom --no-coverage"
 
 # Frontend tests (9 currently pass)

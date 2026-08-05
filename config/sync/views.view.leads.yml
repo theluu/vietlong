@@ -1,0 +1,444 @@
+uuid: 26ef3cda-51f4-413b-ae81-2944e935e576
+langcode: vi
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lead_email
+    - field.storage.node.field_lead_message
+    - field.storage.node.field_lead_phone
+    - field.storage.node.field_lead_source
+    - node.type.lead
+  module:
+    - node
+    - user
+id: leads
+label: 'Yêu cầu liên hệ'
+module: views
+description: 'Các yêu cầu khách gửi từ form liên hệ, đại lý và tư vấn.'
+tag: ''
+base_table: node_field_data
+base_field: nid
+display:
+  default:
+    id: default
+    display_title: Default
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Yêu cầu liên hệ'
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+          label: 'Khách hàng'
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          type: string
+          settings:
+            # A lead is deliberately unpublished, so its node page 403s for the
+            # very editor reading this table. Linking the name would only ever
+            # lead somewhere they cannot go — the operations column is the way in.
+            link_to_entity: false
+        field_lead_phone:
+          id: field_lead_phone
+          table: node__field_lead_phone
+          field: field_lead_phone
+          entity_type: node
+          entity_field: field_lead_phone
+          plugin_id: field
+          label: 'Điện thoại'
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_rows: true
+          multi_type: separator
+          separator: ', '
+        field_lead_email:
+          id: field_lead_email
+          table: node__field_lead_email
+          field: field_lead_email
+          entity_type: node
+          entity_field: field_lead_email
+          plugin_id: field
+          label: Email
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: '—'
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_rows: true
+          multi_type: separator
+          separator: ', '
+        field_lead_message:
+          id: field_lead_message
+          table: node__field_lead_message
+          field: field_lead_message
+          entity_type: node
+          entity_field: field_lead_message
+          plugin_id: field
+          label: 'Nội dung'
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: '—'
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: basic_string
+          settings: {  }
+          group_column: value
+          group_rows: true
+          multi_type: separator
+          separator: ', '
+        field_lead_source:
+          id: field_lead_source
+          table: node__field_lead_source
+          field: field_lead_source
+          entity_type: node
+          entity_field: field_lead_source
+          plugin_id: field
+          label: 'Nguồn'
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_rows: true
+          multi_type: separator
+          separator: ', '
+        created:
+          id: created
+          table: node_field_data
+          field: created
+          entity_type: node
+          entity_field: created
+          plugin_id: field
+          label: 'Nhận lúc'
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          type: timestamp
+          settings:
+            date_format: short
+            custom_date_format: ''
+            timezone: ''
+            tooltip:
+              date_format: long
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
+        operations:
+          id: operations
+          table: node
+          field: operations
+          plugin_id: entity_operations
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+          element_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          destination: true
+      pager:
+        type: full
+        options:
+          pagination_heading_level: h4
+          items_per_page: 50
+          tags:
+            next: 'Sau ›'
+            previous: '‹ Trước'
+            first: '« Đầu'
+            last: 'Cuối »'
+      exposed_form:
+        type: basic
+        options:
+          submit_button: 'Lọc'
+          reset_button: true
+          reset_button_label: 'Bỏ lọc'
+          expose_sort_order: true
+          sort_asc_label: 'Tăng dần'
+          sort_desc_label: 'Giảm dần'
+      access:
+        # Leads hold a customer's name, phone number and email. `access content
+        # overview` is handed out widely; the right gate is whether the role is
+        # trusted with leads at all.
+        type: perm
+        options:
+          perm: 'edit any lead content'
+      cache:
+        type: tag
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          plugin_id: text_custom
+          empty: true
+          content: 'Chưa có yêu cầu liên hệ nào.'
+      sorts:
+        created:
+          id: created
+          table: node_field_data
+          field: created
+          entity_type: node
+          entity_field: created
+          plugin_id: date
+          order: DESC
+          expose:
+            label: ''
+      arguments: {  }
+      filters:
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          operator: in
+          value:
+            lead: lead
+          group: 1
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Tên khách hàng'
+            use_operator: false
+            operator: title_op
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+        field_lead_phone_value:
+          id: field_lead_phone_value
+          table: node__field_lead_phone
+          field: field_lead_phone_value
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_lead_phone_value_op
+            label: 'Điện thoại'
+            use_operator: false
+            operator: field_lead_phone_value_op
+            identifier: phone
+            required: false
+            remember: false
+            multiple: false
+        field_lead_source_value:
+          id: field_lead_source_value
+          table: node__field_lead_source
+          field: field_lead_source_value
+          plugin_id: string
+          operator: '='
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_lead_source_value_op
+            label: 'Nguồn'
+            use_operator: false
+            operator: field_lead_source_value_op
+            identifier: source
+            required: false
+            remember: false
+            multiple: false
+          is_grouped: true
+          group_info:
+            label: 'Nguồn'
+            identifier: source
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            group_items:
+              1:
+                title: 'Trang liên hệ'
+                operator: '='
+                value: contact
+              2:
+                title: 'Trang đại lý'
+                operator: '='
+                value: dealer
+              3:
+                title: 'Form tư vấn'
+                operator: '='
+                value: consult
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: table
+        options:
+          grouping: {  }
+          class: ''
+          row_class: ''
+          default_row_class: true
+          columns:
+            title: title
+            field_lead_phone: field_lead_phone
+            field_lead_email: field_lead_email
+            field_lead_message: field_lead_message
+            field_lead_source: field_lead_source
+            created: created
+            operations: operations
+          default: created
+          info:
+            title:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_lead_phone:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            field_lead_email:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: priority-low
+            field_lead_message:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: priority-low
+            field_lead_source:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: priority-medium
+            created:
+              sortable: true
+              default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            operations:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          override: true
+          sticky: true
+          summary: ''
+          empty_table: true
+          caption: ''
+          description: ''
+      row:
+        type: fields
+      query:
+        type: views_query
+        options:
+          # Leads are stored unpublished on purpose, and they belong to the
+          # anonymous user because a visitor submitted them. Every node access
+          # rule therefore hides them from an editor who holds neither
+          # `bypass node access` nor ownership. The page is already gated on
+          # `edit any lead content`, so the access decision is made above,
+          # not by a query the editor can never satisfy.
+          disable_sql_rewrite: true
+      relationships: {  }
+      header: {  }
+      footer: {  }
+      display_extenders: {  }
+      use_ajax: true
+  page_1:
+    id: page_1
+    display_title: 'Trang quản trị'
+    display_plugin: page
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: admin/content/lead
+      menu:
+        type: tab
+        title: 'Yêu cầu liên hệ'
+        description: ''
+        weight: 10
+        menu_name: admin
+        context: ''

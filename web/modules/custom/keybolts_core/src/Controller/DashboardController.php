@@ -7,6 +7,7 @@ namespace Drupal\keybolts_core\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * One screen that lists the site by its pages.
@@ -48,6 +49,12 @@ final class DashboardController extends ControllerBase {
     return [
       '#type' => 'container',
       '#attributes' => ['class' => ['kb-dash']],
+      '#cache' => [
+        // The greeting, and now which cards appear at all, follow the account.
+        'contexts' => ['user'],
+        // Every card carries a count, so any saved or deleted node stales it.
+        'tags' => ['node_list'],
+      ],
       '#attached' => ['library' => ['keybolts_core/dashboard']],
       'hero' => [
         '#markup' => Markup::create('<div class="kb-dash-hero">'
@@ -134,6 +141,19 @@ final class DashboardController extends ControllerBase {
   }
 
   private function leadCards(): array {
+    // The count is deliberately unfiltered, so it must not reach someone the
+    // leads page itself would turn away.
+    if (!$this->currentUser()->hasPermission('edit any lead content')) {
+      return [];
+    }
+    // The listing is a view, and a view that has not been imported yet has no
+    // route. A missing card beats a fatal on the page every editor lands on.
+    try {
+      \Drupal::service('router.route_provider')->getRouteByName('view.leads.page_1');
+    }
+    catch (RouteNotFoundException) {
+      return [];
+    }
     $storage = $this->entityTypeManager()->getStorage('node');
     $total = (int) $storage->getQuery()->accessCheck(FALSE)
       ->condition('type', 'lead')->count()->execute();
@@ -147,7 +167,10 @@ final class DashboardController extends ControllerBase {
         $week > 0
           ? "Tổng {$total} yêu cầu · {$week} mới trong 7 ngày qua"
           : "Tổng {$total} yêu cầu · chưa có yêu cầu mới tuần này",
-        Url::fromRoute('system.admin_content', [], ['query' => ['type' => 'lead']]),
+        // Not /admin/content: leads are unpublished and owned by the anonymous
+        // visitor who sent them, so that listing shows an editor nothing —
+        // this card would promise a number it then could not deliver.
+        Url::fromRoute('view.leads.page_1'),
         NULL,
         NULL,
         (string) $total,
