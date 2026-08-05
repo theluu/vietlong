@@ -73,9 +73,12 @@ useHead(() => ({
 
           <ArticleCallout label="Giải pháp đã triển khai" :text="project.description" />
 
+          <!-- Filtered by check_markup() in ProjectSerializer before it left Drupal. -->
+          <div v-if="project.body" class="kb-prose" v-html="project.body" />
+
           <section class="flex flex-col gap-[14px]">
             <h2 class="text-display m-0 leading-[1.3] font-bold tracking-[-0.01em]">Sản phẩm sử dụng</h2>
-            <p class="text-body text-text-muted m-0 leading-[1.95]">
+            <p v-if="!project.body" class="text-body text-text-muted m-0 leading-[1.95]">
               Công trình dùng {{ project.products }}, chọn theo độ dày cánh và chiều mở của từng nhóm cửa. Toàn bộ bộ khóa,
               tay nắm và bản lề đi cùng một hệ hoàn thiện để tổng thể liền mạch giữa các tầng.
             </p>

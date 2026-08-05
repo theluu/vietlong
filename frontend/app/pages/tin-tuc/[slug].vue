@@ -17,10 +17,13 @@ const FAQ_ID = 'cau-hoi'
 
 /** The sidebar index covers the body sections plus the two fixed blocks below them. */
 const toc = computed(() => {
-  const entries = article.value.sections.map(section => ({
-    id: section.id,
-    label: section.title.replace(/^\d+\.\s*/, ''),
-  }))
+  // Read the headings back out of the editor's HTML rather than a parallel
+  // data structure: the index cannot drift from the article that way.
+  const entries = [...article.value.body.matchAll(/<h2[^>]*\sid="([^"]+)"[^>]*>(.*?)<\/h2>/gs)]
+    .map(([, id, label]) => ({
+      id,
+      label: label.replace(/<[^>]+>/g, '').replace(/^\d+\.\s*/, '').trim(),
+    }))
   if (article.value.compareRows.length) entries.push({ id: COMPARE_ID, label: 'Bảng so sánh theo loại cửa' })
   if (article.value.faqs.length) entries.push({ id: FAQ_ID, label: 'Câu hỏi thường gặp' })
   return entries.map((entry, i) => ({ ...entry, number: String(i + 1).padStart(2, '0') }))
@@ -84,9 +87,10 @@ useHead(() => ({
 
           <ArticleCallout v-if="article.quickAnswer" label="Trả lời nhanh" :text="article.quickAnswer" />
 
-          <ArticleSection v-for="section in article.sections" :key="section.id" :section="section" />
+          <!-- Filtered by check_markup() in ArticleSerializer before it left Drupal. -->
+          <div v-if="article.body" class="kb-prose" v-html="article.body" />
 
-          <p v-if="!article.sections.length" class="text-heading text-text-muted m-0 leading-[1.9]">{{ article.summary }}</p>
+          <p v-if="!article.body" class="text-heading text-text-muted m-0 leading-[1.9]">{{ article.summary }}</p>
 
           <ArticleCompareTable
             v-if="article.compareRows.length"

@@ -1,0 +1,23 @@
+uuid: 8e7600f1-1588-4a86-bd09-79fab7e3e393
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_slug_auto
+    - node.type.article
+id: node.article.field_article_slug_auto
+field_name: field_article_slug_auto
+entity_type: node
+bundle: article
+label: 'Tự sinh slug từ tiêu đề'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Bật
+  off_label: Tắt
+field_type: boolean

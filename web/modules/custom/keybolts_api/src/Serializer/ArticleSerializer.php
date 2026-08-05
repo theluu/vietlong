@@ -43,6 +43,7 @@ final class ArticleSerializer {
       'author' => (string) $node->get('field_article_author')->value,
       'updated' => (string) $node->get('field_article_updated')->value,
       'quickAnswer' => (string) $node->get('field_article_quick_answer')->value,
+      'body' => $this->body($node, 'field_article_body'),
       'sections' => $this->json($node, 'field_article_sections'),
       'compareRows' => $this->json($node, 'field_article_compare'),
       'faqs' => $this->json($node, 'field_article_faqs'),
@@ -90,6 +91,25 @@ final class ArticleSerializer {
       'readTime' => (string) $node->get('field_article_read_time')->value,
       'image' => $this->imageSerializer->fromField($node->get('field_article_image')),
     ];
+  }
+
+  /**
+   * Editor-written HTML, run through the text format's filters.
+   *
+   * This is the only gate: the raw value never leaves Drupal, so a paste from
+   * an untrusted source cannot carry a script tag or an on* attribute out to
+   * the frontend, which renders this with v-html.
+   */
+  private function body(NodeInterface $node, string $field): string {
+    if (!$node->hasField($field) || $node->get($field)->isEmpty()) {
+      return '';
+    }
+    $item = $node->get($field)->first();
+    return (string) check_markup(
+      (string) $item->value,
+      $item->format ?: 'basic_html',
+      $node->language()->getId(),
+    );
   }
 
   private function json(NodeInterface $node, string $field): array {

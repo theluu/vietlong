@@ -46,9 +46,6 @@ display:
           hide_alter_empty: true
           type: string
           settings:
-            # A lead is deliberately unpublished, so its node page 403s for the
-            # very editor reading this table. Linking the name would only ever
-            # lead somewhere they cannot go — the operations column is the way in.
             link_to_entity: false
         field_lead_phone:
           id: field_lead_phone
@@ -88,7 +85,7 @@ display:
             alter_text: false
           element_class: ''
           element_default_classes: true
-          empty: '—'
+          empty: —
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -113,7 +110,7 @@ display:
             alter_text: false
           element_class: ''
           element_default_classes: true
-          empty: '—'
+          empty: —
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
@@ -131,7 +128,7 @@ display:
           entity_type: node
           entity_field: field_lead_source
           plugin_id: field
-          label: 'Nguồn'
+          label: Nguồn
           exclude: false
           alter:
             alter_text: false
@@ -209,16 +206,13 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: 'Lọc'
+          submit_button: Lọc
           reset_button: true
           reset_button_label: 'Bỏ lọc'
           expose_sort_order: true
           sort_asc_label: 'Tăng dần'
           sort_desc_label: 'Giảm dần'
       access:
-        # Leads hold a customer's name, phone number and email. `access content
-        # overview` is handed out widely; the right gate is whether the role is
-        # trusted with leads at all.
         type: perm
         options:
           perm: 'edit any lead content'
@@ -305,7 +299,7 @@ display:
           exposed: true
           expose:
             operator_id: field_lead_source_value_op
-            label: 'Nguồn'
+            label: Nguồn
             use_operator: false
             operator: field_lead_source_value_op
             identifier: source
@@ -314,7 +308,7 @@ display:
             multiple: false
           is_grouped: true
           group_info:
-            label: 'Nguồn'
+            label: Nguồn
             identifier: source
             optional: true
             widget: select
@@ -342,7 +336,6 @@ display:
         type: table
         options:
           grouping: {  }
-          class: ''
           row_class: ''
           default_row_class: true
           columns:
@@ -410,23 +403,18 @@ display:
           empty_table: true
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
       query:
         type: views_query
         options:
-          # Leads are stored unpublished on purpose, and they belong to the
-          # anonymous user because a visitor submitted them. Every node access
-          # rule therefore hides them from an editor who holds neither
-          # `bypass node access` nor ownership. The page is already gated on
-          # `edit any lead content`, so the access decision is made above,
-          # not by a query the editor can never satisfy.
           disable_sql_rewrite: true
       relationships: {  }
+      use_ajax: true
       header: {  }
       footer: {  }
       display_extenders: {  }
-      use_ajax: true
   page_1:
     id: page_1
     display_title: 'Trang quản trị'

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.article.field_article_author
+    - field.field.node.article.field_article_body
     - field.field.node.article.field_article_category
     - field.field.node.article.field_article_category_key
     - field.field.node.article.field_article_compare
@@ -15,12 +16,15 @@ dependencies:
     - field.field.node.article.field_article_read_time
     - field.field.node.article.field_article_sections
     - field.field.node.article.field_article_slug
+    - field.field.node.article.field_article_slug_auto
     - field.field.node.article.field_article_summary
     - field.field.node.article.field_article_updated
     - field.field.node.article.field_sort_order
+    - image.style.thumbnail
     - node.type.article
   module:
     - field_group
+    - image
     - path
 third_party_settings:
   field_group:
@@ -231,6 +235,8 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_article_body: true
   field_article_image_url: true
+  field_article_slug_auto: true
   promote: true
   sticky: true

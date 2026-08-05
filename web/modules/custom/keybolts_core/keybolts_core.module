@@ -16,7 +16,12 @@ use Drupal\Core\Entity\EntityInterface;
  * suggest queries are a plain indexed LIKE rather than a runtime transform.
  */
 function keybolts_core_entity_presave(EntityInterface $entity): void {
-  if ($entity->getEntityTypeId() !== 'node' || $entity->bundle() !== 'product') {
+  if ($entity->getEntityTypeId() !== 'node') {
+    return;
+  }
+  _keybolts_core_generate_slug($entity);
+
+  if ($entity->bundle() !== 'product') {
     return;
   }
   if (!$entity->hasField('field_search_text')) {
@@ -40,6 +45,30 @@ function keybolts_core_entity_presave(EntityInterface $entity): void {
 
   $normalizer = \Drupal::service('keybolts_core.text_normalizer');
   $entity->set('field_search_text', $normalizer->normalize(implode(' ', $parts)));
+}
+
+/**
+ * Fills the slug from the title while the editor leaves the box ticked.
+ *
+ * Untick it and a hand-typed slug is left alone — that is the escape hatch for
+ * an article whose URL is already published and must not move.
+ */
+function _keybolts_core_generate_slug(EntityInterface $entity): void {
+  $bundle = $entity->bundle();
+  $slugField = "field_{$bundle}_slug";
+  $autoField = "field_{$bundle}_slug_auto";
+
+  if (!$entity->hasField($slugField) || !$entity->hasField($autoField)) {
+    return;
+  }
+  if (!(bool) $entity->get($autoField)->value) {
+    return;
+  }
+
+  $entity->set(
+    $slugField,
+    \Drupal::service('keybolts_core.slug_generator')->forNode($entity, $slugField),
+  );
 }
 
 /**

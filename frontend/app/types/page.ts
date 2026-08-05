@@ -130,6 +130,8 @@ export interface ArticleDetail extends NewsArticle {
   author: string
   updated: string
   quickAnswer: string
+  /** HTML written in the editor, already filtered server-side. */
+  body: string
   sections: ArticleSection[]
   compareRows: ArticleCompareRow[]
   faqs: ArticleFaq[]
@@ -156,6 +158,8 @@ export interface Project {
   type: string
   title: string
   description: string
+  /** HTML written in the editor, already filtered server-side. */
+  body: string
   products: string
   image: ResponsiveImage | null
 }

@@ -3,17 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.project.field_project_body
     - field.field.node.project.field_project_desc
     - field.field.node.project.field_project_image
     - field.field.node.project.field_project_image_url
     - field.field.node.project.field_project_products
     - field.field.node.project.field_project_slug
+    - field.field.node.project.field_project_slug_auto
     - field.field.node.project.field_project_type
     - field.field.node.project.field_project_type_key
     - field.field.node.project.field_sort_order
+    - image.style.thumbnail
     - node.type.project
   module:
     - field_group
+    - image
     - path
 third_party_settings:
   field_group:
@@ -149,6 +153,8 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_project_body: true
   field_project_image_url: true
+  field_project_slug_auto: true
   promote: true
   sticky: true

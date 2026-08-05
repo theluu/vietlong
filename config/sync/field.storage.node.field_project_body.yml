@@ -1,0 +1,19 @@
+uuid: be655a13-af30-4bc7-92ff-dbb955124c77
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_project_body
+field_name: field_project_body
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

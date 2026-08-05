@@ -1,6 +1,9 @@
 services:
   keybolts_core.text_normalizer:
     class: Drupal\keybolts_core\Service\TextNormalizer
+  keybolts_core.slug_generator:
+    class: Drupal\keybolts_core\Service\SlugGenerator
+    arguments: ['@keybolts_core.text_normalizer', '@entity_type.manager']
   keybolts_core.variant_matrix:
     class: Drupal\keybolts_core\Service\VariantMatrixBuilder
     arguments: ['@entity_type.manager', '@path_alias.manager']

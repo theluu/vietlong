@@ -43,8 +43,28 @@ final class ProjectSerializer {
       'type' => (string) $node->get('field_project_type')->value,
       'title' => $node->label(),
       'description' => (string) $node->get('field_project_desc')->value,
+      'body' => $this->body($node),
       'products' => (string) $node->get('field_project_products')->value,
       'image' => $this->imageSerializer->fromField($node->get('field_project_image')),
     ];
   }
+
+  /**
+   * Editor-written HTML, run through the text format's filters.
+   *
+   * The detail page renders this with v-html, so filtering here is what keeps
+   * a pasted script tag from reaching the browser.
+   */
+  private function body(NodeInterface $node): string {
+    if (!$node->hasField('field_project_body') || $node->get('field_project_body')->isEmpty()) {
+      return '';
+    }
+    $item = $node->get('field_project_body')->first();
+    return (string) check_markup(
+      (string) $item->value,
+      $item->format ?: 'basic_html',
+      $node->language()->getId(),
+    );
+  }
+
 }

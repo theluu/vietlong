@@ -1,0 +1,22 @@
+uuid: 243baeb7-c5d0-4be7-9048-8e5506661a4a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_article_body
+    - node.type.article
+  module:
+    - text
+id: node.article.field_article_body
+field_name: field_article_body
+entity_type: node
+bundle: article
+label: 'Nội dung bài viết'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long
