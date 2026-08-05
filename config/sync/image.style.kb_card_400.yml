@@ -1,0 +1,21 @@
+uuid: 7f1aabe9-4ded-428b-a636-d0b871f4036c
+langcode: vi
+status: true
+dependencies: {  }
+name: kb_card_400
+label: 'Keybolts card 400'
+effects:
+  fc59a229-2e76-428c-a76e-535f70eeeb60:
+    uuid: fc59a229-2e76-428c-a76e-535f70eeeb60
+    id: image_scale
+    weight: 1
+    data:
+      width: 400
+      height: null
+      upscale: false
+  2d7a80b7-2d1a-4249-ae75-7ff8326b0787:
+    uuid: 2d7a80b7-2d1a-4249-ae75-7ff8326b0787
+    id: image_convert_avif
+    weight: 2
+    data:
+      extension: webp

@@ -20,6 +20,9 @@ services:
   keybolts_api.site_serializer:
     class: Drupal\keybolts_api\Serializer\SiteSerializer
     arguments: ['@entity_type.manager', '@menu.link_tree', '@keybolts_core.recaptcha']
+  keybolts_api.image_serializer:
+    class: Drupal\keybolts_api\Serializer\ImageSerializer
+    arguments: ['@entity_type.manager', '@file_url_generator']
   keybolts_api.exception_subscriber:
     class: Drupal\keybolts_api\EventSubscriber\ApiExceptionSubscriber
     tags:
