@@ -98,6 +98,9 @@ function kb_notes(array $rows): array {
     // Bỏ mã sản phẩm ở đuôi tiêu đề.
     $title = trim(str_ireplace($row['code'], '', $title));
     $title = trim(preg_replace('/\s+/u', ' ', $title));
+    // "…KB-SUS 201 S1 D" còn sót chữ D lẻ sau khi bỏ mã, thành ghi chú
+    // "Ô thoáng d". Chữ cái đơn ở đuôi là hậu tố mã, không phải công dụng.
+    $title = trim(preg_replace('/(?:\s+\p{L})+$/u', '', $title) ?: $title);
     $words[$nid] = $title === '' ? [] : explode(' ', $title);
   }
   $lists = array_values($words);
@@ -113,6 +116,12 @@ function kb_notes(array $rows): array {
       }
       $common++;
     }
+  }
+  // "Bản Lề Đầu Đồng Cửa Ô Thoáng" và "…Cửa Sổ" có chung cả chữ "Cửa", nên
+  // cắt đúng phần chung để lại "Ô thoáng" và "Sổ". Danh từ loại đứng ngay
+  // trước phần phân biệt thì thuộc về phần phân biệt.
+  while ($common > 0 && in_array(mb_strtolower($lists[0][$common - 1] ?? ''), ['cửa', 'bộ', 'loại'], TRUE)) {
+    $common--;
   }
   $out = [];
   foreach ($words as $nid => $list) {
@@ -132,8 +141,11 @@ foreach ($families as $family => $rows) {
   $notes = kb_notes($rows);
   foreach ($rows as $nid => $row) {
     $node = $row['node'];
-    // Không đè lên thứ đã có.
-    if ((string) $node->get('field_family')->value !== '') {
+    // Ai đó đổi dòng sản phẩm sang giá trị khác thì đó là chủ ý — không đè.
+    // Còn lại thì tính lại nhãn và ghi chú, để lần chạy sau sửa được kết quả
+    // suy ra chưa chuẩn của lần trước.
+    $existing = (string) $node->get('field_family')->value;
+    if ($existing !== '' && $existing !== $family) {
       $skipped++;
       continue;
     }
