@@ -30,6 +30,9 @@ final class HomeSerializer {
         // owns the styling; the editor only marks intent with * and newlines.
         'title' => $this->str($node, 'field_hero_title'),
         'subtitle' => $this->str($node, 'field_hero_subtitle'),
+        // Empty until an editor uploads any; the frontend then falls back to
+        // a featured product's photo, which is what the hero used to show.
+        'images' => $this->images($node, 'field_hero_images'),
         'ctaPrimary' => $this->link($node, 'field_hero_cta1'),
         'ctaSecondary' => $this->link($node, 'field_hero_cta2'),
         'stats' => array_map(fn(ParagraphInterface $p) => [
@@ -126,6 +129,21 @@ final class HomeSerializer {
       return NULL;
     }
     return $this->imageSerializer->fromField($entity->get($field));
+  }
+
+  /** Every image on a multi-value field, in the order the editor arranged them. */
+  private function images(NodeInterface|ParagraphInterface|null $entity, string $field): array {
+    if (!$entity || !$entity->hasField($field)) {
+      return [];
+    }
+    $out = [];
+    foreach ($entity->get($field) as $item) {
+      $image = $this->imageSerializer->fromItem($item);
+      if ($image) {
+        $out[] = $image;
+      }
+    }
+    return $out;
   }
 
   private function link(NodeInterface|ParagraphInterface|null $entity, string $field): ?array {

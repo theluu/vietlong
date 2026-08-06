@@ -1,5 +1,6 @@
 import { apiFetch } from './http'
 import type { ProductCard } from '~/types/product'
+import type { ResponsiveImage } from '~/types/page'
 
 export interface HomeCategory {
   id: number
@@ -28,6 +29,8 @@ export interface HomeContent {
     /** Newlines are line breaks; *word* is painted with the gold gradient. */
     title: string
     subtitle: string
+    /** Banner slides, in editor order. Empty until someone uploads any. */
+    images: ResponsiveImage[]
     ctaPrimary: HomeLink | null
     ctaSecondary: HomeLink | null
     stats: { value: string; label: string }[]
