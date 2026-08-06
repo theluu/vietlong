@@ -12,7 +12,7 @@ services:
     arguments: ['@entity_type.manager']
   keybolts_core.product_facets:
     class: Drupal\keybolts_core\Service\ProductFacetBuilder
-    arguments: ['@entity_type.manager']
+    arguments: ['@entity_type.manager', '@keybolts_core.product_query']
   keybolts_core.recaptcha:
     class: Drupal\keybolts_core\Service\RecaptchaVerifier
     arguments: ['@http_client', '@settings', '@logger.factory', '@state', '@config.factory']

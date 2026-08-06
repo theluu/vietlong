@@ -30,7 +30,7 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
       <NuxtLink
         v-for="cat in categories"
         :key="cat.id"
-        :to="{ path: '/san-pham', query: { category: String(cat.id) } }"
+        :to="`/danh-muc/${cat.id}`"
         class="kb-home-category-card group block min-w-0 snap-start overflow-hidden bg-charcoal-900 text-inherit no-underline"
       >
         <span class="kb-hero-frame relative block aspect-[3/3.6] w-full overflow-hidden">

@@ -53,11 +53,32 @@ class ProductQuery {
       ->condition('status', 1);
 
     foreach (self::FILTER_FIELDS as $key => $field) {
-      if (!empty($filters[$key])) {
-        $query->condition($field, $filters[$key]);
+      if (empty($filters[$key])) {
+        continue;
       }
+      // A category filter means "this category and everything under it". The
+      // CSV import files every product against a leaf term, so filtering on
+      // one of the eight top-level categories the homepage links to matched
+      // nothing at all and opened an empty listing.
+      $query->condition($field, $key === 'category'
+        ? $this->categoryWithDescendants((int) $filters[$key])
+        : $filters[$key], $key === 'category' ? 'IN' : '=');
     }
     return $query;
+  }
+
+  /**
+   * A category term id plus every id beneath it.
+   *
+   * @return int[]
+   */
+  public function categoryWithDescendants(int $tid): array {
+    $ids = [$tid];
+    foreach ($this->entityTypeManager->getStorage('taxonomy_term')
+      ->loadTree('product_category', $tid, NULL, FALSE) as $child) {
+      $ids[] = (int) $child->tid;
+    }
+    return $ids;
   }
 
   /**

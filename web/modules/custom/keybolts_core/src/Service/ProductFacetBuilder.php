@@ -26,6 +26,7 @@ class ProductFacetBuilder {
 
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
+    private readonly ProductQuery $productQuery,
   ) {}
 
   /**
@@ -107,9 +108,15 @@ class ProductFacetBuilder {
       ->condition('status', 1);
 
     foreach (self::AXES as $key => $filter_field) {
-      if (!empty($filters[$key])) {
-        $query->condition($filter_field, $filters[$key]);
+      if (empty($filters[$key])) {
+        continue;
       }
+      // Match ProductQuery: a category filter covers its whole subtree, or
+      // the other axes would be counted against a parent term that no
+      // product references directly and come back empty.
+      $query->condition($filter_field, $key === 'category'
+        ? $this->productQuery->categoryWithDescendants((int) $filters[$key])
+        : $filters[$key], $key === 'category' ? 'IN' : '=');
     }
 
     $query->aggregate('nid', 'COUNT')->groupBy($field);
@@ -125,7 +132,35 @@ class ProductFacetBuilder {
       }
       $tally[(int) $row[$tid_key]] = (int) $row['nid_count'];
     }
-    return $tally;
+    return $field === 'field_category' ? $this->rollUpToAncestors($tally) : $tally;
+  }
+
+  /**
+   * Adds each category's count to every ancestor above it.
+   *
+   * Products are filed against leaf terms only, so grouping by the raw field
+   * never produces a row for the eight top-level categories the site is
+   * designed around — they had no label to render and no count, which is why
+   * /danh-muc/<parent id> answered 404.
+   *
+   * @param array<int, int> $tally
+   *   Leaf term ID => product count.
+   *
+   * @return array<int, int>
+   *   The same, plus a subtotal for every ancestor term.
+   */
+  private function rollUpToAncestors(array $tally): array {
+    $storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    $out = $tally;
+    foreach ($tally as $tid => $count) {
+      foreach ($storage->loadAllParents($tid) as $ancestor) {
+        $aid = (int) $ancestor->id();
+        if ($aid !== $tid) {
+          $out[$aid] = ($out[$aid] ?? 0) + $count;
+        }
+      }
+    }
+    return $out;
   }
 
 }
