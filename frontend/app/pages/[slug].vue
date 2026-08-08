@@ -34,7 +34,17 @@ const activeFinishLabel = computed(
 )
 
 useSeoMeta({
-  title: () => `${product.value?.name} ${product.value?.model} | Keybolts`,
+  /*
+   * The name alone, as the old site titled these pages.
+   *
+   * It used to append the model and " | Keybolts", which broke twice over.
+   * The model is already in most names, so BD01 came out as "…BD01 BD01";
+   * where it is not a substring it is often a description rather than a code
+   * ("Chặn Cửa CAO CẤP"), which reads worse still. And Keybolts is a brand,
+   * not the shop — stamping it onto a Baltica lock claims the wrong maker.
+   * Every name already carries its own brand.
+   */
+  title: () => product.value?.name,
   description: () => product.value?.shortDesc,
   ogImage: () => product.value?.image?.url,
   ogType: 'website',
