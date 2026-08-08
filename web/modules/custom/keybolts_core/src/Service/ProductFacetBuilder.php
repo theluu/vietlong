@@ -62,6 +62,15 @@ class ProductFacetBuilder {
   public function labelled(array $filters): array {
     $counts = $this->counts($filters);
 
+    // A category with nothing in it yet still needs a label. /danh-muc/<tid>
+    // reads the term's name off this payload, so an empty category — the
+    // placeholder an editor creates before the stock arrives — answered 404
+    // rather than "no products". Only the category being filtered on is
+    // forced in; the sidebar keeps listing reachable options only.
+    if (isset($filters['category']) && !isset($counts['category'][(int) $filters['category']])) {
+      $counts['category'][(int) $filters['category']] = 0;
+    }
+
     $ids = array_unique(array_merge(...array_map('array_keys', array_values($counts))));
     $terms = $ids
       ? $this->entityTypeManager->getStorage('taxonomy_term')->loadMultiple($ids)

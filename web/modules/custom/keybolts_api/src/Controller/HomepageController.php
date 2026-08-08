@@ -32,12 +32,16 @@ class HomepageController extends ControllerBase {
    * whole imported catalogue, and the old fallback — newest products, site
    * wide — handed all four tabs the same four cards, so the tab strip looked
    * broken. Scoping the fallback by category keeps four tabs distinct.
+   *
+   * Matched by name, so renaming a term here silently empties a tab back to
+   * the site-wide fallback. Keep this in step with the tree that
+   * scripts/setup/restructure_product_categories.php declares.
    */
   private const FEATURED_FALLBACK_CATEGORIES = [
     'dong' => ['Khóa đồng'],
-    'cremone' => ['Chốt Cremone'],
+    'cremone' => ['Chốt cửa Cremone'],
     'hotel' => ['Khóa khách sạn'],
-    'phukien' => ['Phụ kiện cửa', 'Bản lề & tay co'],
+    'phukien' => ['Phụ kiện cửa & Nội thất', 'Bản lề cửa'],
   ];
 
   public function __construct(
@@ -69,44 +73,79 @@ class HomepageController extends ControllerBase {
   }
 
   /**
-   * The eight catalogue categories, in weight order.
+   * The catalogue as a tree: four top categories, each with its own branch.
+   *
+   * The whole vocabulary is returned, not just its top level. The homepage
+   * grid reads the roots and ignores 'children'; the mega menu needs the
+   * branches to render a column per category.
    */
   private function categories(): array {
     $terms = $this->entityTypeManager()->getStorage('taxonomy_term')
-      // Depth 1: the CSV import files products under finer child terms, and
-      // the homepage grid is a designed set of eight tiles, not a directory.
-      ->loadTree('product_category', 0, 1, TRUE);
-    $out = [];
+      ->loadTree('product_category', 0, NULL, TRUE);
+    // Bucketed by parent, so one pass over the vocabulary feeds every level.
+    // loadTree() already returns siblings in weight order.
+    $children = [];
     foreach ($terms as $term) {
-      // The whole card image, not just its url: flattening it here would make
-      // this the one grid on the homepage that cannot pick a smaller file.
-      $image = NULL;
-      $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
-        ->accessCheck(TRUE)
-        ->condition('type', 'product')
-        ->condition('status', 1)
-        // Descendants included: the CSV files every product under a leaf term,
-        // so six of the eight tiles matched nothing and came back imageless.
-        ->condition('field_category', $this->withDescendants((int) $term->id()), 'IN')
-        // Not every product carries a photo; take the first one that does.
-        ->range(0, 12)
-        ->execute();
-      foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($ids) as $product) {
-        $image = $this->serializer->card($product)['image'] ?? NULL;
-        if ($image) {
-          break;
-        }
-      }
+      $children[(int) ($term->get('parent')->target_id ?? 0)][] = $term;
+    }
+    return $this->categoryBranch($children, 0);
+  }
+
+  /**
+   * Everything under one parent, recursively.
+   *
+   * @param array $children
+   *   Parent term id => its child terms.
+   * @param int $parent
+   *   The term id to descend from; 0 for the roots.
+   */
+  private function categoryBranch(array $children, int $parent): array {
+    $out = [];
+    foreach ($children[$parent] ?? [] as $term) {
+      $tid = (int) $term->id();
       $out[] = [
-        'id' => (int) $term->id(),
+        'id' => $tid,
         'name' => $term->label(),
         'number' => $term->hasField('field_number') ? (string) $term->get('field_number')->value : '',
         'desc' => $term->hasField('field_short_desc') ? (string) $term->get('field_short_desc')->value : '',
-        'image' => $image,
+        // Roots only: they are the tiles. Costing a product query for all
+        // thirty terms would triple the homepage's queries to fill a field
+        // the mega menu never reads.
+        'image' => $parent === 0 ? $this->categoryImage($tid) : NULL,
+        'children' => $this->categoryBranch($children, $tid),
       ];
     }
-    usort($out, static fn(array $a, array $b): int => $a['number'] <=> $b['number']);
+    // Editors order the tiles with field_number; deeper levels use the
+    // vocabulary's own drag-and-drop weight.
+    if ($parent === 0) {
+      usort($out, static fn(array $a, array $b): int => $a['number'] <=> $b['number']);
+    }
     return $out;
+  }
+
+  /**
+   * A category tile's photo, borrowed from the first product that has one.
+   */
+  private function categoryImage(int $tid): ?array {
+    $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'product')
+      ->condition('status', 1)
+      // Descendants included: products are filed against leaf terms, so a
+      // root matches nothing on its own and came back imageless.
+      ->condition('field_category', $this->withDescendants($tid), 'IN')
+      // Not every product carries a photo; take the first one that does.
+      ->range(0, 12)
+      ->execute();
+    foreach ($this->entityTypeManager()->getStorage('node')->loadMultiple($ids) as $product) {
+      // The whole card image, not just its url: flattening it here would make
+      // this the one grid on the homepage that cannot pick a smaller file.
+      $image = $this->serializer->card($product)['image'] ?? NULL;
+      if ($image) {
+        return $image;
+      }
+    }
+    return NULL;
   }
 
   private function brands(): array {

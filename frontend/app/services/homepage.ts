@@ -5,9 +5,12 @@ import type { ResponsiveImage } from '~/types/page'
 export interface HomeCategory {
   id: number
   name: string
+  /** Tile number (`01`–`04`). Empty on every level below the roots. */
   number: string
   desc: string
-  image: string
+  /** Borrowed from a product in the branch, and only ever set on a root. */
+  image: ResponsiveImage | null
+  children: HomeCategory[]
 }
 
 export interface HomeBrand {

@@ -8,46 +8,38 @@ const { megaMenuOpen } = useSiteChrome()
  * the header costs one request per render, not one per page.
  */
 const { data } = await useAsyncData('mega-menu-categories', () => fetchHomepage())
-const categories = computed(() => data.value?.data?.categories ?? [])
 
-// The prototype splits the menu into locks and accessories; the vocabulary is
-// ordered the same way, so the split follows the catalogue's own weights.
-const locks = computed(() => categories.value.slice(0, 5))
-const accessories = computed(() => categories.value.slice(5))
+/*
+ * One column per top category, its second level beneath. The vocabulary used
+ * to be flat, so the menu split it by position — the first five were locks,
+ * the rest accessories. It is a real tree now, and the tree names its own
+ * groups. The third level belongs to the category pages; four columns already
+ * fill the panel.
+ */
+const columns = computed(() => data.value?.data?.categories ?? [])
 </script>
 
 <template>
   <div
     v-if="megaMenuOpen"
-    class="shadow-floating absolute top-full -left-10 z-[60] grid w-[720px] max-w-[84vw] grid-cols-[1fr_1fr_220px] gap-9 border-t-[3px] border-gold-200 bg-background px-[34px] py-8 text-text"
+    class="shadow-floating absolute top-full -left-10 z-[60] grid w-[880px] max-w-[92vw] grid-cols-4 gap-x-8 gap-y-6 border-t-[3px] border-gold-200 bg-background px-[34px] py-8 text-text"
   >
-    <div class="flex flex-col gap-[14px]">
-      <span class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase">
-        Khóa cửa
-      </span>
+    <div v-for="col in columns" :key="col.id" class="flex min-w-0 flex-col gap-[14px]">
       <NuxtLink
-        v-for="cat in locks"
-        :key="cat.id"
-        :to="`/danh-muc/${cat.id}`"
-        class="text-body text-text no-underline hover:text-brass-700"
-      >{{ cat.name }}</NuxtLink>
-    </div>
-
-    <div class="flex flex-col gap-[14px]">
-      <span class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase">
-        Phụ kiện
-      </span>
+        :to="`/danh-muc/${col.id}`"
+        class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase no-underline"
+      >{{ col.name }}</NuxtLink>
       <NuxtLink
-        v-for="cat in accessories"
-        :key="cat.id"
-        :to="`/danh-muc/${cat.id}`"
+        v-for="child in col.children"
+        :key="child.id"
+        :to="`/danh-muc/${child.id}`"
         class="text-body text-text no-underline hover:text-brass-700"
-      >{{ cat.name }}</NuxtLink>
+      >{{ child.name }}</NuxtLink>
     </div>
 
     <NuxtLink
       to="/san-pham"
-      class="text-body text-brass-700 flex items-end font-bold no-underline"
+      class="text-body text-brass-700 col-span-4 border-t border-border pt-5 font-bold no-underline"
     >
       Bộ sưu tập đồng →
     </NuxtLink>
