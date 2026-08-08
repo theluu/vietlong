@@ -91,7 +91,7 @@ Chỉ 6 term gốc mang `field_number` (01–08) + `field_short_desc` — đó l
     └─ Phụ kiện tủ & bếp                tid 26   đổi tên (từ "Phụ Kiện Tủ-Bếp"), giữ cha 10
 ```
 
-Tổng: 6 term mới, 16 term tái dùng. Không term nào bị xóa.
+Tổng: 30 term — 9 term mới, 21 term cũ tái dùng. Không term nào bị xóa.
 
 ### Hai chỗ cây đích lệch so với ảnh feedback, và lý do
 
@@ -137,7 +137,8 @@ Sau khi gán: **0 sản phẩm nào còn nằm trực tiếp trên term cấp 1*
 | `web/modules/custom/keybolts_api/src/Controller/HomepageController.php` | Trả `categories` dạng lồng (`children`), cập nhật `FEATURED_FALLBACK_CATEGORIES` theo tên mới |
 | `frontend/app/components/layout/MegaMenu.vue` | Bỏ `slice(0,5)`/`slice(5)`, dựng menu từ cây thật |
 | `frontend/app/types/page.ts` | Thêm `children` vào `HomeCategory` |
-| `web/modules/custom/keybolts_api/tests/src/Kernel/…` | Test cây 3 cấp cho facet roll-up và payload homepage |
+| `web/modules/custom/keybolts_core/src/Service/ProductFacetBuilder.php` | Gắn nhãn cho chính danh mục đang lọc, kể cả khi nó rỗng |
+| `web/modules/custom/keybolts_core/tests/src/Kernel/ProductFacetTreeTest.php` | Test roll-up 3 cấp và danh mục rỗng |
 
 Tách làm hai script vì hai mối quan tâm khác nhau: một cái dựng cây, một cái xếp hàng vào cây. Chạy lại script 2 không cần chạy lại script 1, và sửa tay trong backend cũng không bị script 1 ghi đè.
 
@@ -152,7 +153,7 @@ Tách làm hai script vì hai mối quan tâm khác nhau: một cái dựng cây
 - Chạy bằng `ddev drush scr scripts/setup/restructure_product_categories.php`
 - In ra từng thao tác (`created` / `renamed` / `reparented` / `skipped`) và tổng kết cuối.
 
-- [ ] **Step 1: Khung script idempotent**
+- [x] **Step 1: Khung script idempotent**
 
 Đọc `scripts/setup/install_product_model.php` trước để bám đúng lối viết sẵn có (cách lấy `\Drupal::entityTypeManager()`, cách in log).
 
@@ -163,7 +164,7 @@ Quy tắc idempotent:
 - Term mới → tra theo `loadByProperties(['vid' => 'product_category', 'name' => $name])`; đã có thì dùng lại, chưa có thì tạo.
 - Chạy lần hai phải in toàn `skipped`.
 
-- [ ] **Step 2: Đặt lại `field_number` cho lưới trang chủ**
+- [x] **Step 2: Đặt lại `field_number` cho lưới trang chủ**
 
 4 gốc nhận `01`–`04` đúng thứ tự cây. **Xóa `field_number` và `field_short_desc` trên 6 term bị hạ cấp** (tid 3, 4, 6, 7, 8, 9) — chúng không còn là tile trang chủ, để số cũ lại sẽ gây nhầm khi biên tập.
 
@@ -173,7 +174,7 @@ Quy tắc idempotent:
 
 Hai gốc tái dùng giữ mô tả cũ (tid 5 "Điều khiển tiện lợi, bảo mật hiện đại." / tid 10 "Chốt, tay nắm và phụ kiện đi kèm đầy đủ.").
 
-- [ ] **Step 3: Chạy và kiểm tra cây**
+- [x] **Step 3: Chạy và kiểm tra cây**
 
 ```bash
 ddev drush scr scripts/setup/restructure_product_categories.php
@@ -202,7 +203,7 @@ Phải thấy đúng 4 dòng `parent = 0`, và mỗi term con trỏ đúng cha t
 - Chạy bằng `ddev drush scr scripts/setup/reassign_product_categories.php`
 - Nhận cờ `--dry-run` để in bảng dự kiến mà không lưu. Mặc định là lưu thật.
 
-- [ ] **Step 1: Viết script theo bảng rule**
+- [x] **Step 1: Viết script theo bảng rule**
 
 Mỗi rule là một bộ ba: term nguồn, closure khớp tiêu đề, tên term đích. Script tra tid đích **theo tên** (Task 1 vừa tạo chúng), fail sớm và rõ ràng nếu không tìm thấy — chạy Task 2 trước Task 1 phải báo lỗi, không được im lặng bỏ qua.
 
@@ -210,7 +211,7 @@ Thứ tự rule quan trọng: rule "còn lại" của mỗi term nguồn chạy 
 
 Chỉ `save()` node khi `field_category` thực sự đổi, để `changed` không nhảy vô cớ trên 132 node không liên quan.
 
-- [ ] **Step 2: Dry-run và đối chiếu số liệu**
+- [x] **Step 2: Dry-run và đối chiếu số liệu**
 
 ```bash
 ddev drush scr scripts/setup/reassign_product_categories.php -- --dry-run
@@ -218,7 +219,7 @@ ddev drush scr scripts/setup/reassign_product_categories.php -- --dry-run
 
 Bảng in ra phải khớp đúng cột "Số SP" trong mục *Gán lại sản phẩm*: 9, 8, 10, 11, 2, 8, 1, 11, 18. Sai một dòng nào thì sửa rule, chưa chạy thật.
 
-- [ ] **Step 3: Chạy thật, rồi kiểm tra không SP nào treo ở cấp 1**
+- [x] **Step 3: Chạy thật, rồi kiểm tra không SP nào treo ở cấp 1**
 
 ```bash
 ddev drush scr scripts/setup/reassign_product_categories.php
@@ -252,14 +253,14 @@ ddev drush sqlq "SELECT COUNT(*) FROM node__field_category"   # 186
   `['id'=>int,'name'=>string,'number'=>string,'desc'=>string,'image'=>?array,'children'=>array]`
 - Khóa `children` là **bổ sung**; `id/name/number/desc/image` giữ nguyên hình dạng nên `CategoryGrid.vue` không phải sửa.
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Test dựng vocabulary 3 cấp (gốc → con → cháu), gọi controller, khẳng định:
 - `categories` có đúng 1 gốc,
 - `categories[0]['children'][0]['children'][0]['name']` là term cấp 3,
 - term cấp 2 và 3 **không** xuất hiện ở tầng trên cùng của mảng.
 
-- [ ] **Step 2: Đổi `categories()` sang dựng cây**
+- [x] **Step 2: Đổi `categories()` sang dựng cây**
 
 `loadTree('product_category', 0, 1, TRUE)` hiện chỉ lấy cấp 1. Đổi sang `loadTree('product_category', 0, NULL, TRUE)` rồi gom theo `$term->parents` thành cây lồng.
 
@@ -269,7 +270,7 @@ Test dựng vocabulary 3 cấp (gốc → con → cháu), gọi controller, kh�
 
 Sửa luôn comment `The eight catalogue categories, in weight order.` — giờ là bốn, và có cây con.
 
-- [ ] **Step 3: Sửa `FEATURED_FALLBACK_CATEGORIES`**
+- [x] **Step 3: Sửa `FEATURED_FALLBACK_CATEGORIES`**
 
 Hằng số này tra term **theo tên** (`loadByProperties(['name' => $name])`, dòng ~167). Task 1 đổi tên 3 term nó đang trỏ tới, nên nếu bỏ qua bước này 3 trong 4 tab trang chủ sẽ âm thầm rơi về fallback site-wide — không lỗi, chỉ sai nội dung.
 
@@ -280,7 +281,13 @@ Hằng số này tra term **theo tên** (`loadByProperties(['name' => $name])`, 
 | `hotel` | `Khóa khách sạn` | `Khóa khách sạn` (không đổi) |
 | `phukien` | `Phụ kiện cửa`, `Bản lề & tay co` | `Phụ kiện cửa & Nội thất`, `Bản lề cửa` |
 
-- [ ] **Step 4: Chạy test**
+- [x] **Step 3b: Danh mục rỗng phải mở được, không 404**
+
+Phát sinh khi chạy thật: `/danh-muc/{tid}` lấy tên danh mục từ facet payload (`danh-muc/[slug].vue:14`), mà `ProductFacetBuilder` chỉ đếm term **có** sản phẩm. Nên "Khóa thông minh cửa cổng" (placeholder 0 SP) trả 404 ngay khi mega menu link tới nó — và bất kỳ danh mục nào biên tập viên tạo trước khi có hàng cũng sẽ vậy.
+
+Sửa tại gốc trong `ProductFacetBuilder::labelled()`: khi có filter `category`, ép chính term đó vào tally với count 0 nếu nó chưa có mặt. Chỉ term đang được lọc, để sidebar vẫn chỉ liệt kê lựa chọn còn hàng.
+
+- [x] **Step 4: Chạy test**
 
 ```bash
 SIMPLETEST_DB="sqlite://localhost/sites/default/files/test.sqlite" \
@@ -301,11 +308,11 @@ Rồi chạy cả thư mục test của hai module để chắc không vỡ gì.
 **Interfaces:**
 - `HomeCategory` thêm `children: HomeCategory[]`.
 
-- [ ] **Step 1: Thêm `children` vào type**
+- [x] **Step 1: Thêm `children` vào type**
 
 Trong `page.ts`, `HomeCategory` nhận `children: HomeCategory[]`. Kiểu đệ quy — TypeScript cho phép interface tự tham chiếu.
 
-- [ ] **Step 2: Viết lại MegaMenu**
+- [x] **Step 2: Viết lại MegaMenu**
 
 Bỏ hai dòng `locks`/`accessories` (`MegaMenu.vue:15-16`) — chúng cắt mảng phẳng theo vị trí 5, một giả định giờ sai hoàn toàn.
 
@@ -317,7 +324,7 @@ Nới `w-[720px]` cho vừa 4 cột, vẫn giữ `max-w-[84vw]` để không tr�
 
 Giữ nguyên link "Bộ sưu tập đồng →" tới `/san-pham`, chuyển xuống hàng dưới cùng.
 
-- [ ] **Step 3: Kiểm bằng mắt**
+- [x] **Step 3: Kiểm bằng mắt**
 
 Mở `https://vietlong.ddev.site/`, rê vào "Sản phẩm". Bốn cột đúng tên 4 nhóm gốc, mục con đúng cây. Bấm thử một mục cấp 2 → trang danh mục ra đúng sản phẩm.
 
@@ -325,11 +332,11 @@ Mở `https://vietlong.ddev.site/`, rê vào "Sản phẩm". Bốn cột đúng 
 
 ### Task 5: Kiểm chứng đầu-cuối
 
-- [ ] **Step 1: Facet roll-up đúng ở 3 cấp**
+- [x] **Step 1: Facet roll-up đúng ở 3 cấp**
 
 `ProductFacetBuilder::rollUpToAncestors()` dùng `loadAllParents()` nên đã đi hết chuỗi tổ tiên. Xác nhận bằng số thật: mở `/danh-muc/{tid gốc "Khóa cơ"}` — tổng SP phải bằng tổng các nhánh con cộng lại: **69** (Khóa âm 2 + Full size 10 + Đại sảnh 14 + Đại 14 + Trung 11 + Thông phòng 14 + Tay gạt inox 4).
 
-- [ ] **Step 2: Trang danh mục sống ở cả 3 cấp**
+- [x] **Step 2: Trang danh mục sống ở cả 3 cấp**
 
 Mỗi cấp phải trả 200 và ra đúng sản phẩm, không 404:
 
@@ -339,11 +346,11 @@ for t in 5 6 3 4 22 23 26 8 24; do
 done
 ```
 
-- [ ] **Step 3: Lưới trang chủ và mega menu**
+- [x] **Step 3: Lưới trang chủ và mega menu**
 
 `curl -sk https://vietlong.ddev.site/api/v1/homepage | python3 -m json.tool` — `data.categories` đúng 4 phần tử, `number` là `01`–`04`, mỗi phần tử có `children` không rỗng (trừ nhánh nào cố ý rỗng), và `image` khác null ở cả 4 gốc.
 
-- [ ] **Step 4: Toàn bộ test**
+- [x] **Step 4: Toàn bộ test**
 
 ```bash
 SIMPLETEST_DB="sqlite://localhost/sites/default/files/test.sqlite" \
@@ -354,7 +361,7 @@ cd frontend && npm test
 
 Chỉ `LeadSubmissionTest::testGoodRecaptchaScoreIsStoredAlongsideTheLead` được phép fail (lỗi sẵn có, SQLite).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 Hai commit tách bạch: một cho script dữ liệu, một cho thay đổi trình bày.
 
