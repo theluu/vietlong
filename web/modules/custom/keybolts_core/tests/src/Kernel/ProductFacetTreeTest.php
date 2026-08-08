@@ -23,6 +23,9 @@ class ProductFacetTreeTest extends KernelTestBase {
 
   private array $terms = [];
 
+  /** The first product, used wherever a test needs one to differ. */
+  private ?int $faceidNid = NULL;
+
   protected function setUp(): void {
     parent::setUp();
     $this->installEntitySchema('node');
@@ -32,17 +35,23 @@ class ProductFacetTreeTest extends KernelTestBase {
     $this->installConfig(['node']);
     NodeType::create(['type' => 'product', 'name' => 'Product'])->save();
 
-    foreach (['brand', 'product_category', 'finish'] as $vid) {
+    foreach (['brand', 'product_category', 'finish', 'door_position'] as $vid) {
       Vocabulary::create(['vid' => $vid, 'name' => $vid])->save();
     }
     foreach ([
       'field_brand' => 'brand',
       'field_category' => 'product_category',
       'field_finish' => 'finish',
+      'field_door_position' => 'door_position',
     ] as $field => $vid) {
       FieldStorageConfig::create([
         'field_name' => $field, 'entity_type' => 'node',
         'type' => 'entity_reference', 'settings' => ['target_type' => 'taxonomy_term'],
+        // Matches production: one lock suits several door positions, and the
+        // default cardinality of 1 would silently drop all but the first.
+        'cardinality' => $field === 'field_door_position'
+          ? FieldStorageConfig::CARDINALITY_UNLIMITED
+          : 1,
       ])->save();
       FieldConfig::create([
         'field_name' => $field, 'entity_type' => 'node', 'bundle' => 'product', 'label' => $field,
@@ -58,6 +67,16 @@ class ProductFacetTreeTest extends KernelTestBase {
       'field_name' => 'field_sort_order', 'entity_type' => 'node',
       'bundle' => 'product', 'label' => 'Sort',
     ])->save();
+
+    foreach (['field_faceid', 'field_remote_app'] as $flag) {
+      FieldStorageConfig::create([
+        'field_name' => $flag, 'entity_type' => 'node', 'type' => 'boolean',
+      ])->save();
+      FieldConfig::create([
+        'field_name' => $flag, 'entity_type' => 'node',
+        'bundle' => 'product', 'label' => $flag,
+      ])->save();
+    }
 
     // The shape the catalogue actually has: root -> category -> leaf.
     //   root
@@ -80,10 +99,12 @@ class ProductFacetTreeTest extends KernelTestBase {
     }
 
     foreach (['A', 'B'] as $title) {
-      Node::create([
+      $node = Node::create([
         'type' => 'product', 'title' => $title, 'status' => 1,
         'field_category' => $this->terms['leaf'],
-      ])->save();
+      ]);
+      $node->save();
+      $this->faceidNid ??= (int) $node->id();
     }
   }
 
@@ -117,6 +138,42 @@ class ProductFacetTreeTest extends KernelTestBase {
     $facets = $this->container->get('keybolts_core.product_facets')->labelled([]);
 
     $this->assertArrayNotHasKey((int) $this->terms['empty']->id(), $facets['category']);
+  }
+
+  public function testAFeatureIsCountedNotTurnedIntoACategory(): void {
+    Node::load($this->faceidNid)->set('field_faceid', 1)->save();
+
+    $facets = $this->container->get('keybolts_core.product_facets')->labelled([]);
+
+    $this->assertSame(1, $facets['feature']['faceid']['count']);
+    $this->assertSame(0, $facets['feature']['remoteApp']['count']);
+    $this->assertSame('FaceID', $facets['feature']['faceid']['label']);
+  }
+
+  public function testFilteringOnAFeatureNarrowsToProductsThatHaveIt(): void {
+    Node::load($this->faceidNid)->set('field_faceid', 1)->save();
+
+    $query = $this->container->get('keybolts_core.product_query');
+    $this->assertSame(2, $query->find([])['total']);
+    $this->assertSame(1, $query->find(['faceid' => 1])['total']);
+  }
+
+  public function testOneProductAnswersToSeveralDoorPositions(): void {
+    $front = Term::create(['vid' => 'door_position', 'name' => 'Cửa chính']);
+    $front->save();
+    $bedroom = Term::create(['vid' => 'door_position', 'name' => 'Cửa phòng']);
+    $bedroom->save();
+
+    // The whole point of the field: no duplicate record per position.
+    Node::load($this->faceidNid)->set('field_door_position', [$front->id(), $bedroom->id()])->save();
+
+    $query = $this->container->get('keybolts_core.product_query');
+    $this->assertSame(1, $query->find(['position' => $front->id()])['total']);
+    $this->assertSame(1, $query->find(['position' => $bedroom->id()])['total']);
+
+    $facets = $this->container->get('keybolts_core.product_facets')->labelled([]);
+    $this->assertSame(1, $facets['position'][(int) $front->id()]['count']);
+    $this->assertSame(1, $facets['position'][(int) $bedroom->id()]['count']);
   }
 
 }

@@ -48,6 +48,11 @@ class ProductController extends ControllerBase {
       'brand' => $request->query->get('brand'),
       'category' => $request->query->get('category'),
       'finish' => $request->query->get('finish'),
+      'position' => $request->query->get('position'),
+      // Presence narrows to products with the feature; there is no request
+      // for locks *without* FaceID, so any truthy value means "require it".
+      'faceid' => $request->query->get('faceid') ? 1 : NULL,
+      'remoteApp' => $request->query->get('remoteApp') ? 1 : NULL,
     ]);
     $sort = (string) $request->query->get('sort', 'featured');
     $page = max(1, (int) $request->query->get('page', 1));

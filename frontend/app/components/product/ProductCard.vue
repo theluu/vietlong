@@ -9,6 +9,26 @@ const brandChip = computed(() => {
   if (name === 'BALTICA') return 'bg-brass-700 text-white'
   return 'bg-charcoal-900 text-gold-200'
 })
+
+/*
+ * Every smart lock opens four ways, so the card states them as a fact of the
+ * group rather than a per-product claim. They are deliberately not filters
+ * and not categories — narrowing by something all of them share tells the
+ * customer nothing.
+ */
+const BASE_FEATURES = ['Vân tay', 'Mã số', 'Thẻ từ', 'Chìa cơ']
+
+/*
+ * What actually differs between models, which is the whole job of the badge:
+ * let someone see the difference in a couple of seconds without reading the
+ * name. Absent when the product has neither.
+ */
+const featureBadges = computed(() => {
+  const out: string[] = []
+  if (props.product.faceid) out.push('FaceID')
+  if (props.product.remoteApp) out.push('Mở từ xa')
+  return out
+})
 </script>
 
 <template>
@@ -45,6 +65,37 @@ const brandChip = computed(() => {
 
       <span class="text-heading font-bold text-text">{{ product.name }}</span>
       <span class="text-caption text-text-muted">{{ product.model }}</span>
+
+      <ul
+        v-if="product.smartLock"
+        class="m-0 mt-1 flex list-none flex-wrap gap-x-[10px] gap-y-[3px] p-0"
+      >
+        <li
+          v-for="f in BASE_FEATURES"
+          :key="f"
+          class="text-caption text-text-muted flex items-center gap-[4px]"
+        >
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3.2"
+            class="text-brass-500 flex-none"
+            aria-hidden="true"
+          ><path d="m5 13 4 4L19 7" /></svg>
+          {{ f }}
+        </li>
+      </ul>
+
+      <div v-if="featureBadges.length" class="mt-1 flex flex-wrap gap-[6px]">
+        <span
+          v-for="b in featureBadges"
+          :key="b"
+          class="border border-brass-500 px-[8px] py-[2px] text-[10px] font-bold tracking-[0.1em] text-brass-700 uppercase"
+        >{{ b }}</span>
+      </div>
 
       <span
         v-if="product.finish"

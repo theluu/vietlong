@@ -16,10 +16,11 @@ const { data } = await useAsyncData('mega-menu-categories', () => fetchHomepage(
  * groups. The third level belongs to the listing's own sidebar; four columns
  * already fill the panel.
  *
- * Links go to /san-pham, not /danh-muc/<tid>: the listing page pins a locked
- * axis out of its sidebar, so a category page is the one place the category
- * tree cannot be shown. Arriving with ?category= keeps the tree on screen and
- * every other filter reachable.
+ * A top category leads to its landing page, which asks which kind you want
+ * before showing anything — a lock for a wooden door and one for an
+ * aluminium-and-glass door are different products, and a merged grid makes
+ * the visitor sort that out by eye. Everything below leads straight to the
+ * listing, where the tree stays on screen to narrow further.
  */
 const columns = computed(() => data.value?.data?.categories ?? [])
 </script>
@@ -31,7 +32,7 @@ const columns = computed(() => data.value?.data?.categories ?? [])
   >
     <div v-for="col in columns" :key="col.id" class="flex min-w-0 flex-col gap-[14px]">
       <NuxtLink
-        :to="`/san-pham?category=${col.id}`"
+        :to="`/danh-muc/${col.id}`"
         class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase no-underline"
       >{{ col.name }}</NuxtLink>
       <NuxtLink

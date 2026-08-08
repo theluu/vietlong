@@ -67,7 +67,10 @@ function update(patch: Partial<FilterState>) {
 
 const clearFilters = () =>
   router.push({
-    query: toQuery({ brand: '', category: '', finish: '', sort: state.value.sort, page: 1 }),
+    query: toQuery({
+      brand: '', category: '', finish: '', position: '',
+      faceid: false, remoteApp: false, sort: state.value.sort, page: 1,
+    }),
   })
 </script>
 
@@ -82,6 +85,9 @@ const clearFilters = () =>
         :facets="facets"
         :category="lockedFilter?.axis === 'category' ? '' : state.category"
         :finish="state.finish"
+        :position="state.position"
+        :faceid="state.faceid"
+        :remote-app="state.remoteApp"
         @update="update"
       />
 

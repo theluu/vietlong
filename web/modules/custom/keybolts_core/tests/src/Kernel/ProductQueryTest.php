@@ -31,17 +31,22 @@ class ProductQueryTest extends KernelTestBase {
     $this->installConfig(['node']);
     NodeType::create(['type' => 'product', 'name' => 'Product'])->save();
 
-    foreach (['brand', 'product_category', 'finish'] as $vid) {
+    foreach (['brand', 'product_category', 'finish', 'door_position'] as $vid) {
       Vocabulary::create(['vid' => $vid, 'name' => $vid])->save();
     }
     foreach ([
       'field_brand' => 'brand',
       'field_category' => 'product_category',
       'field_finish' => 'finish',
+      'field_door_position' => 'door_position',
     ] as $field => $vid) {
       FieldStorageConfig::create([
         'field_name' => $field, 'entity_type' => 'node',
         'type' => 'entity_reference', 'settings' => ['target_type' => 'taxonomy_term'],
+        // Matches production: a product answers to several door positions.
+        'cardinality' => $field === 'field_door_position'
+          ? FieldStorageConfig::CARDINALITY_UNLIMITED
+          : 1,
       ])->save();
       FieldConfig::create([
         'field_name' => $field, 'entity_type' => 'node', 'bundle' => 'product', 'label' => $field,
@@ -54,6 +59,17 @@ class ProductQueryTest extends KernelTestBase {
       'field_name' => 'field_sort_order', 'entity_type' => 'node',
       'bundle' => 'product', 'label' => 'Sort',
     ])->save();
+
+    // The facet builder counts these alongside the term axes.
+    foreach (['field_faceid', 'field_remote_app'] as $flag) {
+      FieldStorageConfig::create([
+        'field_name' => $flag, 'entity_type' => 'node', 'type' => 'boolean',
+      ])->save();
+      FieldConfig::create([
+        'field_name' => $flag, 'entity_type' => 'node',
+        'bundle' => 'product', 'label' => $flag,
+      ])->save();
+    }
 
     foreach (['keybolts', 'baltica'] as $name) {
       $t = Term::create(['vid' => 'brand', 'name' => $name]);

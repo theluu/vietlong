@@ -93,3 +93,12 @@ keybolts_api.contact:
   methods: [POST]
   requirements:
     _permission: 'access content'
+
+keybolts_api.category:
+  path: '/api/v1/categories/{tid}'
+  defaults:
+    _controller: '\Drupal\keybolts_api\Controller\CategoryController::show'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+    tid: '\d+'

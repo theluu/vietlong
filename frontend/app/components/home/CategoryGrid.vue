@@ -27,14 +27,13 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
       </div>
 
       <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
-      <!-- /san-pham, not /danh-muc/<tid>: the listing hides whichever axis is
-           locked, so a category page is the one page without the category
-           tree. ?category= lands on the tile's group with the whole tree
-           still there to narrow down. -->
+      <!-- Every tile is a top category, so it leads to that category's
+           landing page, which asks which kind you want before showing
+           models. The listing is one click further in. -->
       <NuxtLink
         v-for="cat in categories"
         :key="cat.id"
-        :to="`/san-pham?category=${cat.id}`"
+        :to="`/danh-muc/${cat.id}`"
         class="kb-home-category-card group block min-w-0 snap-start overflow-hidden bg-charcoal-900 text-inherit no-underline"
       >
         <span class="kb-hero-frame relative block aspect-[3/3.6] w-full overflow-hidden">

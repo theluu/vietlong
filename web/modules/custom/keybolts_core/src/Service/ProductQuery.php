@@ -17,6 +17,18 @@ class ProductQuery {
     'brand' => 'field_brand',
     'category' => 'field_category',
     'finish' => 'field_finish',
+    'position' => 'field_door_position',
+  ];
+
+  /**
+   * Filter key => boolean field, applied only when the key is truthy.
+   *
+   * Separate from FILTER_FIELDS because these narrow to products that have
+   * the feature; there is no "show me locks without FaceID" to ask for.
+   */
+  private const FLAG_FIELDS = [
+    'faceid' => 'field_faceid',
+    'remoteApp' => 'field_remote_app',
   ];
 
   public function __construct(
@@ -63,6 +75,12 @@ class ProductQuery {
       $query->condition($field, $key === 'category'
         ? $this->categoryWithDescendants((int) $filters[$key])
         : $filters[$key], $key === 'category' ? 'IN' : '=');
+    }
+
+    foreach (self::FLAG_FIELDS as $key => $field) {
+      if (!empty($filters[$key])) {
+        $query->condition($field, 1);
+      }
     }
     return $query;
   }

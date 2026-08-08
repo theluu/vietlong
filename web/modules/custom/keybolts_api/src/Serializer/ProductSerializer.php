@@ -13,6 +13,14 @@ use Drupal\node\NodeInterface;
  */
 class ProductSerializer {
 
+  /**
+   * The top category whose products all carry the four base features.
+   *
+   * Fingerprint, keypad, card and mechanical key are true of every lock in
+   * this branch, so they are stated per group instead of per product.
+   */
+  private const SMART_LOCK_ROOT = 'Khóa thông minh';
+
   public function __construct(
     private readonly EntityTypeManagerInterface $entityTypeManager,
     private readonly AliasManagerInterface $aliasManager,
@@ -36,6 +44,14 @@ class ProductSerializer {
       'image' => $this->firstImage($node),
       'stockStatus' => $this->listLabel($node, 'field_stock_status'),
       'contactPrice' => (bool) $this->str($node, 'field_contact_price'),
+      // The two features that vary between models. Fingerprint, keypad, card
+      // and mechanical key are on every smart lock, so they are not stored
+      // per product — the card states them as a constant of the group.
+      'faceid' => $this->bool($node, 'field_faceid'),
+      'remoteApp' => $this->bool($node, 'field_remote_app'),
+      // Lets the card state the four base features without storing them on
+      // every product. A hinge must not claim to have a fingerprint reader.
+      'smartLock' => $this->inSmartLockBranch($node),
     ];
   }
 
@@ -56,6 +72,9 @@ class ProductSerializer {
       'origin' => $this->str($node, 'field_origin'),
       'sizeLabel' => $this->str($node, 'field_size_label'),
       'sizeNote' => $this->str($node, 'field_size_note'),
+      // Many per product on purpose: one lock suits several door positions,
+      // and the alternative was duplicating the model once per position.
+      'positions' => $this->terms($node, 'field_door_position'),
       'images' => $this->images($node),
       'specifications' => $this->paragraphs($node, 'field_specifications', [
         'k' => 'field_spec_key', 'v' => 'field_spec_value',
@@ -101,6 +120,54 @@ class ProductSerializer {
       return '';
     }
     return (string) $node->get($field)->value;
+  }
+
+  /**
+   * Whether the product sits anywhere under the smart-lock category.
+   *
+   * Matched by the top category's name rather than a stored id so the tree
+   * can be rebuilt without this silently pointing at the wrong branch. The
+   * lookup walks at most three parents and the terms are already in Drupal's
+   * entity cache from the category field.
+   */
+  private function inSmartLockBranch(NodeInterface $node): bool {
+    if (!$node->hasField('field_category') || $node->get('field_category')->isEmpty()) {
+      return FALSE;
+    }
+    $term = $node->get('field_category')->entity;
+    if (!$term) {
+      return FALSE;
+    }
+    if ($term->label() === self::SMART_LOCK_ROOT) {
+      return TRUE;
+    }
+    $storage = $this->entityTypeManager->getStorage('taxonomy_term');
+    foreach ($storage->loadAllParents($term->id()) as $ancestor) {
+      if ($ancestor->label() === self::SMART_LOCK_ROOT) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  private function bool(NodeInterface $node, string $field): bool {
+    return $node->hasField($field)
+      && !$node->get($field)->isEmpty()
+      && (bool) $node->get($field)->value;
+  }
+
+  /**
+   * Every referenced term of a multi-value reference field.
+   */
+  private function terms(NodeInterface $node, string $field): array {
+    if (!$node->hasField($field)) {
+      return [];
+    }
+    $out = [];
+    foreach ($node->get($field)->referencedEntities() as $term) {
+      $out[] = ['id' => (int) $term->id(), 'name' => $term->label()];
+    }
+    return $out;
   }
 
   private function multi(NodeInterface $node, string $field): array {

@@ -6,10 +6,19 @@ defineProps<{
   facets: Facets
   category: string
   finish: string
+  position: string
+  faceid: boolean
+  remoteApp: boolean
 }>()
 
 const emit = defineEmits<{
-  (e: 'update', patch: { category?: string; finish?: string }): void
+  (e: 'update', patch: {
+    category?: string
+    finish?: string
+    position?: string
+    faceid?: boolean
+    remoteApp?: boolean
+  }): void
 }>()
 
 /**
@@ -35,6 +44,59 @@ const entries = (axis: Record<string, { label: string; count: number; swatch?: s
         :selected="category"
         @select="emit('update', { category: $event })"
       />
+    </div>
+
+    <!-- Door position. A search aid, not a category: one lock answers to
+         several of these, and picking one never hides the others as a
+         product's home. -->
+    <div v-if="entries(facets.position).length" class="border border-border">
+      <div
+        class="text-caption border-b border-border bg-surface px-5 py-[14px] font-bold tracking-[0.14em] uppercase"
+      >
+        Tìm theo nhu cầu
+      </div>
+      <div class="flex flex-col">
+        <button
+          v-for="[id, opt] in entries(facets.position)"
+          :key="id"
+          type="button"
+          class="kb-filter-row flex cursor-pointer items-center justify-between gap-3 border-none bg-background px-5 py-[11px] text-left hover:bg-surface"
+          :class="position === id ? 'text-brass-700 bg-surface font-bold' : 'text-text'"
+          :aria-pressed="position === id"
+          @click="emit('update', { position: position === id ? '' : id })"
+        >
+          <span class="text-body">{{ opt.label }}</span>
+          <span class="text-caption text-text-muted">{{ opt.count }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- The two features that vary between models. The four every smart lock
+         has — vân tay, mã số, thẻ từ, chìa cơ — are not filters: they would
+         narrow nothing. -->
+    <div v-if="entries(facets.feature).length" class="border border-border">
+      <div
+        class="text-caption border-b border-border bg-surface px-5 py-[14px] font-bold tracking-[0.14em] uppercase"
+      >
+        Tính năng nổi bật
+      </div>
+      <div class="flex flex-col">
+        <button
+          v-for="[key, opt] in entries(facets.feature)"
+          :key="key"
+          type="button"
+          class="kb-filter-row flex cursor-pointer items-center justify-between gap-3 border-none bg-background px-5 py-[11px] text-left hover:bg-surface"
+          :class="(key === 'faceid' ? faceid : remoteApp) ? 'text-brass-700 bg-surface font-bold' : 'text-text'"
+          :aria-pressed="key === 'faceid' ? faceid : remoteApp"
+          :disabled="!opt.count && !(key === 'faceid' ? faceid : remoteApp)"
+          @click="key === 'faceid'
+            ? emit('update', { faceid: !faceid })
+            : emit('update', { remoteApp: !remoteApp })"
+        >
+          <span class="text-body">{{ opt.label }}</span>
+          <span class="text-caption text-text-muted">{{ opt.count }}</span>
+        </button>
+      </div>
     </div>
 
     <!-- Finishes -->
@@ -80,3 +142,19 @@ const entries = (axis: Record<string, { label: string; count: number; swatch?: s
     </div>
   </aside>
 </template>
+
+<style scoped>
+.kb-filter-row[aria-pressed='true'] {
+  box-shadow: inset 3px 0 0 0 var(--color-brass-700);
+}
+
+.kb-filter-row:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.kb-filter-row:focus-visible {
+  outline: 2px solid var(--color-brass-700);
+  outline-offset: -2px;
+}
+</style>

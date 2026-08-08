@@ -22,6 +22,21 @@ class ProductFacetBuilder {
     'brand' => 'field_brand',
     'category' => 'field_category',
     'finish' => 'field_finish',
+    // Which door a lock suits — a way of searching, not a place the product
+    // lives, so one product answers to several of these.
+    'position' => 'field_door_position',
+  ];
+
+  /**
+   * Boolean features counted as one number each, not per term.
+   *
+   * These say how many products would remain if the feature were required,
+   * so the sidebar can show "FaceID (7)" without inventing a vocabulary for
+   * something that is a yes/no on the product.
+   */
+  private const FLAGS = [
+    'faceid' => 'field_faceid',
+    'remoteApp' => 'field_remote_app',
   ];
 
   public function __construct(
@@ -105,7 +120,71 @@ class ProductFacetBuilder {
         $out[$axis][$tid] = $row;
       }
     }
+
+    // Shaped like the term axes so the sidebar can render them with the same
+    // code: a key, a label and a count.
+    $out['feature'] = [];
+    foreach ($this->flagCounts($filters) as $key => $count) {
+      $out['feature'][$key] = [
+        'label' => $key === 'faceid' ? 'FaceID' : 'Mở cửa từ xa qua app',
+        'count' => $count,
+      ];
+    }
     return $out;
+  }
+
+  /**
+   * How many products carry each boolean feature under the current filters.
+   *
+   * Counted with the feature's own filter removed, for the same reason the
+   * term axes are: counting it under itself only ever returns the number
+   * already on screen.
+   *
+   * @return array<string, int>
+   */
+  private function flagCounts(array $filters): array {
+    $out = [];
+    foreach (self::FLAGS as $key => $field) {
+      $scoped = $filters;
+      unset($scoped[$key]);
+
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('type', 'product')
+        ->condition('status', 1)
+        ->condition($field, 1);
+      $this->applyFilters($query, $scoped);
+      $out[$key] = (int) $query->count()->execute();
+    }
+    return $out;
+  }
+
+  /**
+   * Puts the active filters on a query, term axes and feature flags alike.
+   *
+   * Shared so a facet count and the listing itself never disagree about what
+   * "currently filtered" means.
+   *
+   * @param \Drupal\Core\Entity\Query\QueryInterface|\Drupal\Core\Entity\Query\QueryAggregateInterface $query
+   *   The query to narrow.
+   */
+  private function applyFilters($query, array $filters): void {
+    foreach (self::AXES as $key => $filter_field) {
+      if (empty($filters[$key])) {
+        continue;
+      }
+      // Match ProductQuery: a category filter covers its whole subtree, or
+      // the other axes would be counted against a parent term that no
+      // product references directly and come back empty.
+      $query->condition($filter_field, $key === 'category'
+        ? $this->productQuery->categoryWithDescendants((int) $filters[$key])
+        : $filters[$key], $key === 'category' ? 'IN' : '=');
+    }
+    foreach (self::FLAGS as $key => $field) {
+      if (!empty($filters[$key])) {
+        $query->condition($field, 1);
+      }
+    }
   }
 
   /**
@@ -128,17 +207,7 @@ class ProductFacetBuilder {
       ->condition('type', 'product')
       ->condition('status', 1);
 
-    foreach (self::AXES as $key => $filter_field) {
-      if (empty($filters[$key])) {
-        continue;
-      }
-      // Match ProductQuery: a category filter covers its whole subtree, or
-      // the other axes would be counted against a parent term that no
-      // product references directly and come back empty.
-      $query->condition($filter_field, $key === 'category'
-        ? $this->productQuery->categoryWithDescendants((int) $filters[$key])
-        : $filters[$key], $key === 'category' ? 'IN' : '=');
-    }
+    $this->applyFilters($query, $filters);
 
     $query->aggregate('nid', 'COUNT')->groupBy($field);
     $result = $query->execute();

@@ -1,13 +1,37 @@
 import type { ApiListResponse, ApiResponse, ProductCard, ProductDetail } from '~/types/product'
+import type { ResponsiveImage } from '~/types/page'
 import { apiFetch } from './http'
 
 export interface ProductFilters {
   brand?: string
   category?: string
   finish?: string
+  position?: string
+  faceid?: string
+  remoteApp?: string
   sort?: string
   page?: number
 }
+
+/** A top category and the directions a visitor can take from it. */
+export interface CategoryBranch {
+  id: number
+  name: string
+  desc: string
+  /** 0 when this is a top category — the only level with a landing page. */
+  parent: number
+  total: number
+  children: {
+    id: number
+    name: string
+    desc: string
+    count: number
+    image: ResponsiveImage | null
+  }[]
+}
+
+export const fetchCategory = (tid: string | number) =>
+  apiFetch<CategoryBranch>(`/categories/${tid}`) as Promise<ApiResponse<CategoryBranch>>
 
 export const fetchProducts = (filters: ProductFilters = {}) =>
   apiFetch<ProductCard[]>('/products', filters as Record<string, unknown>) as Promise<

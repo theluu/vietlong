@@ -24,6 +24,11 @@ export interface ProductCard {
   image: ResponsiveImage | null
   stockStatus: string | null
   contactPrice: boolean
+  /** The two features that vary between smart-lock models. */
+  faceid: boolean
+  remoteApp: boolean
+  /** Under the smart-lock category, where the four base features are given. */
+  smartLock: boolean
 }
 
 export interface VariantOption {
@@ -54,6 +59,8 @@ export interface ProductDetail extends ProductCard {
   origin: string
   sizeLabel: string
   sizeNote: string
+  /** Door positions the model suits — several per product is normal. */
+  positions: TermRef[]
   images: ResponsiveImage[]
   specifications: { k: string; v: string }[]
   faqs: { q: string; a: string }[]
