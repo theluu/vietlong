@@ -90,6 +90,18 @@ class ProductFacetBuilder {
         if ($term->hasField('field_swatch') && !$term->get('field_swatch')->isEmpty()) {
           $row['swatch'] = (string) $term->get('field_swatch')->value;
         }
+        // Categories are three levels deep. Without the parent, a client can
+        // only draw them as one flat list, where a group of 69 products and
+        // one of its own leaves of 14 look like siblings.
+        //
+        // Weight travels with it because this payload is keyed by term id:
+        // integer-like keys come back out of JSON.parse in ascending numeric
+        // order whatever order they were sent in, so the client has to sort
+        // siblings itself and needs something to sort by.
+        if ($axis === 'category') {
+          $row['parent'] = (int) ($term->get('parent')->target_id ?? 0);
+          $row['weight'] = (int) $term->getWeight();
+        }
         $out[$axis][$tid] = $row;
       }
     }

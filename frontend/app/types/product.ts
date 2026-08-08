@@ -69,6 +69,10 @@ export interface FacetOption {
   count: number
   /** Present on the finish vocabulary, which carries a colour. */
   swatch?: string
+  /** Category axis only: owning term, 0 at the top of the tree. */
+  parent?: number
+  /** Category axis only: sibling order, since the payload arrives id-sorted. */
+  weight?: number
 }
 
 /** Axis name -> term ID -> option. */

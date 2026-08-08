@@ -30,27 +30,11 @@ const entries = (axis: Record<string, { label: string; count: number; swatch?: s
       >
         Danh mục sản phẩm
       </div>
-      <div class="flex flex-col">
-        <button
-          type="button"
-          class="flex cursor-pointer items-center justify-between border-none bg-background px-5 py-3 text-left hover:bg-surface"
-          :class="category === '' ? 'text-brass-700 font-bold bg-surface' : 'text-text'"
-          @click="emit('update', { category: '' })"
-        >
-          <span class="text-body">Tất cả sản phẩm</span>
-        </button>
-        <button
-          v-for="[id, opt] in entries(facets.category)"
-          :key="id"
-          type="button"
-          class="flex cursor-pointer items-center justify-between gap-3 border-none bg-background px-5 py-3 text-left hover:bg-surface"
-          :class="category === id ? 'text-brass-700 font-bold bg-surface' : 'text-text'"
-          @click="emit('update', { category: category === id ? '' : id })"
-        >
-          <span class="text-body">{{ opt.label }}</span>
-          <span class="text-caption text-text-muted">{{ opt.count }}</span>
-        </button>
-      </div>
+      <ProductCategoryTree
+        :options="facets.category ?? {}"
+        :selected="category"
+        @select="emit('update', { category: $event })"
+      />
     </div>
 
     <!-- Finishes -->
