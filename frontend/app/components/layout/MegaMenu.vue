@@ -13,8 +13,13 @@ const { data } = await useAsyncData('mega-menu-categories', () => fetchHomepage(
  * One column per top category, its second level beneath. The vocabulary used
  * to be flat, so the menu split it by position — the first five were locks,
  * the rest accessories. It is a real tree now, and the tree names its own
- * groups. The third level belongs to the category pages; four columns already
- * fill the panel.
+ * groups. The third level belongs to the listing's own sidebar; four columns
+ * already fill the panel.
+ *
+ * Links go to /san-pham, not /danh-muc/<tid>: the listing page pins a locked
+ * axis out of its sidebar, so a category page is the one place the category
+ * tree cannot be shown. Arriving with ?category= keeps the tree on screen and
+ * every other filter reachable.
  */
 const columns = computed(() => data.value?.data?.categories ?? [])
 </script>
@@ -26,13 +31,13 @@ const columns = computed(() => data.value?.data?.categories ?? [])
   >
     <div v-for="col in columns" :key="col.id" class="flex min-w-0 flex-col gap-[14px]">
       <NuxtLink
-        :to="`/danh-muc/${col.id}`"
+        :to="`/san-pham?category=${col.id}`"
         class="text-eyebrow text-brass-700 font-bold tracking-[0.18em] uppercase no-underline"
       >{{ col.name }}</NuxtLink>
       <NuxtLink
         v-for="child in col.children"
         :key="child.id"
-        :to="`/danh-muc/${child.id}`"
+        :to="`/san-pham?category=${child.id}`"
         class="text-body text-text no-underline hover:text-brass-700"
       >{{ child.name }}</NuxtLink>
     </div>
