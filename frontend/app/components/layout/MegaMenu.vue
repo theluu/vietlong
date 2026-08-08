@@ -21,6 +21,11 @@ const { data } = await useAsyncData('mega-menu-categories', () => fetchHomepage(
  * aluminium-and-glass door are different products, and a merged grid makes
  * the visitor sort that out by eye. Everything below leads straight to the
  * listing, where the tree stays on screen to narrow further.
+ *
+ * Two by two, not one row of four. The panel hangs off the "Sản phẩm" link
+ * in the middle of the header, so the space to its right is whatever the
+ * remaining nav items leave — about 720px at any viewport. Four columns
+ * needed 880 and ran off the right edge of the screen.
  */
 const columns = computed(() => data.value?.data?.categories ?? [])
 </script>
@@ -28,7 +33,7 @@ const columns = computed(() => data.value?.data?.categories ?? [])
 <template>
   <div
     v-if="megaMenuOpen"
-    class="shadow-floating absolute top-full -left-10 z-[60] grid w-[880px] max-w-[92vw] grid-cols-4 gap-x-8 gap-y-6 border-t-[3px] border-gold-200 bg-background px-[34px] py-8 text-text"
+    class="shadow-floating absolute top-full -left-10 z-[60] grid w-[720px] max-w-[84vw] grid-cols-2 gap-x-9 gap-y-7 border-t-[3px] border-gold-200 bg-background px-[34px] py-8 text-text"
   >
     <div v-for="col in columns" :key="col.id" class="flex min-w-0 flex-col gap-[14px]">
       <NuxtLink
@@ -45,7 +50,7 @@ const columns = computed(() => data.value?.data?.categories ?? [])
 
     <NuxtLink
       to="/san-pham"
-      class="text-body text-brass-700 col-span-4 border-t border-border pt-5 font-bold no-underline"
+      class="text-body text-brass-700 col-span-2 border-t border-border pt-5 font-bold no-underline"
     >
       Bộ sưu tập đồng →
     </NuxtLink>
