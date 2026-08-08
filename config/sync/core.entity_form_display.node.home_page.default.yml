@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.home_page.field_hero_cta1
     - field.field.node.home_page.field_hero_cta2
     - field.field.node.home_page.field_hero_eyebrow
+    - field.field.node.home_page.field_hero_images
     - field.field.node.home_page.field_hero_stats
     - field.field.node.home_page.field_hero_subtitle
     - field.field.node.home_page.field_hero_title
@@ -44,6 +45,7 @@ third_party_settings:
         - field_hero_eyebrow
         - field_hero_title
         - field_hero_subtitle
+        - field_hero_images
         - field_hero_cta1
         - field_hero_cta2
         - field_hero_stats
@@ -279,6 +281,14 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_hero_images:
+    type: image_image
+    weight: 3
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
     third_party_settings: {  }
   field_hero_stats:
     type: paragraphs

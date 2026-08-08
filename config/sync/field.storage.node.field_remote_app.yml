@@ -1,0 +1,18 @@
+uuid: 7f0a90b8-0cee-4a4f-aa2d-c92dab892c56
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_remote_app
+field_name: field_remote_app
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

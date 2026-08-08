@@ -10,7 +10,7 @@ field_name: field_family
 entity_type: node
 bundle: product
 label: 'Dòng sản phẩm'
-description: ''
+description: 'Khoá gom biến thể. Mọi sản phẩm điền GIỐNG HỆT ô này sẽ hiện thành các lựa chọn size/màu của nhau trên trang chi tiết. Ví dụ: KB 1700, KB-SUS 201. Để trống = sản phẩm đứng một mình, không có bộ chọn.'
 required: false
 translatable: true
 default_value: {  }

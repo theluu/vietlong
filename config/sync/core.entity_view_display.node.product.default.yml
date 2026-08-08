@@ -10,7 +10,9 @@ dependencies:
     - field.field.node.product.field_contact_price
     - field.field.node.product.field_desc_heading
     - field.field.node.product.field_description
+    - field.field.node.product.field_door_position
     - field.field.node.product.field_door_thickness
+    - field.field.node.product.field_faceid
     - field.field.node.product.field_family
     - field.field.node.product.field_faqs
     - field.field.node.product.field_featured
@@ -23,6 +25,7 @@ dependencies:
     - field.field.node.product.field_policy_cards
     - field.field.node.product.field_product_code
     - field.field.node.product.field_related_products
+    - field.field.node.product.field_remote_app
     - field.field.node.product.field_search_text
     - field.field.node.product.field_short_desc
     - field.field.node.product.field_size_key
@@ -81,7 +84,9 @@ hidden:
   field_contact_price: true
   field_desc_heading: true
   field_description: true
+  field_door_position: true
   field_door_thickness: true
+  field_faceid: true
   field_family: true
   field_faqs: true
   field_featured: true
@@ -92,6 +97,7 @@ hidden:
   field_origin: true
   field_policy_cards: true
   field_related_products: true
+  field_remote_app: true
   field_search_text: true
   field_size_key: true
   field_size_label: true

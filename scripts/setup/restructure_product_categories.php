@@ -38,8 +38,18 @@ const KB_TREE = [
     'number' => '01',
     'desc' => 'Điều khiển tiện lợi, bảo mật hiện đại.',
     'children' => [
-      ['tid' => 6, 'name' => 'Khóa thông minh cửa gỗ'],
-      ['name' => 'Khóa thông minh cửa nhôm kính'],
+      // The deck makes this line mandatory on the wooden-door page: the
+      // whole worry it answers is that a versatile lock reads as a
+      // single-room product once it sits under a category.
+      [
+        'tid' => 6,
+        'name' => 'Khóa thông minh cửa gỗ',
+        'desc' => 'Một giải pháp khóa thông minh cho nhiều vị trí cửa trong nhà.',
+      ],
+      [
+        'name' => 'Khóa thông minh cửa nhôm kính',
+        'desc' => 'Giải pháp khóa thông minh cho cửa nhôm kính.',
+      ],
       ['name' => 'Khóa thông minh cửa cổng'],
       [
         'tid' => 7,
@@ -199,26 +209,28 @@ function kb_apply(array $node, int $parent, int $weight): void {
     $touched = TRUE;
   }
 
-  // Only roots are tiles on the homepage. Demoted terms keep stale numbers
-  // otherwise, and the grid sorts by that number.
-  $number = $node['number'] ?? '';
-  $desc = $node['desc'] ?? '';
-  foreach (['field_number' => $number, 'field_short_desc' => $desc] as $field => $value) {
-    if (!$term->hasField($field)) {
-      continue;
-    }
-    $was = (string) ($term->get($field)->value ?? '');
-    // A root without an explicit value keeps whatever an editor wrote; only
-    // non-roots are actively cleared.
-    if ($parent !== 0 && $was !== '') {
-      $term->set($field, NULL);
-      echo "cleared  {$field} on {$node['name']} (tid {$term->id()})\n";
+  // field_number orders the homepage tiles, and only roots are tiles. A
+  // demoted term keeping its old number would sort itself into that grid.
+  if ($term->hasField('field_number')) {
+    $number = $node['number'] ?? '';
+    $was = (string) ($term->get('field_number')->value ?? '');
+    if ($was !== $number) {
+      $term->set('field_number', $number === '' ? NULL : $number);
+      echo $number === ''
+        ? "cleared  field_number on {$node['name']} (tid {$term->id()})\n"
+        : "field    field_number = '{$number}' on {$node['name']} (tid {$term->id()})\n";
       kb_tally('fields');
       $touched = TRUE;
     }
-    elseif ($parent === 0 && $value !== '' && $was !== $value) {
-      $term->set($field, $value);
-      echo "field    {$field} = '{$value}' on {$node['name']} (tid {$term->id()})\n";
+  }
+
+  // Copy belongs at any depth: the tiles read it, and so does the message a
+  // category page leads with. Never cleared — an editor's wording outranks
+  // this file, which only fills what it declares.
+  if ($term->hasField('field_short_desc') && ($node['desc'] ?? '') !== '') {
+    if ((string) ($term->get('field_short_desc')->value ?? '') !== $node['desc']) {
+      $term->set('field_short_desc', $node['desc']);
+      echo "field    field_short_desc on {$node['name']} (tid {$term->id()})\n";
       kb_tally('fields');
       $touched = TRUE;
     }

@@ -1,0 +1,21 @@
+uuid: 60055b83-6e84-4da7-8412-6ea97b88de7a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_remote_app
+    - node.type.product
+id: node.product.field_remote_app
+field_name: field_remote_app
+entity_type: node
+bundle: product
+label: 'Mở cửa từ xa qua app'
+description: 'Là tính năng chung của dòng cửa nhôm kính; với cửa gỗ chỉ một số mẫu có.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

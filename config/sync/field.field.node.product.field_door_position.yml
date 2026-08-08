@@ -1,0 +1,24 @@
+uuid: 2a03e38c-5e71-4c82-84a0-c7ddec2c1fe3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_door_position
+    - node.type.product
+    - taxonomy.vocabulary.door_position
+id: node.product.field_door_position
+field_name: field_door_position
+entity_type: node
+bundle: product
+label: 'Vị trí phù hợp'
+description: 'Những vị trí cửa model này dùng được. Chọn nhiều nếu phù hợp nhiều vị trí — không tạo sản phẩm riêng cho từng vị trí.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      door_position: door_position
+field_type: entity_reference

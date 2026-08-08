@@ -1,0 +1,21 @@
+uuid: 4ae7e21f-0e51-46be-9226-1a06d7df9c4c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faceid
+    - node.type.product
+id: node.product.field_faceid
+field_name: field_faceid
+entity_type: node
+bundle: product
+label: FaceID
+description: 'Chỉ một số mẫu có. Hiện thành badge trên thẻ sản phẩm.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -10,7 +10,7 @@ field_name: field_size_note
 entity_type: node
 bundle: product
 label: 'Ghi chú size'
-description: ''
+description: 'Dòng chữ nhỏ dưới nút chọn size, nói size này hợp với cửa nào. Ví dụ: "Cửa 2 cánh lớn", "Cửa đi cỡ đại".'
 required: false
 translatable: true
 default_value: {  }

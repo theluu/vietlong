@@ -1,0 +1,9 @@
+uuid: 83cfc335-5699-40b3-81ea-b0cd98ac34d6
+langcode: en
+status: true
+dependencies: {  }
+name: 'Vị trí phù hợp'
+vid: door_position
+description: null
+weight: 0
+new_revision: false

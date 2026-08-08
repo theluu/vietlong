@@ -10,7 +10,7 @@ field_name: field_size_key
 entity_type: node
 bundle: product
 label: 'Mã size'
-description: ''
+description: 'Size của RIÊNG sản phẩm này, không phải danh sách size. Dùng để so khớp giữa các biến thể nên phải viết thống nhất trong cùng một dòng. Ví dụ: S, M, L, XL, XXL, hoặc S0.5, S11.'
 required: false
 translatable: true
 default_value: {  }

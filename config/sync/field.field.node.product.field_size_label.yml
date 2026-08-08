@@ -10,7 +10,7 @@ field_name: field_size_label
 entity_type: node
 bundle: product
 label: 'Tên size'
-description: ''
+description: 'Chữ hiện trên nút chọn size. Ví dụ: "Đại sảnh XL", "S11".'
 required: false
 translatable: true
 default_value: {  }
