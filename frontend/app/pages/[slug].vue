@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { fetchProduct } from '~/services/products'
 
-const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL } = useSite()
+const { hotline: HOTLINE, hotlineTel: HOTLINE_TEL, contact } = useSite()
 const route = useRoute()
 const slug = computed(() => String(route.params.slug))
 
@@ -33,19 +33,33 @@ const activeFinishLabel = computed(
     ?? '',
 )
 
+/*
+ * The search-result title: product name, then who sells it — the shape the
+ * old site used.
+ *
+ * The suffix is the company, never a brand. Keybolts and Baltica are two
+ * different makers and the catalogue carries both, so stamping "Keybolts"
+ * onto a Baltica lock credited the wrong one. It also used to repeat the
+ * model, which is already inside most names ("…BD01 BD01").
+ *
+ * Taken from site settings rather than written in, so an editor owns it.
+ * The short form on purpose: search engines cut the title around 60
+ * characters, and the full legal name spends 45 of them by itself.
+ */
+const seoTitle = computed(() => {
+  const name = product.value?.name ?? ''
+  const company = contact.value.companyShort || contact.value.companyName
+  return company ? `${name} | ${company}` : name
+})
+
 useSeoMeta({
-  /*
-   * The name alone, as the old site titled these pages.
-   *
-   * It used to append the model and " | Keybolts", which broke twice over.
-   * The model is already in most names, so BD01 came out as "…BD01 BD01";
-   * where it is not a substring it is often a description rather than a code
-   * ("Chặn Cửa CAO CẤP"), which reads worse still. And Keybolts is a brand,
-   * not the shop — stamping it onto a Baltica lock claims the wrong maker.
-   * Every name already carries its own brand.
-   */
-  title: () => product.value?.name,
-  description: () => product.value?.shortDesc,
+  title: () => seoTitle.value,
+  // The editor's own summary of the product; the generic line only stands in
+  // where nobody has written one, so the page never ships without a snippet.
+  description: () => product.value?.shortDesc
+    || `${product.value?.name} — nhập khẩu chính hãng, bảo hành 5–10 năm. Liên hệ ${HOTLINE.value} để nhận báo giá.`,
+  ogTitle: () => seoTitle.value,
+  ogDescription: () => product.value?.shortDesc,
   ogImage: () => product.value?.image?.url,
   ogType: 'website',
 })
@@ -74,12 +88,16 @@ useHead(() => ({
 
       <div class="flex flex-col gap-5">
         <div class="flex flex-col gap-3">
-          <span
+          <!-- Category only. The prototype prefixed it with the one range it
+               was built from, which mislabelled every other kind of lock. -->
+          <NuxtLink
             v-if="product.category"
-            class="text-eyebrow text-brass-700 font-bold tracking-[0.2em] uppercase"
-          >Khóa tay gạt {{ product.category.name }}</span>
+            :to="`/san-pham?category=${product.category.id}`"
+            class="text-eyebrow text-brass-700 font-bold tracking-[0.2em] uppercase no-underline hover:underline"
+          >{{ product.category.name }}</NuxtLink>
 
-          <h1 class="text-display-lg m-0 font-bold tracking-[-0.03em]">{{ product.name }}<template v-if="!product.name.toLowerCase().includes('keybolts')"> Keybolts</template></h1>
+          <!-- The name as it is. Appending " Keybolts" relabelled Baltica. -->
+          <h1 class="text-display-lg m-0 font-bold tracking-[-0.03em]">{{ product.name }}</h1>
 
           <div class="text-body text-text-muted flex flex-wrap items-center gap-5"><span>Mã sản phẩm: <strong class="text-text">{{ product.model }}</strong></span><span v-if="product.stockStatus" class="font-bold text-success">● &nbsp;{{ product.stockStatus }}</span></div>
 
