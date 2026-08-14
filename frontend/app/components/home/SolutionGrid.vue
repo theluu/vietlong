@@ -14,18 +14,20 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(340)
           <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Chọn theo loại công trình</h2>
           <p class="text-heading text-text m-0 font-semibold leading-[1.7]">Chưa biết model nào phù hợp? Bắt đầu từ loại công trình bạn đang làm.</p>
         </div>
-        <div class="flex justify-center gap-[12px]"><button type="button" aria-label="Trước" :disabled="!canPrev" :class="[buttonClass, 'bg-transparent']" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" aria-label="Sau" :disabled="!canNext" :class="[buttonClass, 'bg-transparent']" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button></div>
+        <!-- Below md the track is a grid with nothing to scroll, so the arrows
+             would be two permanently disabled buttons. -->
+        <div class="hidden justify-center gap-[12px] md:flex"><button type="button" aria-label="Trước" :disabled="!canPrev" :class="[buttonClass, 'bg-transparent']" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" aria-label="Sau" :disabled="!canNext" :class="[buttonClass, 'bg-transparent']" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button></div>
       </div>
 
-    <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
+    <div ref="track" class="kb-track grid grid-cols-2 gap-[16px] md:flex md:snap-x md:snap-mandatory md:gap-[24px] md:overflow-x-auto md:scroll-smooth md:pb-[8px]">
       <NuxtLink
         v-for="sol in section.items"
         :key="sol.title"
         to="/san-pham"
         class="kb-home-solution-card group flex min-w-0 snap-start flex-col overflow-hidden border border-border bg-background text-inherit no-underline transition hover:-translate-y-[6px] hover:shadow-floating"
       >
-        <div class="kb-product-image-frame relative aspect-[16/10] overflow-hidden bg-surface"><UiResponsiveImage :image="sol.image" :alt="sol.title" sizes="(min-width: 1024px) 33vw, 100vw" class="size-full object-cover transition duration-500 group-hover:scale-105" /><div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.9),rgba(40,45,48,.05)_60%)]"/><span class="text-display absolute bottom-[18px] left-[22px] font-bold tracking-[-0.025em] text-white">{{ sol.title }}</span></div>
-        <div class="flex flex-1 flex-col gap-[16px] px-[20px] py-[22px]"><span class="text-body text-text-muted flex-1 leading-[1.7]">{{ sol.desc }}</span>
+        <div class="kb-product-image-frame relative aspect-[16/10] overflow-hidden bg-surface"><UiResponsiveImage :image="sol.image" :alt="sol.title" sizes="(min-width: 1024px) 33vw, 100vw" class="size-full object-cover transition duration-500 group-hover:scale-105" /><div class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.9),rgba(40,45,48,.05)_60%)]"/><span class="text-heading absolute bottom-[14px] left-[16px] font-bold tracking-[-0.025em] text-white md:bottom-[18px] md:left-[22px] md:text-display">{{ sol.title }}</span></div>
+        <div class="flex flex-1 flex-col gap-[12px] px-[14px] py-[16px] md:gap-[16px] md:px-[20px] md:py-[22px]"><span class="text-body text-text-muted flex-1 leading-[1.7]">{{ sol.desc }}</span>
         <span class="flex flex-wrap gap-[8px]">
           <span
             v-for="tag in sol.tags"

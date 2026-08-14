@@ -20,13 +20,15 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
             Chọn theo loại cửa và nhu cầu sử dụng — mỗi dòng sản phẩm có nhiều kích thước và màu hoàn thiện.
           </p>
         </div>
-        <div class="flex items-center gap-[12px]">
+        <!-- Below md the track is a grid with nothing to scroll, so the arrows
+             would be two permanently disabled buttons. -->
+        <div class="hidden items-center gap-[12px] md:flex">
           <button type="button" aria-label="Trước" :disabled="!canPrev" :class="[buttonClass, 'bg-transparent']" @click="scroll(-1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
           <button type="button" aria-label="Sau" :disabled="!canNext" :class="[buttonClass, 'bg-transparent']" @click="scroll(1)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
         </div>
       </div>
 
-      <div ref="track" class="kb-track flex snap-x snap-mandatory gap-[24px] overflow-x-auto scroll-smooth pb-[8px]">
+      <div ref="track" class="kb-track grid grid-cols-2 gap-[16px] md:flex md:snap-x md:snap-mandatory md:gap-[24px] md:overflow-x-auto md:scroll-smooth md:pb-[8px]">
       <!-- Every tile is a top category, so it leads to that category's
            landing page, which asks which kind you want before showing
            models. The listing is one click further in. -->
@@ -39,11 +41,15 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
         <span class="kb-hero-frame relative block aspect-[3/3.6] w-full overflow-hidden">
           <UiResponsiveImage :image="cat.image" :alt="cat.name" sizes="(min-width: 1024px) 25vw, 50vw" class="absolute inset-0 h-full w-full bg-[var(--color-surface)] object-cover transition duration-500 group-hover:scale-105" />
           <span class="absolute inset-0 bg-[linear-gradient(to_top,rgba(40,45,48,.94)_0%,rgba(40,45,48,.42)_42%,rgba(40,45,48,.05)_72%)]" />
-          <span class="text-caption text-gold-200 absolute top-[20px] left-[22px] font-bold tracking-[0.2em]">{{ cat.number }}</span>
-          <span class="absolute right-0 bottom-0 left-0 flex flex-col gap-[7px] px-[22px] py-[24px]">
-            <span class="text-display font-bold leading-[1.16] tracking-[-0.02em] text-white">{{ cat.name }}</span>
-            <span v-if="cat.desc" class="text-caption leading-[1.6] text-white/72">{{ cat.desc }}</span>
-            <span class="text-eyebrow text-gold-200 mt-[10px] flex items-center gap-[8px] font-bold tracking-[0.16em] uppercase">Khám phá <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
+          <span class="text-caption text-gold-200 absolute top-[14px] left-[16px] font-bold tracking-[0.2em] md:top-[20px] md:left-[22px]">{{ cat.number }}</span>
+          <!-- Two tiles to a row leaves a card half its desktop width but the
+               same height, so full-size copy climbs out of the dark end of the
+               gradient and stops being readable. Mobile keeps the name and the
+               call to action; the blurb returns at md. -->
+          <span class="absolute right-0 bottom-0 left-0 flex flex-col gap-[7px] px-[16px] py-[18px] md:px-[22px] md:py-[24px]">
+            <span class="text-heading font-bold leading-[1.16] tracking-[-0.02em] text-white md:text-display">{{ cat.name }}</span>
+            <span v-if="cat.desc" class="text-caption hidden leading-[1.6] text-white/72 md:block">{{ cat.desc }}</span>
+            <span class="text-eyebrow text-gold-200 mt-[6px] flex items-center gap-[8px] font-bold tracking-[0.16em] uppercase md:mt-[10px]">Khám phá <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span>
           </span>
         </span>
       </NuxtLink>
