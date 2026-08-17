@@ -1,0 +1,33 @@
+uuid: 6a7ee777-47ff-4fdd-bee4-ae9b4f6a289c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.fact.field_fact_label
+    - field.field.paragraph.fact.field_fact_number
+    - paragraphs.paragraphs_type.fact
+id: paragraph.fact.default
+targetEntityType: paragraph
+bundle: fact
+mode: default
+content:
+  field_fact_label:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_fact_number:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+

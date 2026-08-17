@@ -1,0 +1,42 @@
+uuid: 78c5d998-7681-49ce-b8fe-ba1157863cfe
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.numbered_item.field_item_desc
+    - field.field.paragraph.numbered_item.field_item_number
+    - field.field.paragraph.numbered_item.field_item_title
+    - paragraphs.paragraphs_type.numbered_item
+id: paragraph.numbered_item.default
+targetEntityType: paragraph
+bundle: numbered_item
+mode: default
+content:
+  field_item_desc:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_item_number:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_item_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+
