@@ -66,5 +66,4 @@ hidden:
   # boxes on one form is how a category ends up with the blurb in the wrong
   # field and a blank tile.
   description: true
-  langcode: true
   relations: true
