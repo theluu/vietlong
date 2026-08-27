@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Keybolts — Hướng dẫn sửa khối "Khám phá sản phẩm"</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 15mm 15mm; }
+  @page :first { margin: 0; }
+
+  :root{
+    --ink:#101418; --ink-2:#2A3138; --muted:#6B7480;
+    --line:#E3E0D9; --line-2:#EFEDE8; --sand:#F7F5F1;
+    --brass:#B08D57; --brass-d:#8C6E40; --dark:#12161B;
+    --ok:#3F7A45;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+  body{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    color:var(--ink); font-size:9.6pt; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Trang bìa ---------- */
+  .cover{
+    background:var(--dark); color:#fff; margin:0;
+    padding:36mm 20mm 22mm; height:297mm; page-break-after:always;
+    display:flex; flex-direction:column; justify-content:flex-start;
+  }
+  .cover .mark{ display:flex; align-items:center; gap:10px; letter-spacing:.3em;
+    font-size:8pt; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  .cover .mark::before{ content:""; width:26px; height:1.5px; background:var(--brass); }
+  .cover h1{ font-size:36pt; line-height:1.1; font-weight:700; letter-spacing:-0.025em;
+    margin-top:8mm; color:#fff; }
+  .cover h1 em{ font-style:normal; color:var(--brass); }
+  .cover .rule{ height:2px; margin-top:9mm;
+    background:linear-gradient(90deg,var(--brass) 0%,rgba(176,141,87,0) 88%); }
+  .cover .sub{ font-size:12pt; color:#A8B1BB; margin-top:8mm; max-width:120mm; line-height:1.7; }
+  .cover .meta{ margin-top:auto; display:grid; grid-template-columns:repeat(2,1fr); gap:7mm 10mm; }
+  .cover .meta div{ border-top:1px solid rgba(255,255,255,.16); padding-top:3.5mm; }
+  .cover .meta .k{ font-size:7.6pt; letter-spacing:.2em; text-transform:uppercase; color:var(--brass); font-weight:700; }
+  .cover .meta .v{ font-size:10.5pt; color:#fff; margin-top:1.5mm; line-height:1.5; }
+  .cover .meta .v small{ display:block; color:#8D96A1; font-size:8.6pt; margin-top:.8mm; }
+  .cover .sig{ margin-top:12mm; border-top:1px solid rgba(255,255,255,.16); padding-top:5mm;
+    display:flex; justify-content:space-between; align-items:flex-end; font-size:8.4pt; color:#6E7883; }
+  .cover .sig b{ display:block; color:#fff; font-size:11pt; font-weight:700; margin-bottom:1mm; }
+
+  /* ---------- Tiêu đề ---------- */
+  h1.part{ font-size:17pt; font-weight:700; letter-spacing:-0.02em; line-height:1.2;
+      margin:0 0 5mm; padding-bottom:3mm; border-bottom:2px solid var(--ink);
+      page-break-before:always; page-break-after:avoid; }
+  h1.part span{ display:block; font-size:8pt; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--brass-d); margin-bottom:2mm; }
+  h2{ font-size:12.5pt; font-weight:700; letter-spacing:-0.015em; margin:6mm 0 2.5mm;
+      page-break-after:avoid; }
+  h2::before{ content:""; display:inline-block; width:2mm; height:2mm;
+      background:var(--brass); margin-right:2.5mm; vertical-align:middle; }
+  h3{ font-size:9.6pt; font-weight:700; margin:4mm 0 2mm; page-break-after:avoid; }
+  p{ margin:0 0 2.6mm; }
+  a{ color:var(--brass-d); text-decoration:none; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.4pt;
+    background:var(--sand); border:1px solid var(--line-2); padding:.3mm 1.2mm; }
+
+  /* ---------- Khối 5 bước ---------- */
+  .flow{ border:1px solid var(--line); margin:0 0 4mm; page-break-inside:avoid; }
+  .flow > .hd{ background:var(--dark); color:#fff; padding:2.3mm 5mm; font-size:10.5pt; font-weight:700; }
+  .flow > .hd span{ color:var(--brass); font-size:8pt; letter-spacing:.18em;
+    text-transform:uppercase; display:block; margin-bottom:.8mm; font-weight:700; }
+  .row{ display:flex; gap:5mm; padding:2.2mm 5mm; border-top:1px solid var(--line-2); }
+  .row:first-of-type{ border-top:none; }
+  .row .k{ flex:0 0 32mm; font-size:7.4pt; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--brass-d); padding-top:.6mm; }
+  .row .v{ flex:1; line-height:1.5; }
+  .row.pain{ background:#FCF9F6; }
+  .row.now{ background:#F6FAF6; }
+  .row.now .k{ color:var(--ok); }
+  .row .v b{ font-weight:700; }
+  .tick{ color:var(--ok); font-weight:700; }
+
+  /* ---------- Bảng ---------- */
+  table{ width:100%; border-collapse:collapse; margin:2.5mm 0 4mm; font-size:8.8pt; }
+  thead{ display:table-header-group; }
+  tr{ page-break-inside:avoid; }
+  th{ text-align:left; font-size:7.4pt; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--muted); font-weight:700; padding:0 3mm 2mm 0;
+    border-bottom:1.4px solid var(--ink); vertical-align:bottom; }
+  th:last-child{ padding-right:0; }
+  td{ padding:1.9mm 3mm 1.9mm 0; border-bottom:1px solid var(--line-2);
+    vertical-align:top; line-height:1.45; }
+  td:last-child{ padding-right:0; }
+  td strong{ color:var(--ink); }
+  tbody tr:nth-child(even){ background:#FBFAF8; }
+
+  /* ---------- Hộp tài khoản ---------- */
+  .acct{ border:1.5px solid var(--brass); background:var(--sand); padding:4mm 5mm; margin:0 0 5mm;
+    page-break-inside:avoid; }
+  .acct .t{ font-size:7.6pt; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--brass-d); font-weight:700; margin-bottom:2.5mm; }
+  .acct table{ margin:0; }
+  .acct td{ border:none; padding:1.2mm 3mm 1.2mm 0; }
+  .acct td:first-child{ width:30mm; color:var(--muted); font-size:8.6pt; }
+  .acct .val{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:10pt; font-weight:700; }
+
+  /* ---------- Các bước ---------- */
+  ol.steps{ list-style:none; counter-reset:s; margin:0 0 4mm; }
+  ol.steps > li{ position:relative; padding-left:8mm; margin-bottom:2.4mm; line-height:1.5; }
+  ol.steps > li::before{ counter-increment:s; content:counter(s);
+    position:absolute; left:0; top:0; width:5mm; height:5mm; background:var(--dark);
+    color:var(--brass); font-size:7.6pt; font-weight:700; text-align:center; line-height:5mm; }
+  ul.plain{ list-style:none; margin:0 0 3mm; }
+  ul.plain li{ position:relative; padding-left:5mm; margin-bottom:1.4mm; line-height:1.5; }
+  ul.plain li::before{ content:""; position:absolute; left:.6mm; top:1.9mm;
+    width:1.8mm; height:1.8mm; border:1.1px solid var(--brass); border-radius:50%; }
+
+  .note{ background:var(--sand); border-left:3px solid var(--brass);
+    padding:2.6mm 5mm; margin:3mm 0; font-size:9pt; line-height:1.5; page-break-inside:avoid; }
+  .warn{ background:#FDF6F4; border-left:3px solid #B4553F; }
+
+  .docfoot{ margin-top:10mm; padding-top:3mm; border-top:1px solid var(--line);
+    font-size:7.6pt; color:#A9AFB7; text-align:center; font-style:italic; }
+
+  /* ---------- Sơ đồ khối trang chủ ---------- */
+  .mock{ border:1px solid var(--line); background:#fff; padding:0; margin:0 0 4mm;
+    page-break-inside:avoid; }
+  .mock svg{ display:block; width:100%; height:auto; }
+  .legend{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.6mm 6mm; margin:0 0 4mm; }
+  .legend div{ display:flex; gap:2.4mm; align-items:flex-start; font-size:8.6pt; line-height:1.45; }
+  .legend .n{ flex:0 0 4.6mm; height:4.6mm; background:var(--dark); color:var(--brass);
+    font-size:7.4pt; font-weight:700; text-align:center; line-height:4.6mm; }
+  .path{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:8.6pt; font-weight:700;
+    background:var(--sand); border:1px solid var(--line-2); padding:.4mm 1.4mm;
+    white-space:nowrap; }
+  .lead{ font-size:11pt; line-height:1.6; color:var(--ink-2); margin:0 0 5mm; max-width:150mm; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="mark">Hướng dẫn sử dụng · Bản 1.0</div>
+  <h1>Khối <em>Khám phá<br>sản phẩm</em><br>trên trang chủ.</h1>
+  <div class="rule"></div>
+  <p class="sub">
+    Toàn bộ khối này — dòng chữ nhỏ, tiêu đề, câu mô tả và bốn ô danh mục kèm ảnh —
+    nay sửa được trực tiếp trong trang quản trị. Tài liệu chỉ hướng dẫn riêng khối này.
+  </p>
+  <div class="meta">
+    <div><div class="k">Website</div><div class="v">Khóa cửa Việt Long — Keybolts<small>keybolts.com.vn</small></div></div>
+    <div><div class="k">Trang quản trị</div><div class="v">keybolts.com.vn/admin/keybolts<small>Đăng nhập bằng tài khoản được cấp</small></div></div>
+    <div><div class="k">Áp dụng cho</div><div class="v">Khối &ldquo;Khám phá sản phẩm&rdquo;<small>Nằm ngay dưới dải tin cậy trên trang chủ</small></div></div>
+    <div><div class="k">Cập nhật</div><div class="v">27 / 08 / 2026<small>Phiên bản tài liệu 1.0</small></div></div>
+  </div>
+  <div class="sig">
+    <div><b>Lưu Xuân Thế</b>0932.355.207 · thexuanluu@gmail.com</div>
+    <div style="text-align:right">© 2026 Lưu Xuân Thế<br>Bảo lưu mọi quyền</div>
+  </div>
+</section>
+
+<h1 class="part"><span>Phần 1</span>Khối này gồm những gì</h1>
+
+<p class="lead">Khối nằm ở trang chủ, ngay dưới dải bốn cam kết. Nó có <strong>hai nhóm nội dung
+sửa ở hai nơi khác nhau</strong> — đây là điểm dễ nhầm nhất, nên xem sơ đồ trước khi làm.</p>
+
+<div class="mock">
+<svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica,Arial,sans-serif">
+  <rect x="0" y="0" width="760" height="400" fill="#FBFAF8"/>
+
+  <!-- eyebrow -->
+  <line x1="286" y1="34" x2="310" y2="34" stroke="#B08D57" stroke-width="2"/>
+  <text x="318" y="38" font-size="12" font-weight="bold" letter-spacing="3" fill="#8C6E40">DANH MỤC</text>
+  <rect x="270" y="22" width="220" height="24" fill="none" stroke="#B08D57" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="262" cy="34" r="10" fill="#12161B"/><text x="262" y="38" font-size="11" font-weight="bold" fill="#B08D57" text-anchor="middle">1</text>
+
+  <!-- title -->
+  <text x="380" y="82" font-size="30" font-weight="bold" fill="#101418" text-anchor="middle">Khám phá sản phẩm</text>
+  <rect x="216" y="56" width="328" height="36" fill="none" stroke="#B08D57" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="206" cy="74" r="10" fill="#12161B"/><text x="206" y="78" font-size="11" font-weight="bold" fill="#B08D57" text-anchor="middle">2</text>
+
+  <!-- desc -->
+  <text x="380" y="108" font-size="12" fill="#2A3138" text-anchor="middle">Chọn theo loại cửa và nhu cầu sử dụng — mỗi dòng sản phẩm</text>
+  <text x="380" y="124" font-size="12" fill="#2A3138" text-anchor="middle">có nhiều kích thước và màu hoàn thiện.</text>
+  <rect x="188" y="96" width="384" height="36" fill="none" stroke="#B08D57" stroke-width="1.4" stroke-dasharray="4 3"/>
+  <circle cx="178" cy="114" r="10" fill="#12161B"/><text x="178" y="118" font-size="11" font-weight="bold" fill="#B08D57" text-anchor="middle">3</text>
+
+  <!-- 4 tiles -->
+  <g>
+    <rect x="40" y="156" width="160" height="200" fill="#3A4148"/>
+    <rect x="220" y="156" width="160" height="200" fill="#3A4148"/>
+    <rect x="400" y="156" width="160" height="200" fill="#3A4148"/>
+    <rect x="580" y="156" width="160" height="200" fill="#3A4148"/>
+  </g>
+  <g fill="#9AA3AC" font-size="11" text-anchor="middle">
+    <text x="120" y="250">ảnh danh mục</text>
+    <text x="300" y="250">ảnh danh mục</text>
+    <text x="480" y="250">ảnh danh mục</text>
+    <text x="660" y="250">ảnh danh mục</text>
+  </g>
+  <g fill="#D8C39B" font-size="10" font-weight="bold">
+    <text x="54" y="178">01</text><text x="234" y="178">02</text>
+    <text x="414" y="178">03</text><text x="594" y="178">04</text>
+  </g>
+  <g fill="#ffffff" font-size="13" font-weight="bold">
+    <text x="54" y="322">Khóa thông minh</text><text x="234" y="322">Khóa cơ</text>
+    <text x="414" y="322">Chốt cửa &amp; Bản lề</text><text x="594" y="322">Phụ kiện cửa</text>
+  </g>
+  <g fill="#B9C0C7" font-size="9.5">
+    <text x="54" y="338">mô tả ngắn</text><text x="234" y="338">mô tả ngắn</text>
+    <text x="414" y="338">mô tả ngắn</text><text x="594" y="338">mô tả ngắn</text>
+  </g>
+
+  <rect x="34" y="150" width="712" height="212" fill="none" stroke="#B08D57" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <circle cx="34" cy="150" r="11" fill="#12161B"/><text x="34" y="154" font-size="11" font-weight="bold" fill="#B08D57" text-anchor="middle">4</text>
+
+  <text x="380" y="386" font-size="10" fill="#8B939B" text-anchor="middle" font-style="italic">Sơ đồ minh hoạ — bố cục thật trên trang chủ keybolts.com.vn</text>
+</svg>
+</div>
+
+<div class="legend">
+  <div><span class="n">1</span><span><b>Dòng chữ nhỏ</b> phía trên tiêu đề</span></div>
+  <div><span class="n">2</span><span><b>Tiêu đề</b> của khối</span></div>
+  <div><span class="n">3</span><span><b>Câu mô tả</b> dưới tiêu đề</span></div>
+  <div><span class="n">4</span><span><b>Bốn ô danh mục</b> — ảnh, tên, mô tả, thứ tự</span></div>
+</div>
+
+<div class="note">
+  <b>Nhớ một điều này thôi:</b> phần <b>1, 2, 3</b> (chữ) sửa ở <span class="path">Trang chủ</span>.
+  Phần <b>4</b> (ảnh và các ô) sửa ở <span class="path">Danh mục sản phẩm</span>. Hai chỗ khác nhau,
+  vào từ cùng một trang quản trị.
+</div>
+
+<h1 class="part"><span>Phần 2</span>Sửa ảnh bốn ô danh mục</h1>
+
+<p class="lead">Đây là phần hay dùng nhất. Ảnh của mỗi ô lấy từ <strong>danh mục sản phẩm</strong>
+tương ứng, không phải từ trang chủ.</p>
+
+<ol class="steps">
+  <li>Đăng nhập, vào <span class="path">keybolts.com.vn/admin/keybolts</span>.</li>
+  <li>Kéo xuống mục <b>Danh mục nội dung</b>, tìm thẻ <b>Danh mục sản phẩm</b>, bấm <b>Chỉnh sửa</b>.</li>
+  <li>Danh sách danh mục hiện ra. Bốn dòng ngoài cùng bên trái — không thụt vào — chính là bốn ô
+      trên trang chủ: <b>Khóa thông minh</b>, <b>Khóa cơ</b>, <b>Chốt cửa &amp; Bản lề</b>,
+      <b>Phụ kiện cửa &amp; Nội thất</b>.</li>
+  <li>Bấm <b>Sửa</b> ở dòng cần đổi.</li>
+  <li>Tại ô <b>Ảnh</b>, bấm <b>Chọn tệp</b> rồi chọn ảnh trong máy. Ảnh cũ có sẵn thì bấm
+      <b>Xóa</b> trước, rồi tải ảnh mới lên.</li>
+  <li>Bấm <b>Lưu</b>. Mở lại trang chủ là thấy ảnh mới.</li>
+</ol>
+
+<h2>Cùng form đó còn sửa được</h2>
+
+<table>
+  <thead><tr><th style="width:34mm">Ô nhập</th><th>Hiện ra ở đâu trên trang chủ</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Tên</strong></td><td>Tên in đậm ở đáy ô, ví dụ <i>Khóa thông minh</i>. Đổi tên này cũng đổi tên danh mục trên toàn bộ website.</td></tr>
+    <tr><td><strong>Ảnh</strong></td><td>Ảnh nền của ô. Bỏ trống thì hệ thống tự mượn ảnh một sản phẩm trong danh mục đó.</td></tr>
+    <tr><td><strong>Mô tả ngắn</strong></td><td>Dòng chữ mờ nhỏ dưới tên ô. Chỉ hiện trên máy tính, điện thoại ẩn đi cho gọn.</td></tr>
+    <tr><td><strong>Số thứ tự</strong></td><td>Con số vàng ở góc trên ô, đồng thời quyết định thứ tự các ô. Nhập <code>01</code>, <code>02</code>, <code>03</code>, <code>04</code>.</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <b>Ảnh nên chuẩn bị thế nào.</b> Ô có dạng đứng (cao hơn rộng), nên chọn ảnh <b>dọc</b>,
+  tối thiểu <b>800 × 960 px</b>, đẹp nhất là <b>1200 × 1440 px</b>. Định dạng JPG hoặc PNG.
+  Hệ thống tự nén và tự tạo bản nhỏ cho điện thoại, không cần bạn xử lý trước.
+  Phần chân ô có lớp phủ tối để chữ đọc được, nên tránh ảnh có chi tiết quan trọng ở đáy.
+</div>
+
+<div class="note warn">
+  <b>Đừng xóa danh mục.</b> Xóa một danh mục sẽ làm toàn bộ sản phẩm thuộc danh mục đó mất chỗ
+  phân loại trên website. Muốn bỏ một ô khỏi trang chủ, hãy báo bên kỹ thuật thay vì tự xóa.
+</div>
+
+<h1 class="part"><span>Phần 3</span>Sửa phần chữ của khối</h1>
+
+<p class="lead">Ba dòng chữ ở đầu khối nằm trong biểu mẫu của <strong>trang chủ</strong>.</p>
+
+<ol class="steps">
+  <li>Vào <span class="path">keybolts.com.vn/admin/keybolts</span>.</li>
+  <li>Mục <b>Nội dung từng trang</b>, thẻ <b>Trang chủ</b>, bấm <b>Chỉnh sửa</b>.</li>
+  <li>Biểu mẫu chia thành các tab theo đúng thứ tự các khối ngoài trang. Bấm tab <b>Danh mục</b>.</li>
+  <li>Điền ba ô rồi bấm <b>Lưu</b> ở cuối trang.</li>
+</ol>
+
+<table>
+  <thead><tr><th style="width:44mm">Ô trong tab &ldquo;Danh mục&rdquo;</th><th>Nội dung đang dùng</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Danh mục — chữ nhỏ</strong></td><td>Danh mục</td></tr>
+    <tr><td><strong>Danh mục — tiêu đề</strong></td><td>Khám phá sản phẩm</td></tr>
+    <tr><td><strong>Danh mục — mô tả</strong></td><td>Chọn theo loại cửa và nhu cầu sử dụng — mỗi dòng sản phẩm có nhiều kích thước và màu hoàn thiện.</td></tr>
+  </tbody>
+</table>
+
+<div class="note">
+  <b>Để trống ô mô tả</b> thì câu đó biến mất khỏi trang chủ, tiêu đề vẫn giữ nguyên.
+  Dùng khi muốn khối gọn hơn.
+</div>
+
+<h2>Lưu xong mà chưa thấy đổi?</h2>
+<ul class="plain">
+  <li>Tải lại trang bằng <b>Ctrl + F5</b> (Windows) hoặc <b>Cmd + Shift + R</b> (Mac).</li>
+  <li>Thay đổi hiện ra trong vòng một phút. Nếu quá lâu vẫn chưa thấy, báo bên kỹ thuật.</li>
+  <li>Không cần thao tác nào khác — không phải &ldquo;xuất bản&rdquo; hay &ldquo;đẩy lên&rdquo; gì thêm.</li>
+</ul>
+
+<div class="docfoot">Keybolts — Hướng dẫn sửa khối &ldquo;Khám phá sản phẩm&rdquo; · Bản 1.0 · 27/08/2026</div>
+
+</body>
+</html>
