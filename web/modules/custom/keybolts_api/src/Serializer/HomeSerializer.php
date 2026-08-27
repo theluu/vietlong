@@ -47,6 +47,7 @@ final class HomeSerializer {
       'categorySection' => [
         'eyebrow' => $this->str($node, 'field_cat_eyebrow'),
         'title' => $this->str($node, 'field_cat_title'),
+        'desc' => $this->str($node, 'field_cat_desc'),
       ],
       'featuredSection' => [
         'eyebrow' => $this->str($node, 'field_feat_eyebrow'),

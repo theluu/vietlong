@@ -7,7 +7,9 @@ namespace Drupal\keybolts_api\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\keybolts_api\ApiEnvelope;
 use Drupal\keybolts_api\Serializer\HomeSerializer;
+use Drupal\keybolts_api\Serializer\ImageSerializer;
 use Drupal\keybolts_api\Serializer\ProductSerializer;
+use Drupal\taxonomy\TermInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -47,12 +49,14 @@ class HomepageController extends ControllerBase {
   public function __construct(
     private readonly ProductSerializer $serializer,
     private readonly HomeSerializer $home,
+    private readonly ImageSerializer $imageSerializer,
   ) {}
 
   public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('keybolts_api.product_serializer'),
       $container->get('keybolts_api.home_serializer'),
+      $container->get('keybolts_api.image_serializer'),
     );
   }
 
@@ -111,7 +115,7 @@ class HomepageController extends ControllerBase {
         // Roots only: they are the tiles. Costing a product query for all
         // thirty terms would triple the homepage's queries to fill a field
         // the mega menu never reads.
-        'image' => $parent === 0 ? $this->categoryImage($tid) : NULL,
+        'image' => $parent === 0 ? $this->categoryImage($term) : NULL,
         'children' => $this->categoryBranch($children, $tid),
       ];
     }
@@ -124,9 +128,22 @@ class HomepageController extends ControllerBase {
   }
 
   /**
-   * A category tile's photo, borrowed from the first product that has one.
+   * A category tile's photo.
+   *
+   * The editor's own choice wins. Before field_image was read here, the tile
+   * always showed whichever product photo happened to sort first, which made
+   * the four biggest images on the homepage the one thing nobody could pick.
+   * The borrowed photo stays as the fallback so a category nobody has given a
+   * picture yet still renders something.
    */
-  private function categoryImage(int $tid): ?array {
+  private function categoryImage(TermInterface $term): ?array {
+    if ($term->hasField('field_image') && !$term->get('field_image')->isEmpty()) {
+      $own = $this->imageSerializer->fromField($term->get('field_image'));
+      if ($own) {
+        return $own;
+      }
+    }
+    $tid = (int) $term->id();
     $ids = $this->entityTypeManager()->getStorage('node')->getQuery()
       ->accessCheck(TRUE)
       ->condition('type', 'product')

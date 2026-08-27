@@ -22,7 +22,7 @@ final class DashboardController extends ControllerBase {
    * Singleton pages: bundle => [label, public path, what lives there].
    */
   private const PAGES = [
-    'home_page' => ['Trang chủ', '/', 'Hero, dải tin cậy, giải pháp, công nghệ, form tư vấn', 'home'],
+    'home_page' => ['Trang chủ', '/', 'Hero, dải tin cậy, danh mục, giải pháp, công nghệ, form tư vấn', 'home'],
     'about_page' => ['Giới thiệu', '/gioi-thieu', 'Câu chuyện, khách hàng, quy trình, cam kết', 'info'],
     'news_page' => ['Tin tức', '/tin-tuc', 'Tiêu đề và mô tả trang danh sách bài viết', 'news'],
     'projects_page' => ['Dự án', '/du-an', 'Tiêu đề và mô tả trang danh sách dự án', 'layers'],
@@ -52,8 +52,9 @@ final class DashboardController extends ControllerBase {
       '#cache' => [
         // The greeting, and now which cards appear at all, follow the account.
         'contexts' => ['user'],
-        // Every card carries a count, so any saved or deleted node stales it.
-        'tags' => ['node_list'],
+        // Every card carries a count, so any saved or deleted node stales it —
+        // and the category card counts terms, not nodes.
+        'tags' => ['node_list', 'taxonomy_term_list'],
       ],
       '#attached' => ['library' => ['keybolts_core/dashboard']],
       'hero' => [
@@ -75,7 +76,10 @@ final class DashboardController extends ControllerBase {
         . '</div>'),
       ],
       'pages' => $this->section('Nội dung từng trang', $this->pageCards()),
-      'collections' => $this->section('Danh mục nội dung', $this->collectionCards()),
+      'collections' => $this->section(
+        'Danh mục nội dung',
+        array_merge($this->collectionCards(), $this->taxonomyCards()),
+      ),
       // Leads and system settings were one card each, which read as two
       // stranded blocks at the bottom of the page. One row instead.
       'other' => $this->section(
@@ -138,6 +142,33 @@ final class DashboardController extends ControllerBase {
       );
     }
     return $cards;
+  }
+
+  /**
+   * The product category tree.
+   *
+   * Not in COLLECTIONS: those are node bundles counted with a node query, and
+   * this is a vocabulary. It earns a card because a category term now carries
+   * the homepage tile's photo, name, blurb and order — until this existed an
+   * editor had no way to reach any of that from here.
+   */
+  private function taxonomyCards(): array {
+    if (!$this->currentUser()->hasPermission('access taxonomy overview')) {
+      return [];
+    }
+    $count = (int) $this->entityTypeManager()->getStorage('taxonomy_term')->getQuery()
+      ->accessCheck(FALSE)->condition('vid', 'product_category')->count()->execute();
+    return [
+      $this->card(
+        'Danh mục sản phẩm',
+        'Ảnh, tên, mô tả và thứ tự các ô trên trang chủ',
+        Url::fromRoute('entity.taxonomy_vocabulary.overview_form', ['taxonomy_vocabulary' => 'product_category']),
+        NULL,
+        Url::fromRoute('entity.taxonomy_term.add_form', ['taxonomy_vocabulary' => 'product_category']),
+        (string) $count,
+        'layers',
+      ),
+    ];
   }
 
   private function leadCards(): array {

@@ -6,6 +6,8 @@ const { data } = await useAsyncData('homepage', () => fetchHomepage())
 
 const payload = computed(() => data.value?.data)
 const categories = computed(() => payload.value?.categories ?? [])
+const categorySection = computed(
+  () => payload.value?.categorySection ?? { eyebrow: '', title: '', desc: '' })
 const featured = computed(() => payload.value?.featured ?? {})
 
 // Reuse the first featured product's photo as the hero image so the LCP
@@ -34,7 +36,7 @@ useSeoMeta({
   <div>
     <HomeHero :image="heroImage" />
     <HomeUspStrip />
-    <HomeCategoryGrid :categories="categories" />
+    <HomeCategoryGrid :categories="categories" :section="categorySection" />
     <HomeFeaturedTabs :featured="featured" />
     <HomeSolutionGrid />
     <HomeTechBlock />

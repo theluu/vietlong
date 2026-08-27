@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import type { HomeCategory } from '~/services/homepage'
+import type { HomeCategory, HomeSection } from '~/services/homepage'
 
-defineProps<{ categories: HomeCategory[] }>()
+// The heading used to be three hardcoded strings. They live in Drupal now
+// (form Trang chủ, tab "Danh mục") and arrive as a prop the way `categories`
+// already does, rather than through useHome(), so the component stays pure.
+defineProps<{ categories: HomeCategory[]; section: HomeSection & { desc: string } }>()
 
 const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
 </script>
@@ -13,12 +16,10 @@ const { track, canPrev, canNext, scroll, buttonClass } = useCarousel(286)
         <div class="flex max-w-[780px] flex-col items-center gap-[14px]">
           <div class="flex items-center gap-[14px]">
             <span class="h-px w-[34px] bg-brass-500" />
-            <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">Danh mục</span>
+            <span class="text-eyebrow text-brass-700 font-bold tracking-[0.24em] uppercase">{{ section.eyebrow }}</span>
           </div>
-          <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">Khám phá sản phẩm</h2>
-          <p class="text-heading text-text m-0 font-semibold leading-[1.7]">
-            Chọn theo loại cửa và nhu cầu sử dụng — mỗi dòng sản phẩm có nhiều kích thước và màu hoàn thiện.
-          </p>
+          <h2 class="m-0 text-[clamp(var(--text-display),3.6vw,var(--text-display-lg))] leading-[1.1] font-bold tracking-[-0.032em]">{{ section.title }}</h2>
+          <p v-if="section.desc" class="text-heading text-text m-0 font-semibold leading-[1.7]">{{ section.desc }}</p>
         </div>
         <!-- Below md the track is a grid with nothing to scroll, so the arrows
              would be two permanently disabled buttons. -->

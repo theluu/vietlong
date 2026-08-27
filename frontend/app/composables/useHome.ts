@@ -27,7 +27,7 @@ export function heroTitleParts(title: string): { text: string; gradient: boolean
 const EMPTY: HomeContent = {
   hero: { eyebrow: '', title: '', subtitle: '', ctaPrimary: null, ctaSecondary: null, stats: [] },
   usps: [],
-  categorySection: { eyebrow: '', title: '' },
+  categorySection: { eyebrow: '', title: '', desc: '' },
   featuredSection: { eyebrow: '', title: '', tabs: [] },
   solutionSection: { eyebrow: '', title: '', items: [] },
   tech: { eyebrow: '', title: '', desc: '', features: [], image: null, cta: null },

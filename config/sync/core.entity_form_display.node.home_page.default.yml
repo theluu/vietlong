@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.home_page.field_cat_desc
     - field.field.node.home_page.field_cat_eyebrow
     - field.field.node.home_page.field_cat_title
     - field.field.node.home_page.field_consult_desc
@@ -74,6 +75,7 @@ third_party_settings:
       children:
         - field_cat_eyebrow
         - field_cat_title
+        - field_cat_desc
       label: 'Danh mục'
       region: content
       parent_name: group_content_tabs
@@ -183,6 +185,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_cat_desc:
+    type: string_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 3
+      placeholder: ''
     third_party_settings: {  }
   field_cat_eyebrow:
     type: string_textfield

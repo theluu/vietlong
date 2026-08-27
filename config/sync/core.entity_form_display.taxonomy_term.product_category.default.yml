@@ -1,0 +1,70 @@
+uuid: 6c41f9d2-08be-4a37-9f5c-1b7d3e6a94c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.product_category.field_image
+    - field.field.taxonomy_term.product_category.field_number
+    - field.field.taxonomy_term.product_category.field_short_desc
+    - image.style.thumbnail
+    - taxonomy.vocabulary.product_category
+  module:
+    - image
+    - path
+id: taxonomy_term.product_category.default
+targetEntityType: taxonomy_term
+bundle: product_category
+mode: default
+content:
+  field_image:
+    type: image_image
+    weight: 3
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_number:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 10
+      placeholder: '01'
+    third_party_settings: {  }
+  field_short_desc:
+    type: string_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+hidden:
+  # The homepage tile shows field_short_desc, not this one. Two description
+  # boxes on one form is how a category ends up with the blurb in the wrong
+  # field and a blank tile.
+  description: true
+  langcode: true
+  relations: true

@@ -39,7 +39,8 @@ export interface HomeContent {
     stats: { value: string; label: string }[]
   }
   usps: { title: string; desc: string }[]
-  categorySection: HomeSection
+  /** `desc` is the blurb under the heading; only this section has one. */
+  categorySection: HomeSection & { desc: string }
   featuredSection: HomeSection & { tabs: { key: string; label: string }[] }
   solutionSection: HomeSection & {
     items: {
